@@ -5,9 +5,9 @@
 //  Created by Archichil on 14.03.25.
 //
 
-//import XCTest
+// import XCTest
 //
-//final class UniWeatherUITestsLaunchTests: XCTestCase {
+// final class UniWeatherUITestsLaunchTests: XCTestCase {
 //
 //    override class var runsForEachTargetApplicationUIConfiguration: Bool {
 //        true
@@ -30,4 +30,4 @@
 //        attachment.lifetime = .keepAlways
 //        add(attachment)
 //    }
-//}
+// }

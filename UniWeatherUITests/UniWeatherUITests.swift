@@ -5,9 +5,9 @@
 //  Created by Archichil on 14.03.25.
 //
 
-//import XCTest
+// import XCTest
 //
-//final class UniWeatherUITests: XCTestCase {
+// final class UniWeatherUITests: XCTestCase {
 //
 //    override func setUpWithError() throws {
 //        // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -30,4 +30,4 @@
 //
 //        // Use XCTAssert and related functions to verify your tests produce the correct results.
 //    }
-//}
+// }
