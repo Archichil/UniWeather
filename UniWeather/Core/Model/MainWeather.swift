@@ -14,6 +14,7 @@ struct MainWeather: DecodableType {
     let tempMax: Double
     let seaLevel: Int
     let grndLevel: Int
+    let tempKf: Double?
     
     enum CodingKeys: String, CodingKey {
         case temp, pressure, humidity
@@ -22,5 +23,6 @@ struct MainWeather: DecodableType {
         case tempMax = "temp_max"
         case seaLevel = "sea_level"
         case grndLevel = "grnd_level"
+        case tempKf = "temp_kf"
     }
 }

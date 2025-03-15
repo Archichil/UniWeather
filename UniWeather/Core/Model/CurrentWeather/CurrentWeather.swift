@@ -17,7 +17,7 @@ struct CurrentWeather: DecodableType {
     let rain: Rain?
     let snow: Snow?
     let dt: Int
-    let sys: Sys
+    let sys: CurrentWeatherSys
     let timezone: Int
     let id: Int
     let name: String

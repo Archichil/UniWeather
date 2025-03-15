@@ -5,7 +5,7 @@
 //  Created by Daniil on 15.03.25.
 //
 
-struct Sys: DecodableType {
+struct CurrentWeatherSys: DecodableType {
     let type: Int?
     let id: Int?
     let message: Double?
