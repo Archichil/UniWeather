@@ -8,61 +8,39 @@
 import Foundation
 
 class WeatherAPIService: APIService {
-    func getCurrentWeather(coords: Coordinates, appId: String, units: Units? = nil, lang: Language? = nil)
-    async throws -> CurrentWeather? {
-        let apiSpec: WeatherAPISpec = .getCurrentWeather(coords: coords, appId: appId, units: units, lang: lang)
+    
+    private func fetchWeatherData<T: Decodable>(spec: WeatherAPISpec) async throws -> T? {
         do {
-            let currentWeather = try await apiClient?.sendRequest(apiSpec)
-            return currentWeather as? CurrentWeather
+            return try await apiClient?.sendRequest(spec) as? T
         } catch {
-            print(error)
+            print("Ошибка запроса: \(error.localizedDescription)")
             return nil
         }
+    }
+    
+    func getCurrentWeather(coords: Coordinates, appId: String, units: Units? = nil, lang: Language? = nil)
+    async throws -> CurrentWeather? {
+        return try await fetchWeatherData(spec: .getCurrentWeather(coords: coords, appId: appId, units: units, lang: lang))
     }
     
     func getHourlyWeather(coords: Coordinates, appId: String, units: Units? = nil, count: Int? = nil, lang: Language? = nil)
     async throws -> HourlyWeather? {
-        let apiSpec: WeatherAPISpec = .getHourlyWeather(coords: coords, appId: appId, units: units, cnt: count, lang: lang)
-        do {
-            let hourlyWeather = try await apiClient?.sendRequest(apiSpec)
-            return hourlyWeather as? HourlyWeather
-        } catch {
-            print(error)
-            return nil
-        }
+        return try await fetchWeatherData(spec: .getHourlyWeather(coords: coords, appId: appId, units: units, cnt: count, lang: lang))
     }
     
     func getDailyWeather(coords: Coordinates, appId: String, units: Units? = nil, count: Int? = nil, lang: Language? = nil)
     async throws -> DailyWeather? {
-        let apiSpec: WeatherAPISpec = .getDailyWeather(coords: coords, appId: appId, units: units, cnt: count, lang: lang)
-        do {
-            let dailyWeather = try await apiClient?.sendRequest(apiSpec)
-            return dailyWeather as? DailyWeather
-        } catch {
-            print(error)
-            return nil
-        }
+        return try await fetchWeatherData(spec: .getDailyWeather(coords: coords, appId: appId, units: units, cnt: count, lang: lang))
     }
     
-    func getCurrentAirPollution(coords: Coordinates, appId: String) async throws -> AirPollution? {
-        let apiSpec: WeatherAPISpec = .getCurrentAirPollution(coords: coords, appId: appId)
-        do {
-            let currentAirPollution = try await apiClient?.sendRequest(apiSpec)
-            return currentAirPollution as? AirPollution
-        } catch {
-            print(error)
-            return nil
-        }
+    func getCurrentAirPollution(coords: Coordinates, appId: String)
+    async throws -> AirPollution? {
+        return try await fetchWeatherData(spec: .getCurrentAirPollution(coords: coords, appId: appId))
     }
     
-    func getAirPollutionForecast(coords: Coordinates, appId: String) async throws -> AirPollution? {
-        let apiSpec: WeatherAPISpec = .getAirPollutionForecast(coords: coords, appId: appId)
-        do {
-            let airPollutionForecast = try await apiClient?.sendRequest(apiSpec)
-            return airPollutionForecast as? AirPollution
-        } catch {
-            print(error)
-            return nil
-        }
+    func getAirPollutionForecast(coords: Coordinates, appId: String)
+    async throws -> AirPollution? {
+        return try await fetchWeatherData(spec: .getAirPollutionForecast(coords: coords, appId: appId))
     }
 }
+
