@@ -12,6 +12,7 @@ enum WeatherAPISpec: APIClient.APISpec {
     case getHourlyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
     case getDailyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
     case getCurrentAirPollution(coords: Coordinates, appId: String)
+    case getAirPollutionForecast(coords: Coordinates, appId: String)
 
     private var path: String {
         switch self {
@@ -19,6 +20,7 @@ enum WeatherAPISpec: APIClient.APISpec {
         case .getHourlyWeather: return "/forecast/hourly"
         case .getDailyWeather: return "/forecast/daily"
         case .getCurrentAirPollution: return "/air_pollution"
+        case .getAirPollutionForecast: return "air_pollution/forecast"
         }
     }
     
@@ -53,7 +55,8 @@ enum WeatherAPISpec: APIClient.APISpec {
         case .getCurrentWeather(let coords, let appId, _, _),
              .getHourlyWeather(let coords, let appId, _, _, _),
              .getDailyWeather(let coords, let appId, _, _, _),
-             .getCurrentAirPollution(let coords, let appId):
+             .getCurrentAirPollution(let coords, let appId),
+             .getAirPollutionForecast(let coords, let appId):
             return [
                 "lat": "\(coords.lat)",
                 "lon": "\(coords.lon)",
@@ -74,7 +77,9 @@ enum WeatherAPISpec: APIClient.APISpec {
         case .getCurrentWeather: return CurrentWeather.self
         case .getHourlyWeather: return HourlyWeather.self
         case .getDailyWeather: return DailyWeather.self
-        case .getCurrentAirPollution: return AirPollution.self
+        case .getCurrentAirPollution,
+             .getAirPollutionForecast:
+            return AirPollution.self
         }
     }
     

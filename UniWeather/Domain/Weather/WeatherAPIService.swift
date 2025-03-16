@@ -54,4 +54,15 @@ class WeatherAPIService: APIService {
             return nil
         }
     }
+    
+    func getAirPollutionForecast(coords: Coordinates, appId: String) async throws -> AirPollution? {
+        let apiSpec: WeatherAPISpec = .getAirPollutionForecast(coords: coords, appId: appId)
+        do {
+            let airPollutionForecast = try await apiClient?.sendRequest(apiSpec)
+            return airPollutionForecast as? AirPollution
+        } catch {
+            print(error)
+            return nil
+        }
+    }
 }
