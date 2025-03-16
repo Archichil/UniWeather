@@ -11,46 +11,55 @@ enum WeatherAPISpec: APIClient.APISpec {
     case getCurrentWeather(coords: Coordinates, appId: String, units: Units?, lang: Language?)
     case getHourlyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
     case getDailyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
+    case getCurrentAirPollution(coords: Coordinates, appId: String)
 
     private var path: String {
         switch self {
         case .getCurrentWeather: return "/weather"
         case .getHourlyWeather: return "/forecast/hourly"
         case .getDailyWeather: return "/forecast/daily"
+        case .getCurrentAirPollution: return "/air_pollution"
         }
     }
-
+    
     private var queryParameters: [String: String] {
         var params = commonParams()
+
+        var units: Units? = nil
+        var lang: Language? = nil
         
         switch self {
-        case .getHourlyWeather(_, _, _, let cnt, _),
-                .getDailyWeather(_, _, _, let cnt, _):
+        case .getCurrentWeather(_, _, let u, let l):
+            units = u
+            lang = l
             
+        case .getHourlyWeather(_, _, let u, let cnt, let l),
+             .getDailyWeather(_, _, let u, let cnt, let l):
+            units = u
+            lang = l
             if let cnt = cnt { params["cnt"] = "\(cnt)" }
-        default:
-            break
+            
+        default: break
         }
+        
+        if let units = units { params["units"] = units.rawValue }
+        if let lang = lang { params["lang"] = lang.rawValue }
 
         return params
     }
 
     private func commonParams() -> [String: String] {
-        var params: [String: String] = [:]
-        
         switch self {
-        case .getCurrentWeather(let coords, let appId, let units, let lang),
-                .getHourlyWeather(let coords, let appId, let units, _, let lang),
-                .getDailyWeather(let coords, let appId, let units, _, let lang):
-            
-            params["lat"] = "\(coords.lat)"
-            params["lon"] = "\(coords.lon)"
-            params["appid"] = appId
-            if let units = units { params["units"] = units.rawValue }
-            if let lang = lang { params["lang"] = lang.rawValue }
+        case .getCurrentWeather(let coords, let appId, _, _),
+             .getHourlyWeather(let coords, let appId, _, _, _),
+             .getDailyWeather(let coords, let appId, _, _, _),
+             .getCurrentAirPollution(let coords, let appId):
+            return [
+                "lat": "\(coords.lat)",
+                "lon": "\(coords.lon)",
+                "appid": appId
+            ]
         }
-
-        return params
     }
 
     var endpoint: String {
@@ -65,6 +74,7 @@ enum WeatherAPISpec: APIClient.APISpec {
         case .getCurrentWeather: return CurrentWeather.self
         case .getHourlyWeather: return HourlyWeather.self
         case .getDailyWeather: return DailyWeather.self
+        case .getCurrentAirPollution: return AirPollution.self
         }
     }
     
