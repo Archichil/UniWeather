@@ -11,6 +11,7 @@ struct City: DecodableType {
     let coord: Coordinates
     let country: String
     let timezone: Int
-    let sunrise: Int
-    let sunset: Int
+    let sunrise: Int?
+    let sunset: Int?
+    let population: Int
 }
