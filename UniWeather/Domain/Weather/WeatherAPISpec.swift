@@ -10,11 +10,13 @@ import Foundation
 enum WeatherAPISpec: APIClient.APISpec {
     case getCurrentWeather(coords: Coordinates, appId: String, units: Units?, lang: Language?)
     case getHourlyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
+    case getDailyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
 
     private var path: String {
         switch self {
         case .getCurrentWeather: return "/weather"
         case .getHourlyWeather: return "/forecast/hourly"
+        case .getDailyWeather: return "/forecast/daily"
         }
     }
 
@@ -22,7 +24,9 @@ enum WeatherAPISpec: APIClient.APISpec {
         var params = commonParams()
         
         switch self {
-        case .getHourlyWeather(_, _, _, let cnt, _):
+        case .getHourlyWeather(_, _, _, let cnt, _),
+                .getDailyWeather(_, _, _, let cnt, _):
+            
             if let cnt = cnt { params["cnt"] = "\(cnt)" }
         default:
             break
@@ -36,7 +40,9 @@ enum WeatherAPISpec: APIClient.APISpec {
         
         switch self {
         case .getCurrentWeather(let coords, let appId, let units, let lang),
-             .getHourlyWeather(let coords, let appId, let units, _, let lang):
+                .getHourlyWeather(let coords, let appId, let units, _, let lang),
+                .getDailyWeather(let coords, let appId, let units, _, let lang):
+            
             params["lat"] = "\(coords.lat)"
             params["lon"] = "\(coords.lon)"
             params["appid"] = appId
@@ -58,6 +64,7 @@ enum WeatherAPISpec: APIClient.APISpec {
         switch self {
         case .getCurrentWeather: return CurrentWeather.self
         case .getHourlyWeather: return HourlyWeather.self
+        case .getDailyWeather: return DailyWeather.self
         }
     }
     
