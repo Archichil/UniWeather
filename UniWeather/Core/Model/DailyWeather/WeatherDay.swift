@@ -20,9 +20,4 @@ struct WeatherDay: DecodableType {
     let clouds: Int
     let pop: Double
     let rain: Double?
-    
-    enum CodingKeys: String, CodingKey {
-        case dt, sunrise, sunset, temp, pressure, humidity, weather, speed, deg, gust, clouds, pop, rain
-        case feelsLike = "feels_like"
-    }
 }

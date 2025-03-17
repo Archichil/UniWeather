@@ -19,8 +19,8 @@ struct WeatherData: DecodableType {
     let dtTxt: String
 
 
-    enum CodingKeys: String, CodingKey {
-        case dt, main, weather, clouds, wind, visibility, pop, rain, snow, sys
-        case dtTxt = "dt_txt"
-    }
+//    enum CodingKeys: String, CodingKey {
+//        case dt, main, weather, clouds, wind, visibility, pop, rain, snow, sys
+//        case dtTxt = "dt_txt"
+//    }
 }

@@ -42,6 +42,8 @@ struct APIClient {
         }
             
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
         do {
             let decodedData = try decoder.decode(
                 apiSpec.returnType,

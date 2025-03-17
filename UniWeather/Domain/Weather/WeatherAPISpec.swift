@@ -20,7 +20,7 @@ enum WeatherAPISpec: APIClient.APISpec {
         case .getHourlyWeather: return "/forecast/hourly"
         case .getDailyWeather: return "/forecast/daily"
         case .getCurrentAirPollution: return "/air_pollution"
-        case .getAirPollutionForecast: return "air_pollution/forecast"
+        case .getAirPollutionForecast: return "/air_pollution/forecast"
         }
     }
     
