@@ -29,9 +29,9 @@ struct APIClient {
             timeoutInterval: TimeInterval(floatLiteral: 30.0)
         )
         request.httpMethod = apiSpec.method.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = apiSpec.body
-            
+        request.allHTTPHeaderFields = apiSpec.headers
+        
         var responseData: Data? = nil
         do {
             let (data, response) = try await urlSession.data(for: request)

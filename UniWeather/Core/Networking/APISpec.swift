@@ -12,6 +12,7 @@ extension APIClient {
         var endpoint: String { get }
         var method: HttpMethod { get }
         var returnType: DecodableType.Type { get }
+        var headers: [String: String]? { get }
         var body: Data? { get }
     }
 }

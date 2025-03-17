@@ -83,5 +83,16 @@ enum WeatherAPISpec: APIClient.APISpec {
         }
     }
     
+    var headers: [String : String]? {
+        switch self {
+        case .getCurrentWeather,
+             .getHourlyWeather,
+             .getDailyWeather,
+             .getCurrentAirPollution,
+             .getAirPollutionForecast:
+            return ["Content-Type": "application/json"]
+        }
+    }
+    
     var body: Data? { nil }
 }
