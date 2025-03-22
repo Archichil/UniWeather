@@ -85,7 +85,7 @@ enum AIAPISpec: APIClient.APISpec {
         switch self {
         case .getCompletion(let prompt):
             let requestBody: [String: Any] = [
-                "model": "deepseek/deepseek-chat:free",
+                "model": AIModels.deepSeekV3.rawValue,
                 "messages": [
                     [
                         "role": "user",
