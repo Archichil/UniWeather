@@ -47,6 +47,24 @@ enum PromptTypes {
         """
     }
     
+    static func getTransportRecommendation(weather: DailyWeather, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather)
+        return """
+        На основе текущих погодных условий предложи рекомендации по выбору вида 
+        транспорта для жителей \(promptWeather.cityName), \(promptWeather.country).
+        
+        \(getFormattedWeather(weather: promptWeather, units: units))
+        
+        Дай рекомендации по выбору транспорта, учитывая предоставленную информацию о погоде.
+        
+        Формат ответа:
+        - Погодные условия в формате Сегодня в городе...
+        - Виды транспорта (например, велосипед, автомобиль, общественный транспорт, пешие прогулки и тд.)
+        - Рекомендации по выбору транспорта с учётом погоды
+        """
+    }
+
+    
     static func getHealthRecomendations(weather: DailyWeather, units: Units) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather)
         return """
