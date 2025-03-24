@@ -34,7 +34,7 @@ class AIAPIService: APIService {
         }
     }
     
-    func fetchPromptResponse(propmt: String) async throws -> ChatCompletionResponse? {
-        return try await fetchAIResponse(spec: .getCompletion(prompt: propmt))
+    func fetchPromptResponse(prompt: String) async throws -> ChatCompletionResponse? {
+        return try await fetchAIResponse(spec: .getCompletion(prompt: prompt))
     }
 }
