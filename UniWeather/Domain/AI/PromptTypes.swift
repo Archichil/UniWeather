@@ -13,11 +13,20 @@ import Foundation
 /// such as clothing recommendations based on weather conditions.
 enum PromptTypes {
     
-    static func getClothesRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+    /// Generates a prompt for clothing recommendations based on the provided weather.
+    ///
+    /// - Parameters:
+    ///   - weather: The daily weather data.
+    ///   - index: The index of day in `DailyWeather` list.
+    ///   - units: The units of measurement (e.g., metric or imperial).
+    ///   - lang: The language in which the response should be generated.
+    /// - Returns: A string representing the prompt for the AI service.
+    static func getClothesRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
         return """
+        Ответь на \(lang == Language.en ? "английском" : "русском") языке
         На основе предоставленных погодных условий предложи какую одежду 
         надеть на улицу в \(weather.city.name), \(weather.city.country)? 
         Вот погода на день \(date)
@@ -34,11 +43,20 @@ enum PromptTypes {
         """
     }
     
-    static func getActivityRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+    /// Generates a prompt for activity recommendations based on the provided weather.
+    ///
+    /// - Parameters:
+    ///   - weather: The daily weather data.
+    ///   - index: The index of day in `DailyWeather` list.
+    ///   - units: The units of measurement (e.g., metric or imperial).
+    ///   - lang: The language in which the response should be generated.
+    /// - Returns: A string representing the prompt for the AI service.
+    static func getActivityRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
         return """
+        Ответь на \(lang == Language.en ? "английском" : "русском") языке
         На основе предоставленных погодных условий предложи несколько подходящих 
         вариантов активностей(в общем) в \(weather.city.name), \(weather.city.country)
         Вот погода на день \(date)
@@ -54,11 +72,20 @@ enum PromptTypes {
         """
     }
     
-    static func getTransportRecommendation(weather: DailyWeather, index: Int, units: Units) -> String {
+    /// Generates a prompt for transport recommendations based on the provided weather.
+    ///
+    /// - Parameters:
+    ///   - weather: The daily weather data.
+    ///   - index: The index of day in `DailyWeather` list.
+    ///   - units: The units of measurement (e.g., metric or imperial).
+    ///   - lang: The language in which the response should be generated.
+    /// - Returns: A string representing the prompt for the AI service.
+    static func getTransportRecommendation(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
         return """
+        Ответь на \(lang == Language.en ? "английском" : "русском") языке
         На основе предоставленных погодных условий предложи рекомендации по выбору вида 
         транспорта для жителей \(weather.city.name), \(weather.city.country).
         Вот погода на день \(date)
@@ -73,11 +100,20 @@ enum PromptTypes {
         """
     }
 
-    static func getHealthRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+    /// Generates a prompt for health recommendations based on the provided weather.
+    ///
+    /// - Parameters:
+    ///   - weather: The daily weather data.
+    ///   - index: The index of day in `DailyWeather` list.
+    ///   - units: The units of measurement (e.g., metric or imperial).
+    ///   - lang: The language in which the response should be generated.
+    /// - Returns: A string representing the prompt for the AI service.
+    static func getHealthRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
         return """
+        Ответь на \(lang == Language.en ? "английском" : "русском") языке
         На основе текущих погодных условий предложи рекомендации 
         по здоровью для жителей \(weather.city.name), \(weather.city.country)
         Вот погода на день \(date)
@@ -102,11 +138,20 @@ enum PromptTypes {
         """
     }
     
-    static func getPlacesToVisitRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+    /// Generates a prompt for places to visit recommendations based on the provided weather.
+    ///
+    /// - Parameters:
+    ///   - weather: The daily weather data.
+    ///   - index: The index of day in `DailyWeather` list.
+    ///   - units: The units of measurement (e.g., metric or imperial).
+    ///   - lang: The language in which the response should be generated.
+    /// - Returns: A string representing the prompt for the AI service.
+    static func getPlacesToVisitRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
         return """
+        Ответь на \(lang == Language.en ? "английском" : "русском") языке
         На основе текущих погодных условий предложи, какие места можно посетить в городе 
         \(weather.city.name), \(weather.city.country), чтобы максимально насладиться днем.
         
@@ -120,6 +165,12 @@ enum PromptTypes {
         """
     }
     
+    /// Formats the weather information into a string suitable for prompts.
+    ///
+    /// - Parameters:
+    ///   - weather: The weather data to be formatted.
+    ///   - units: The units of measurement (e.g., metric or imperial).
+    /// - Returns: A formatted string containing weather details.
     private static func getFormattedWeather(weather: WeatherForPrompt, units: Units) -> String {
         let textUnits = getTextUnits(units: units)
         return """
@@ -132,6 +183,11 @@ enum PromptTypes {
         """
     }
     
+    /// Converts the unit type to corresponding text units.
+    ///
+    /// - Parameters:
+    ///   - units: The units to be used for measurement (imperial, metric, or standard).
+    /// - Returns: A struct containing the text units for wind and temperature.
     private static func getTextUnits(units: Units) -> TextUnits {
         var windUnits = ""
         var tempUnits = ""
@@ -143,12 +199,17 @@ enum PromptTypes {
             windUnits = "метров/с"
             tempUnits = "°C"
         case .standard:
-            windUnits = "м/с"
+            windUnits = "метров/с"
             tempUnits = "°K"
         }
         return TextUnits(windUnits: windUnits, tempUnits: tempUnits)
     }
 
+    /// Converts the weather data for a specific day into a format for prompts.
+    ///
+    /// - Parameters:
+    ///   - weather: The weather data for a specific day.
+    /// - Returns: A formatted weather structure for prompts.
     private static func getWeatherFormatForPrompt(weather: WeatherDay) -> WeatherForPrompt {
         return WeatherForPrompt(
             temperature: weather.temp.day,
@@ -163,3 +224,4 @@ enum PromptTypes {
         )
     }
 }
+
