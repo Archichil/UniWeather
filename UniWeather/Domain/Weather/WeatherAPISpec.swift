@@ -8,11 +8,11 @@
 import Foundation
 
 enum WeatherAPISpec: APIClient.APISpec {
-    case getCurrentWeather(coords: Coordinates, appId: String, units: Units?, lang: Language?)
-    case getHourlyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
-    case getDailyWeather(coords: Coordinates, appId: String, units: Units?, cnt: Int?, lang: Language?)
-    case getCurrentAirPollution(coords: Coordinates, appId: String)
-    case getAirPollutionForecast(coords: Coordinates, appId: String)
+    case getCurrentWeather(coords: Coordinates, units: Units?, lang: Language?)
+    case getHourlyWeather(coords: Coordinates, units: Units?, cnt: Int?, lang: Language?)
+    case getDailyWeather(coords: Coordinates, units: Units?, cnt: Int?, lang: Language?)
+    case getCurrentAirPollution(coords: Coordinates)
+    case getAirPollutionForecast(coords: Coordinates)
 
     private var path: String {
         switch self {
@@ -31,12 +31,12 @@ enum WeatherAPISpec: APIClient.APISpec {
         var lang: Language? = nil
         
         switch self {
-        case .getCurrentWeather(_, _, let u, let l):
+        case .getCurrentWeather(_, let u, let l):
             units = u
             lang = l
             
-        case .getHourlyWeather(_, _, let u, let cnt, let l),
-             .getDailyWeather(_, _, let u, let cnt, let l):
+        case .getHourlyWeather(_, let u, let cnt, let l),
+             .getDailyWeather(_, let u, let cnt, let l):
             units = u
             lang = l
             if let cnt = cnt { params["cnt"] = "\(cnt)" }
@@ -52,16 +52,31 @@ enum WeatherAPISpec: APIClient.APISpec {
 
     private func commonParams() -> [String: String] {
         switch self {
-        case .getCurrentWeather(let coords, let appId, _, _),
-             .getHourlyWeather(let coords, let appId, _, _, _),
-             .getDailyWeather(let coords, let appId, _, _, _),
-             .getCurrentAirPollution(let coords, let appId),
-             .getAirPollutionForecast(let coords, let appId):
+        case .getCurrentWeather(let coords, _, _),
+             .getHourlyWeather(let coords, _, _, _),
+             .getDailyWeather(let coords, _, _, _),
+             .getCurrentAirPollution(let coords),
+             .getAirPollutionForecast(let coords):
             return [
                 "lat": "\(coords.lat)",
                 "lon": "\(coords.lon)",
-                "appid": appId
+                "appid": apiKey ?? ""
             ]
+        }
+    }
+    
+    private var apiKey: String? {
+        get {
+            guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
+                print("Config.plist not found.")
+                return nil
+            }
+            let plist = NSDictionary(contentsOfFile: filePath)
+            guard let value = plist?.object(forKey: "OPENWEATHERMAP_API_KEY") as? String else {
+                print("OPENWEATHERMAP_API_KEY not found in Config.plist.")
+                return nil
+            }
+            return value
         }
     }
 
