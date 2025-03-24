@@ -29,6 +29,24 @@ enum PromptTypes {
         """
     }
     
+    static func getActivityRecomendations(weather: DailyWeather, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather)
+        return """
+        На основе текущих погодных условий предложи несколько подходящих 
+        вариантов активностей в \(promptWeather.cityName), \(promptWeather.country)
+        
+        \(getFormattedWeather(weather: promptWeather, units: units))
+        
+        Учитывай предоставленные данные. Если погода комфортная, отдай предпочтение активностям на свежем воздухе. 
+        Иначе, отдай предпочтение активностям без долгого нахождения вне помещений. 
+        Выведи список от 5 до 10 рекомендаций с кратким пояснением, почему они подходят под текущие условия.
+        Формат ответа:
+        - Погодные условия в формате Сегодня в городе...
+        - Рекомендации
+        - Краткий вывод
+        """
+    }
+    
     private static func getFormattedWeather(weather: WeatherForPrompt, units: Units) -> String {
         let textUnits = getTextUnits(units: units)
         return """
