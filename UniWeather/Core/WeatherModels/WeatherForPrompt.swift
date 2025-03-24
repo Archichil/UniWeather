@@ -7,8 +7,6 @@
 
 
 struct WeatherForPrompt {
-    let cityName: String
-    let country: String
     let temperature: Double
     let feelsLike: Double
     let tempMin: Double

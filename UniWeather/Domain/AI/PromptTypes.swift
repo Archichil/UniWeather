@@ -5,71 +5,83 @@
 //  Created by Archichil on 17.03.25.
 //
 
+import Foundation
+
 /// An enumeration representing types of prompts that can be sent to the AI service.
 ///
 /// This enum provides static methods to generate prompts for various use cases,
 /// such as clothing recommendations based on weather conditions.
 enum PromptTypes {
     
-    static func getClothesRecomendations(weather: DailyWeather, units: Units) -> String {
-        let promptWeather = getWeatherFormatForPrompt(weather: weather)
-        return """
-        Какую одежду надеть на улицу в \(promptWeather.cityName), \(promptWeather.country)? 
+    static func getClothesRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
+        let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
+        return """
+        На основе предоставленных погодных условий предложи какую одежду 
+        надеть на улицу в \(weather.city.name), \(weather.city.country)? 
+        Вот погода на день \(date)
         \(getFormattedWeather(weather: promptWeather, units: units))
         
         Дай рекомендации по одежде, обуви и аксессуарам для комфортного выхода на улицу.
         Формат ответа:
-        - Погодные условия в формате Сегодня в городе...
-        - Одежда 
-        - Обувь
-        - Аксессуары
+        - Погодные условия: пару предложений в формате число месяц(в строковом формате) ожидается погода в городе... и тд
+        - Одежда (в виде списка)
+        - Обувь (в виде списка)
+        - Аксессуары (в виде списка)
         - Полезные советы
         И не использу никаких примеров брендов одежды!
         """
     }
     
-    static func getActivityRecomendations(weather: DailyWeather, units: Units) -> String {
-        let promptWeather = getWeatherFormatForPrompt(weather: weather)
-        return """
-        На основе текущих погодных условий предложи несколько подходящих 
-        вариантов активностей в \(promptWeather.cityName), \(promptWeather.country)
+    static func getActivityRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
+        let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
+        return """
+        На основе предоставленных погодных условий предложи несколько подходящих 
+        вариантов активностей(в общем) в \(weather.city.name), \(weather.city.country)
+        Вот погода на день \(date)
         \(getFormattedWeather(weather: promptWeather, units: units))
         
         Учитывай предоставленные данные. Если погода комфортная, отдай предпочтение активностям на свежем воздухе. 
         Иначе, отдай предпочтение активностям без долгого нахождения вне помещений. 
         Выведи список от 5 до 10 рекомендаций с кратким пояснением, почему они подходят под текущие условия.
         Формат ответа:
-        - Погодные условия в формате Сегодня в городе...
+        - Погодные условия: пару предложений в формате число месяц(в строковом формате) ожидается погода в городе... и тд
         - Рекомендации
         - Краткий вывод
         """
     }
     
-    static func getTransportRecommendation(weather: DailyWeather, units: Units) -> String {
-        let promptWeather = getWeatherFormatForPrompt(weather: weather)
-        return """
-        На основе текущих погодных условий предложи рекомендации по выбору вида 
-        транспорта для жителей \(promptWeather.cityName), \(promptWeather.country).
+    static func getTransportRecommendation(weather: DailyWeather, index: Int, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
+        let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
+        return """
+        На основе предоставленных погодных условий предложи рекомендации по выбору вида 
+        транспорта для жителей \(weather.city.name), \(weather.city.country).
+        Вот погода на день \(date)
         \(getFormattedWeather(weather: promptWeather, units: units))
         
         Дай рекомендации по выбору транспорта, учитывая предоставленную информацию о погоде.
         
         Формат ответа:
-        - Погодные условия в формате Сегодня в городе...
+        - Погодные условия: пару предложений в формате число месяц(в строковом формате) ожидается погода в городе... и тд
         - Виды транспорта (например, велосипед, автомобиль, общественный транспорт, пешие прогулки и тд.)
         - Рекомендации по выбору транспорта с учётом погоды
         """
     }
 
     
-    static func getHealthRecomendations(weather: DailyWeather, units: Units) -> String {
-        let promptWeather = getWeatherFormatForPrompt(weather: weather)
-        return """
-        На основе текущих погодных условий предложи рекомендации по здоровью для жителей \(promptWeather.cityName), \(promptWeather.country)
+    static func getHealthRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
+        let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
         
+        return """
+        На основе текущих погодных условий предложи рекомендации 
+        по здоровью для жителей \(weather.city.name), \(weather.city.country)
+        Вот погода на день \(date)
         \(getFormattedWeather(weather: promptWeather, units: units))
         
         Учитывай следующие данные о погоде:
@@ -82,7 +94,7 @@ enum PromptTypes {
         Дай рекомендации, как защитить себя от негативных последствий погодных условий, с учётом предоставленных данных.
         
         Формат ответа:
-        - Погодные условия в формате: Сегодня в городе...
+        - Погодные условия: пару предложений в формате число месяц(в строковом формате) ожидается погода в городе... и тд
         - Рекомендации по защите от жары или холода
         - Советы по дыханию или активности на улице
         - Советы по защите кожи и глаз от погодных факторов
@@ -120,19 +132,17 @@ enum PromptTypes {
         return TextUnits(windUnits: windUnits, tempUnits: tempUnits)
     }
 
-    private static func getWeatherFormatForPrompt(weather: DailyWeather) -> WeatherForPrompt {
+    private static func getWeatherFormatForPrompt(weather: WeatherDay) -> WeatherForPrompt {
         return WeatherForPrompt(
-            cityName: weather.city.name,
-            country: weather.city.country,
-            temperature: weather.list[0].temp.day,
-            feelsLike: weather.list[0].feelsLike.day,
-            tempMin: weather.list[0].temp.min,
-            tempMax: weather.list[0].temp.max,
-            humidity: weather.list[0].humidity,
-            windSpeed: weather.list[0].speed,
-            cloudiness: weather.list[0].clouds,
-            precipitation: weather.list[0].pop * 100,
-            weatherDescription: weather.list[0].weather.first?.description ?? "неизвестно"
+            temperature: weather.temp.day,
+            feelsLike: weather.feelsLike.day,
+            tempMin: weather.temp.min,
+            tempMax: weather.temp.max,
+            humidity: weather.humidity,
+            windSpeed: weather.speed,
+            cloudiness: weather.clouds,
+            precipitation: weather.pop * 100,
+            weatherDescription: weather.weather.first?.description ?? "неизвестно"
         )
     }
 }
