@@ -73,7 +73,6 @@ enum PromptTypes {
         """
     }
 
-    
     static func getHealthRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
@@ -100,6 +99,24 @@ enum PromptTypes {
         - Советы по защите кожи и глаз от погодных факторов
         - Полезные советы для людей с хроническими заболеваниями
         - Полезные советы для людей разных возрастных категорий
+        """
+    }
+    
+    static func getPlacesToVisitRecomendations(weather: DailyWeather, index: Int, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
+        let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
+        
+        return """
+        На основе текущих погодных условий предложи, какие места можно посетить в городе 
+        \(weather.city.name), \(weather.city.country), чтобы максимально насладиться днем.
+        
+        Вот погода на день \(date)
+        \(getFormattedWeather(weather: promptWeather, units: units))
+        
+        Формат ответа:
+        - Погодные условия: пару предложений в формате число месяц(в строковом формате) ожидается погода в городе... и тд.
+        - Рекомендации (список от 5 до 10 рекомендаций с кратким пояснением, почему они подходят под текущие условия).
+        - Краткий вывод.
         """
     }
     
