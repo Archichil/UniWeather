@@ -47,6 +47,32 @@ enum PromptTypes {
         """
     }
     
+    static func getHealthRecomendations(weather: DailyWeather, units: Units) -> String {
+        let promptWeather = getWeatherFormatForPrompt(weather: weather)
+        return """
+        На основе текущих погодных условий предложи рекомендации по здоровью для жителей \(promptWeather.cityName), \(promptWeather.country)
+        
+        \(getFormattedWeather(weather: promptWeather, units: units))
+        
+        Учитывай следующие данные о погоде:
+        - Температура днём
+        - Влажность
+        - Ветер
+        - Облачность
+        - Вероятность осадков
+        
+        Дай рекомендации, как защитить себя от негативных последствий погодных условий, с учётом предоставленных данных.
+        
+        Формат ответа:
+        - Погодные условия в формате: Сегодня в городе...
+        - Рекомендации по защите от жары или холода
+        - Советы по дыханию или активности на улице
+        - Советы по защите кожи и глаз от погодных факторов
+        - Полезные советы для людей с хроническими заболеваниями
+        - Полезные советы для людей разных возрастных категорий
+        """
+    }
+    
     private static func getFormattedWeather(weather: WeatherForPrompt, units: Units) -> String {
         let textUnits = getTextUnits(units: units)
         return """
