@@ -62,7 +62,6 @@ struct APIClient {
         guard let url = URL(string: baseURL.absoluteString + apiSpec.endpoint) else {
             throw NetworkError.invalidURL
         }
-        
         var request = URLRequest(
             url: url,
             cachePolicy: .useProtocolCachePolicy,
@@ -79,6 +78,11 @@ struct APIClient {
             responseData = data
         } catch {
             throw error
+        }
+        
+        // Don't have to decode data if it's raw data
+        if apiSpec.returnType == Data.self {
+            return responseData ?? Data()
         }
         
         let decoder = JSONDecoder()
