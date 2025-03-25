@@ -17,7 +17,7 @@ class WeatherMapAPIService: APIService {
         }
     }
     
-    func getTileData(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, opacity: Double = 0.8, fillBound: Bool = false, date: Int)
+    func getTileData(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, opacity: Double = 0.8, fillBound: Bool = false, date: Date)
     async throws -> Data? {
         return try await fetch(spec: .getMapTile(layer: layer, z: z, x: x, y: y, opacity: opacity, fillBound: fillBound, date: date))
     }

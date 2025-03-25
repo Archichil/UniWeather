@@ -9,7 +9,7 @@ import Foundation
 
 enum WeatherMapAPISpec: APIClient.APISpec {
     // FIXME: date - use Date type?
-    case getMapTile(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, opacity: Double, fillBound: Bool, date: Int)
+    case getMapTile(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, opacity: Double, fillBound: Bool, date: Date)
     
     private var apiKey: String? {
         get {
@@ -32,7 +32,7 @@ enum WeatherMapAPISpec: APIClient.APISpec {
             [
                 "opacity": "\(opacity)",
                 "fillBound": "\(fillBound)",
-                "date": "\(date)",
+                "date": "\(Int(date.timeIntervalSince1970))",
                 "appid": "\(apiKey ?? "")"
             ]
         }
