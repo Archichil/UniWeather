@@ -9,4 +9,3 @@ struct Message: DecodableType {
     let content: String
     let refusal: String?
 }
-

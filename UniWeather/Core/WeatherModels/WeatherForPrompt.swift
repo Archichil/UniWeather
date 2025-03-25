@@ -5,7 +5,6 @@
 //  Created by Daniil on 24.03.25.
 //
 
-
 struct WeatherForPrompt {
     let temperature: Double
     let feelsLike: Double

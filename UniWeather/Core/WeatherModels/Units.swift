@@ -6,7 +6,7 @@
 //
 
 enum Units: String {
-    case standard = "standard"
-    case metric = "metric"
-    case imperial = "imperial"
+    case standard
+    case metric
+    case imperial
 }

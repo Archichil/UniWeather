@@ -29,10 +29,10 @@ import Foundation
 struct APIClient {
     /// The base URL for the API.
     private var baseURL: URL
-    
+
     /// The URL session used to perform network requests.
     private var urlSession: URLSession
-    
+
     /// Initializes a new `APIClient` instance.
     ///
     /// - Parameters:
@@ -45,7 +45,7 @@ struct APIClient {
         self.baseURL = baseURL
         self.urlSession = urlSession
     }
-    
+
     /// Sends a request to the API based on the provided specification.
     ///
     /// This method constructs a URL request from the `APISpec`, sends it, and decodes the response into the specified `Decodable` type.
@@ -70,7 +70,7 @@ struct APIClient {
         request.httpMethod = apiSpec.method.rawValue
         request.httpBody = apiSpec.body
         request.allHTTPHeaderFields = apiSpec.headers
-        
+
         var responseData: Data? = nil
         do {
             let (data, response) = try await urlSession.data(for: request)
@@ -79,15 +79,15 @@ struct APIClient {
         } catch {
             throw error
         }
-        
+
         // Don't have to decode data if it's raw data
         if apiSpec.returnType == Data.self {
             return responseData ?? Data()
         }
-        
+
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
+
         do {
             let decodedData = try decoder.decode(
                 apiSpec.returnType,
@@ -100,7 +100,7 @@ struct APIClient {
             throw NetworkError.dataConversionFailure
         }
     }
-    
+
     /// Validates the HTTP response from the API.
     ///
     /// This method checks if the response is a valid `HTTPURLResponse` and if the status code is within the success range (200-299).
@@ -109,12 +109,12 @@ struct APIClient {
     ///   - data: The data returned by the API.
     ///   - response: The URL response returned by the API.
     /// - Throws: An error if the response is invalid or the status code indicates a failure.
-    private func handleResponse(data: Data, response: URLResponse) throws {
+    private func handleResponse(data _: Data, response: URLResponse) throws {
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
-        
-        guard (200...299).contains(httpResponse.statusCode) else {
+
+        guard (200 ... 299).contains(httpResponse.statusCode) else {
             throw NetworkError.requestFailed(statusCode: httpResponse.statusCode)
         }
     }

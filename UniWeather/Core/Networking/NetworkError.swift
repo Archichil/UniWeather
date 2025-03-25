@@ -27,17 +27,17 @@ enum NetworkError: Error {
     ///
     /// This error occurs when the URL cannot be constructed from the provided string.
     case invalidURL
-    
+
     /// Indicates that the response is invalid.
     ///
     /// This error occurs when the response cannot be cast to `HTTPURLResponse`.
     case invalidResponse
-    
+
     /// Indicates that the request failed with a specific HTTP status code.
     ///
     /// - Parameter statusCode: The HTTP status code returned by the server.
     case requestFailed(statusCode: Int)
-    
+
     /// Indicates that the data conversion failed.
     ///
     /// This error occurs when the response data cannot be decoded into the expected type.

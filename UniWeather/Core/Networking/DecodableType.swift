@@ -17,7 +17,7 @@
 ///     let name: String
 /// }
 /// ```
-protocol DecodableType: Decodable { }
+protocol DecodableType: Decodable {}
 
 /// Extends `Array` to conform to `DecodableType` when its elements conform to `DecodableType`.
 ///
@@ -32,4 +32,4 @@ protocol DecodableType: Decodable { }
 ///
 /// let response: [MyResponse] = try decoder.decode([MyResponse].self, from: data)
 /// ```
-extension Array: DecodableType where Element: DecodableType { }
+extension Array: DecodableType where Element: DecodableType {}

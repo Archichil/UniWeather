@@ -1,5 +1,5 @@
 //
-//  CurrentWeatherAPISpec.swift
+//  WeatherAPISpec.swift
 //  UniWeather
 //
 //  Created by Daniil on 15.03.25.
@@ -16,68 +16,66 @@ enum WeatherAPISpec: APIClient.APISpec {
 
     private var path: String {
         switch self {
-        case .getCurrentWeather: return "/weather"
-        case .getHourlyWeather: return "/forecast/hourly"
-        case .getDailyWeather: return "/forecast/daily"
-        case .getCurrentAirPollution: return "/air_pollution"
-        case .getAirPollutionForecast: return "/air_pollution/forecast"
+        case .getCurrentWeather: "/weather"
+        case .getHourlyWeather: "/forecast/hourly"
+        case .getDailyWeather: "/forecast/daily"
+        case .getCurrentAirPollution: "/air_pollution"
+        case .getAirPollutionForecast: "/air_pollution/forecast"
         }
     }
-    
+
     private var queryParameters: [String: String] {
         var params = commonParams()
 
         var units: Units? = nil
         var lang: Language? = nil
-        
+
         switch self {
-        case .getCurrentWeather(_, let u, let l):
+        case let .getCurrentWeather(_, u, l):
             units = u
             lang = l
-            
-        case .getHourlyWeather(_, let u, let cnt, let l),
-             .getDailyWeather(_, let u, let cnt, let l):
+
+        case let .getHourlyWeather(_, u, cnt, l),
+             let .getDailyWeather(_, u, cnt, l):
             units = u
             lang = l
-            if let cnt = cnt { params["cnt"] = "\(cnt)" }
-            
+            if let cnt { params["cnt"] = "\(cnt)" }
+
         default: break
         }
-        
-        if let units = units { params["units"] = units.rawValue }
-        if let lang = lang { params["lang"] = lang.rawValue }
+
+        if let units { params["units"] = units.rawValue }
+        if let lang { params["lang"] = lang.rawValue }
 
         return params
     }
 
     private func commonParams() -> [String: String] {
         switch self {
-        case .getCurrentWeather(let coords, _, _),
-             .getHourlyWeather(let coords, _, _, _),
-             .getDailyWeather(let coords, _, _, _),
-             .getCurrentAirPollution(let coords),
-             .getAirPollutionForecast(let coords):
-            return [
+        case let .getCurrentWeather(coords, _, _),
+             let .getHourlyWeather(coords, _, _, _),
+             let .getDailyWeather(coords, _, _, _),
+             let .getCurrentAirPollution(coords),
+             let .getAirPollutionForecast(coords):
+            [
                 "lat": "\(coords.lat)",
                 "lon": "\(coords.lon)",
-                "appid": apiKey ?? ""
+                "appid": apiKey ?? "",
             ]
         }
     }
-    
+
     private var apiKey: String? {
-        get {
-            guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
-                print("Config.plist not found.")
-                return nil
-            }
-            let plist = NSDictionary(contentsOfFile: filePath)
-            guard let value = plist?.object(forKey: "OPENWEATHERMAP_API_KEY") as? String else {
-                print("OPENWEATHERMAP_API_KEY not found in Config.plist.")
-                return nil
-            }
-            return value
+        guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
+            print("Config.plist not found.")
+            return nil
         }
+        let plist = NSDictionary(contentsOfFile: filePath)
+        guard let value = plist?.object(forKey: "OPENWEATHERMAP_API_KEY") as? String else {
+            print("OPENWEATHERMAP_API_KEY not found in Config.plist.")
+            return nil
+        }
+        return value
     }
 
     var endpoint: String {
@@ -86,28 +84,28 @@ enum WeatherAPISpec: APIClient.APISpec {
     }
 
     var method: APIClient.HttpMethod { .get }
-    
+
     var returnType: DecodableType.Type {
         switch self {
-        case .getCurrentWeather: return CurrentWeather.self
-        case .getHourlyWeather: return HourlyWeather.self
-        case .getDailyWeather: return DailyWeather.self
+        case .getCurrentWeather: CurrentWeather.self
+        case .getHourlyWeather: HourlyWeather.self
+        case .getDailyWeather: DailyWeather.self
         case .getCurrentAirPollution,
              .getAirPollutionForecast:
-            return AirPollution.self
+            AirPollution.self
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         switch self {
         case .getCurrentWeather,
              .getHourlyWeather,
              .getDailyWeather,
              .getCurrentAirPollution,
              .getAirPollutionForecast:
-            return ["Content-Type": "application/json"]
+            ["Content-Type": "application/json"]
         }
     }
-    
+
     var body: Data? { nil }
 }

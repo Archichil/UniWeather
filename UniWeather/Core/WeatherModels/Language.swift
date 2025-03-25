@@ -6,6 +6,6 @@
 //
 
 enum Language: String {
-    case en = "en"
-    case ru = "ru"
+    case en
+    case ru
 }
