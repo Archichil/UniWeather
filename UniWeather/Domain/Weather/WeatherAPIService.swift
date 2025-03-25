@@ -18,29 +18,29 @@ class WeatherAPIService: APIService {
         }
     }
     
-    func getCurrentWeather(coords: Coordinates, appId: String, units: Units? = nil, lang: Language? = nil)
+    func getCurrentWeather(coords: Coordinates, units: Units? = nil, lang: Language? = nil)
     async throws -> CurrentWeather? {
-        return try await fetchWeatherData(spec: .getCurrentWeather(coords: coords, appId: appId, units: units, lang: lang))
+        return try await fetchWeatherData(spec: .getCurrentWeather(coords: coords, units: units, lang: lang))
     }
     
-    func getHourlyWeather(coords: Coordinates, appId: String, units: Units? = nil, count: Int? = nil, lang: Language? = nil)
+    func getHourlyWeather(coords: Coordinates, units: Units? = nil, count: Int? = nil, lang: Language? = nil)
     async throws -> HourlyWeather? {
-        return try await fetchWeatherData(spec: .getHourlyWeather(coords: coords, appId: appId, units: units, cnt: count, lang: lang))
+        return try await fetchWeatherData(spec: .getHourlyWeather(coords: coords, units: units, cnt: count, lang: lang))
     }
     
-    func getDailyWeather(coords: Coordinates, appId: String, units: Units? = nil, count: Int? = nil, lang: Language? = nil)
+    func getDailyWeather(coords: Coordinates, units: Units? = nil, count: Int? = nil, lang: Language? = nil)
     async throws -> DailyWeather? {
-        return try await fetchWeatherData(spec: .getDailyWeather(coords: coords, appId: appId, units: units, cnt: count, lang: lang))
+        return try await fetchWeatherData(spec: .getDailyWeather(coords: coords, units: units, cnt: count, lang: lang))
     }
     
-    func getCurrentAirPollution(coords: Coordinates, appId: String)
+    func getCurrentAirPollution(coords: Coordinates)
     async throws -> AirPollution? {
-        return try await fetchWeatherData(spec: .getCurrentAirPollution(coords: coords, appId: appId))
+        return try await fetchWeatherData(spec: .getCurrentAirPollution(coords: coords))
     }
     
-    func getAirPollutionForecast(coords: Coordinates, appId: String)
+    func getAirPollutionForecast(coords: Coordinates)
     async throws -> AirPollution? {
-        return try await fetchWeatherData(spec: .getAirPollutionForecast(coords: coords, appId: appId))
+        return try await fetchWeatherData(spec: .getAirPollutionForecast(coords: coords))
     }
 }
 
