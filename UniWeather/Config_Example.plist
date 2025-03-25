@@ -4,5 +4,7 @@
 <dict>
 	<key>OPENWEATHERMAP_API_KEY</key>
 	<string>YOUR_OPENWEATHERMAP_API_KEY</string>
+	<key>OPENROUTER_AI_API_KEY</key>
+	<string>YOUR_OPENROUTER_AI_API_KEY</string>
 </dict>
 </plist>
