@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AIView: View {
     @StateObject private var viewModel = AIViewModel()
-    @State private var showDaySheet = false
+    @State private var showDaySheet = true
     @State private var showAnswerSheet = false
     private let columns = [
         GridItem(.flexible(), spacing: 15),
@@ -54,7 +54,7 @@ struct AIView: View {
                 showAnswerSheet: $showAnswerSheet,
                 viewModel: viewModel
             )
-                .presentationDetents([.fraction(0.3), .fraction(0.31)])
+                .presentationDetents([.fraction(0.4), .fraction(0.41)])
                 .presentationBackground(Color(red: 28 / 255, green: 30 / 255, blue: 31 / 255))
         }
         .sheet(isPresented: $showAnswerSheet) {

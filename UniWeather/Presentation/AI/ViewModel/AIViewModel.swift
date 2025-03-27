@@ -10,8 +10,7 @@ import SwiftUI
 @MainActor
 class AIViewModel: ObservableObject {
     @Published var messages: [AIMessage] = []
-    
-    @Published var selectedDay: DaySelection = .Today
+    @Published var selectedDayIndex = 0
     
     func handleItemClick(_ prompt: AvailablePrompts) {
         messages.append(AIMessage(text: prompt.rawValue, time: formatTime(Date()), isAnswer: false))
