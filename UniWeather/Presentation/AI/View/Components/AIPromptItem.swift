@@ -15,14 +15,7 @@ struct AIPromptItem: View {
     var body: some View {
         VStack(alignment: .leading) {
             
-            Circle()
-                .fill(Color(red: 48 / 255, green: 52 / 255, blue: 55 / 255))
-                .frame(width: 50, height: 50)
-                .overlay(
-                    Image(systemName: icon)
-                        .foregroundColor(Color(red: 180 / 255, green: 181 / 255, blue: 188 / 255))
-                        .font(.title2)
-                )
+            CircleIcon(icon: icon)
             
             Text(text)
                 .font(.subheadline)

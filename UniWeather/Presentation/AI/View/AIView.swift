@@ -9,7 +9,8 @@ import SwiftUI
 
 struct AIView: View {
     @StateObject private var viewModel = AIViewModel()
-    
+    @State private var showDaySheet = false
+    @State private var showAnswerSheet = false
     private let columns = [
         GridItem(.flexible(), spacing: 15),
         GridItem(.flexible(), spacing: 15)
@@ -28,14 +29,15 @@ struct AIView: View {
                     .foregroundStyle(titleGradient)
                 
                 LazyVGrid(columns: columns, spacing: 15) {
-                    ForEach(PromptAction.allCases, id: \.self) { action in
+                    ForEach(AvailablePrompts.allCases, id: \.self) { prompt in
                         AIPromptItem(
                             size: 180,
-                            text: action.rawValue,
-                            icon: action.iconName
+                            text: prompt.rawValue,
+                            icon: prompt.iconName
                         )
                         .onTapGesture {
-                            viewModel.handleItemClick(action)
+                            showDaySheet = true
+                            viewModel.handleItemClick(prompt)
                         }
                     }
                 }
@@ -46,6 +48,21 @@ struct AIView: View {
             .padding(.horizontal)
             .scrollIndicators(.hidden)
         }
+        .sheet(isPresented: $showDaySheet) {
+            DaySelectionView(
+                showDaySheet: $showDaySheet,
+                showAnswerSheet: $showAnswerSheet,
+                viewModel: viewModel
+            )
+                .presentationDetents([.fraction(0.3), .fraction(0.31)])
+                .presentationBackground(Color(red: 28 / 255, green: 30 / 255, blue: 31 / 255))
+        }
+        .sheet(isPresented: $showAnswerSheet) {
+            PromptDetailView(viewModel: viewModel)
+                .presentationDetents([.fraction(1), .fraction(1.1)])
+                .presentationBackground(Color(red: 28 / 255, green: 30 / 255, blue: 31 / 255))
+        }
+        .background(backgroundGradient)
     }
     
     private let backgroundGradient = LinearGradient(
