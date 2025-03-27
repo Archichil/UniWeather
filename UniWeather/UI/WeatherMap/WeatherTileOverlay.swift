@@ -10,6 +10,7 @@ import MapKit
 class WeatherTileOverlay: MKTileOverlay {
     let weatherMapService: WeatherMapAPIService
     let layer: WeatherMapConfiguration.MapLayer
+    private var cache = NSCache<NSString, NSData>()
     private var intensity: CGFloat = 0.5
     private var overlayColor: UIColor = .black
     
@@ -20,6 +21,7 @@ class WeatherTileOverlay: MKTileOverlay {
         
         self.canReplaceMapContent = false
         self.tileSize = CGSize(width: 256, height: 256)
+        cache.countLimit = 200
     }
     
     @MainActor
@@ -37,6 +39,10 @@ class WeatherTileOverlay: MKTileOverlay {
     private func fetchTileData(at path: MKTileOverlayPath) async throws -> Data {
         let cacheKey = "\(layer.rawValue).\(path.z).\(path.x).\(path.y).\(intensity)" as NSString
         
+        if let cachedData = cache.object(forKey: cacheKey) {
+            return cachedData as Data
+        }
+        
         let maxTileIndex = (1 << path.z) - 1
         guard path.x >= 0, path.x <= maxTileIndex, path.y >= 0, path.y <= maxTileIndex else {
             throw NetworkError.requestFailed(statusCode: 400)
@@ -53,6 +59,7 @@ class WeatherTileOverlay: MKTileOverlay {
             throw NetworkError.invalidResponse
         }
         
+        cache.setObject(finalData as NSData, forKey: cacheKey)
         return finalData
     }
     
@@ -63,5 +70,9 @@ class WeatherTileOverlay: MKTileOverlay {
             ctx.fill(CGRect(origin: .zero, size: tileSize))
             image.draw(in: CGRect(origin: .zero, size: tileSize))
         }
+    }
+    
+    func clearCache() {
+        cache.removeAllObjects()
     }
 }
