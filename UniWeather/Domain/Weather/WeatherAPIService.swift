@@ -8,6 +8,12 @@
 import Foundation
 
 class WeatherAPIService: APIService {
+    private let baseURL = URL(string: "https://api.openweathermap.org/data/2.5")!
+    
+    init() {
+        super.init(apiClient: APIClient(baseURL: baseURL))
+    }
+    
     private func fetchWeatherData<T: Decodable>(spec: WeatherAPISpec) async throws -> T? {
         do {
             return try await apiClient?.sendRequest(spec) as? T
