@@ -1,11 +1,11 @@
 //
-//  PromptAction.swift
+//  AvailablePrompts.swift
 //  UniWeather
 //
 //  Created by Daniil on 26.03.25.
 //
 
-enum PromptAction: String, CaseIterable {
+enum AvailablePrompts: String, CaseIterable {
     case whatToWear = "What to wear for outdoor activities?"
     case transportOption = "Which transport option suits the weather?"
     case enjoyableActivities = "What enjoyable activities are perfect for this weather?"
