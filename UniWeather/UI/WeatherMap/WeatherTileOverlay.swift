@@ -8,27 +8,34 @@
 import MapKit
 
 class WeatherTileOverlay: MKTileOverlay {
-    let weatherMapService: WeatherMapAPIService
-    let layer: WeatherMapConfiguration.MapLayer
     private var cache = NSCache<NSString, NSData>()
     private var intensity: CGFloat = 0.5
     private var overlayColor: UIColor = .black
     
-    init(weatherService: WeatherMapAPIService = WeatherMapAPIService(), layer: WeatherMapConfiguration.MapLayer) {
+    let weatherMapService: WeatherMapAPIService
+    let layer: WeatherMapConfiguration.MapLayer
+    var date: Date
+    
+    init(
+        weatherService: WeatherMapAPIService = WeatherMapAPIService(),
+        layer: WeatherMapConfiguration.MapLayer,
+        date: Date
+    ) {
         self.weatherMapService = weatherService
         self.layer = layer
+        self.date = date
         super.init(urlTemplate: nil)
         
         self.canReplaceMapContent = false
         self.tileSize = CGSize(width: 256, height: 256)
-        cache.countLimit = 200
+        cache.countLimit = 500
     }
     
     @MainActor
     override func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
         Task {
             do {
-                let data = try await fetchTileData(at: path)
+                let data = try await fetchTileData(at: path, for: date)
                 result(data, nil)
             } catch {
                 result(nil, error)
@@ -36,9 +43,22 @@ class WeatherTileOverlay: MKTileOverlay {
         }
     }
     
-    private func fetchTileData(at path: MKTileOverlayPath) async throws -> Data {
-        let cacheKey = "\(layer.rawValue).\(path.z).\(path.x).\(path.y).\(intensity)" as NSString
-        
+    private func cacheKey(for path: MKTileOverlayPath, date: Date) -> NSString {
+        return "\(layer.rawValue).\(path.z).\(path.x).\(path.y).\(date.timeIntervalSince1970)" as NSString
+    }
+    
+    private func applySaturationOverlay(to image: UIImage) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: tileSize)
+        return renderer.image { ctx in
+            overlayColor.withAlphaComponent(intensity).setFill()
+            ctx.fill(CGRect(origin: .zero, size: tileSize))
+            image.draw(in: CGRect(origin: .zero, size: tileSize))
+        }
+    }
+    
+    private func fetchTileData(at path: MKTileOverlayPath, for date: Date) async throws -> Data {
+        let cacheKey = self.cacheKey(for: path, date: date)
+                
         if let cachedData = cache.object(forKey: cacheKey) {
             return cachedData as Data
         }
@@ -47,8 +67,8 @@ class WeatherTileOverlay: MKTileOverlay {
         guard path.x >= 0, path.x <= maxTileIndex, path.y >= 0, path.y <= maxTileIndex else {
             throw NetworkError.requestFailed(statusCode: 400)
         }
-        
-        guard let data = try await weatherMapService.getTileData(layer: layer, z: path.z, x: path.x, y: path.y, date: Date.now),
+
+        guard let data = try await weatherMapService.getTileData(layer: layer, z: path.z, x: path.x, y: path.y, date: date),
               let weatherImage = UIImage(data: data) else {
             throw NetworkError.invalidResponse
         }
@@ -63,13 +83,8 @@ class WeatherTileOverlay: MKTileOverlay {
         return finalData
     }
     
-    private func applySaturationOverlay(to image: UIImage) -> UIImage {
-        let renderer = UIGraphicsImageRenderer(size: tileSize)
-        return renderer.image { ctx in
-            overlayColor.withAlphaComponent(intensity).setFill()
-            ctx.fill(CGRect(origin: .zero, size: tileSize))
-            image.draw(in: CGRect(origin: .zero, size: tileSize))
-        }
+    func setCache(_ cache: NSCache<NSString, NSData>) {
+        self.cache = cache
     }
     
     func clearCache() {
