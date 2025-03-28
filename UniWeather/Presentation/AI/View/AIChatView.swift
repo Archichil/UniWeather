@@ -26,41 +26,37 @@ struct AIChatView: View {
             }
             
             VStack(spacing: 0) {
+                HStack(spacing: 10) {
+                    AICircleIcon(
+                        icon: "bubble.right",
+                        size: 50,
+                        bgColor: Color(red: 52 / 255, green: 54 / 255, blue: 58 / 255),
+                        iconColor: Color(red: 180 / 255, green: 181 / 255, blue: 188 / 255),
+                        font: .title2
+                    )
+                    
+                    VStack(alignment: .leading) {
+                        Text(viewModel.messages.count > 1 ? viewModel.messages[viewModel.messages.count - 2].text : "None")
+                            .foregroundStyle(.white)
+                            .lineLimit(1)
+                            .fontWeight(.medium)
+                        
+                        Text("Last updated \(viewModel.messages.last?.time ?? "")")
+                            .foregroundStyle(.gray)
+                            .lineLimit(1)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .topLeading)
+                .padding(.horizontal, 7)
+                .padding(.bottom, 10)
+                .padding(.top)
+                
+                Rectangle()
+                    .frame(maxWidth: .infinity, maxHeight: 1)
+                    .foregroundStyle(.gray.opacity(0.5))
+                
                 ScrollViewReader { proxy in
                     ScrollView {
-                        HStack(spacing: 10) {
-                            AICircleIcon(
-                                icon: "bubble.right",
-                                size: 50,
-                                bgColor: Color(red: 52 / 255, green: 54 / 255, blue: 58 / 255),
-                                iconColor: Color(red: 180 / 255, green: 181 / 255, blue: 188 / 255),
-                                font: .title2
-                            )
-                            
-                            VStack(alignment: .leading) {
-                                Text(viewModel.messages.count > 1 ? viewModel.messages[viewModel.messages.count - 2].text : "None")
-                                    .foregroundStyle(.white)
-                                    .lineLimit(1)
-                                    .fontWeight(.medium)
-                                
-                                Text("Last updated \(viewModel.messages.last?.time ?? "")")
-                                    .foregroundStyle(.gray)
-                                    .lineLimit(1)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                        .padding(.horizontal, 7)
-                        .padding(.bottom, 4)
-                        
-                        Rectangle()
-                            .frame(maxWidth: .infinity, maxHeight: 1)
-                            .foregroundStyle(.gray.opacity(0.5))
-                        
-//                        if (viewModel.messages.isEmpty) {
-//                            Text("The dialog is empty.\nYou can choose the prompt below!")
-//                                .foregroundStyle(.gray)
-//                                .multilineTextAlignment(.center)
-//                        }
                         
                         ForEach(viewModel.messages) { message in
                             VStack {
@@ -88,6 +84,6 @@ struct AIChatView: View {
 }
 
 #Preview {
-    AIChatView(viewModel: AIViewModel())
+    AIView()
 }
 
