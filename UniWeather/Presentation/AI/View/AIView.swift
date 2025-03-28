@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AIView: View {
     @StateObject private var viewModel = AIViewModel()
-    @State private var showDaySheet = true
+    @State private var showDaySheet = false
     @State private var showAnswerSheet = false
     private let columns = [
         GridItem(.flexible(), spacing: 15),
@@ -36,8 +36,10 @@ struct AIView: View {
                             icon: prompt.iconName
                         )
                         .onTapGesture {
-                            showDaySheet = true
-                            viewModel.handleItemClick(prompt)
+                            if (!viewModel.isFetching) {
+                                showDaySheet = true
+                                viewModel.handleItemClick(prompt)
+                            }
                         }
                     }
                 }
@@ -47,9 +49,24 @@ struct AIView: View {
             .padding(.vertical, 10)
             .padding(.horizontal)
             .scrollIndicators(.hidden)
+            
+            VStack {
+                AICircleIcon(
+                    icon: "bubble.left.and.text.bubble.right",
+                    size: 65,
+                    bgColor: Color(red: 29 / 255, green: 31 / 255, blue: 32 / 255),
+                    iconColor: Color(red: 180 / 255, green: 181 / 255, blue: 188 / 255),
+                    font: .title
+                ).onTapGesture {
+                    showAnswerSheet = true
+                }
+            }
+            .padding(.trailing, 20)
+            .padding(.bottom, 15)
+            .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .sheet(isPresented: $showDaySheet) {
-            DaySelectionView(
+            AIDatePickerView(
                 showDaySheet: $showDaySheet,
                 showAnswerSheet: $showAnswerSheet,
                 viewModel: viewModel
@@ -58,7 +75,7 @@ struct AIView: View {
                 .presentationBackground(Color(red: 28 / 255, green: 30 / 255, blue: 31 / 255))
         }
         .sheet(isPresented: $showAnswerSheet) {
-            PromptDetailView(viewModel: viewModel)
+            AIChatView(viewModel: viewModel)
                 .presentationDetents([.fraction(1), .fraction(1.1)])
                 .presentationBackground(Color(red: 28 / 255, green: 30 / 255, blue: 31 / 255))
         }

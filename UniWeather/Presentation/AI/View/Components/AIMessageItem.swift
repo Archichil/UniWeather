@@ -54,5 +54,5 @@ struct AIMessageItem: View {
 }
 
 #Preview {
-    PromptDetailView(viewModel: AIViewModel())
+    AIChatView(viewModel: AIViewModel())
 }

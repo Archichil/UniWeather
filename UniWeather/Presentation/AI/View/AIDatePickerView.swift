@@ -1,5 +1,5 @@
 //
-//  DaySelectionView.swift
+//  AIDatePickerView.swift
 //  UniWeather
 //
 //  Created by Daniil on 26.03.25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DaySelectionView: View {
+struct AIDatePickerView: View {
     @Binding var showDaySheet: Bool
     @Binding var showAnswerSheet: Bool
     @ObservedObject var viewModel: AIViewModel
@@ -15,12 +15,6 @@ struct DaySelectionView: View {
     private var dates: [Date] {
         let calendar = Calendar.current
         return (0..<7).map { calendar.date(byAdding: .day, value: $0, to: Date())! }
-    }
-    
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM"
-        return formatter
     }
     
     var body: some View {
@@ -70,6 +64,12 @@ struct DaySelectionView: View {
         } else {
             return dateFormatter.string(from: dates[index])
         }
+    }
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM"
+        return formatter
     }
 }
 

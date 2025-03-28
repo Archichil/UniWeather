@@ -1,5 +1,5 @@
 //
-//  DropUpMenu.swift
+//  AIChatDropUpMenu.swift
 //  UniWeather
 //
 //  Created by Daniil on 27.03.25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DropUpMenu: View {
+struct AIChatDropUpMenu: View {
     @ObservedObject var viewModel: AIViewModel
     
     @Binding var showDropdown: Bool
@@ -49,11 +49,12 @@ struct DropUpMenu: View {
             }, label: {
                 HStack {
                     Image(systemName: "line.3.horizontal")
-                    Text("Check other prompts")
+                    Text("Check other prompts...")
                         .fontWeight(.medium)
                 }
-                .foregroundStyle(.white)
+                .foregroundStyle(viewModel.isFetching ? .gray : .white)
             })
+            .disabled(viewModel.isFetching)
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 15)
@@ -65,5 +66,5 @@ struct DropUpMenu: View {
 }
 
 #Preview {
-    PromptDetailView(viewModel: AIViewModel())
+    AIChatView(viewModel: AIViewModel())
 }

@@ -11,48 +11,37 @@ import SwiftUI
 class AIViewModel: ObservableObject {
     @Published var messages: [AIMessage] = []
     @Published var selectedDayIndex = 0
+    @Published var isFetching = false
     
     func handleItemClick(_ prompt: AvailablePrompts) {
-        messages.append(AIMessage(text: prompt.rawValue, time: formatTime(Date()), isAnswer: false))
+        messages.append(AIMessage(text: prompt.rawValue, time: formatMessageTime(Date()), isAnswer: false))
         
-        let typingIndicator = AIMessage(text: "Typing...", time: formatTime(Date()), isAnswer: true)
+        let typingIndicator = AIMessage(text: "Typing...", time: formatMessageTime(Date()), isAnswer: true)
         messages.append(typingIndicator)
         
-//        switch prompt {
-//        case .whatToWear:
-//            print("Outdoor")
-//        case .transportOption:
-//            print("Transport")
-//        case .enjoyableActivities:
-//            print("Activities")
-//        case .exploreNearby:
-//            print("Places")
-//        case .healthTips:
-//            print("health")
-//        }
         sendMessage(prompt)
     }
     
     private func sendMessage(_ prompt: AvailablePrompts) {
         Task { [weak self] in
-            print("send")
             guard let self = self else { return }
+            self.isFetching = true
             
             let response = await self.fetchAIResponse(for: prompt)
             
             if let lastIndex = self.messages.lastIndex(where: { $0.text == "Typing..." }) {
-                self.messages[lastIndex] = AIMessage(text: response, time: self.formatTime(Date()), isAnswer: true)
-                print("Updated message at index \(lastIndex): \(self.messages[lastIndex])")
+                self.messages[lastIndex] = AIMessage(text: response, time: self.formatMessageTime(Date()), isAnswer: true)
             }
+            self.isFetching = false
         }
     }
     
     private func fetchAIResponse(for prompt: AvailablePrompts) async -> String {
-        try? await Task.sleep(nanoseconds: 2_000_000_000)  // 2 секунды задержки
+        try? await Task.sleep(nanoseconds: 10_000_000_000)
         return "AI Response for '\(prompt.rawValue)'"
     }
     
-    private func formatTime(_ date: Date) -> String {
+    private func formatMessageTime(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
         return formatter.string(from: date)
