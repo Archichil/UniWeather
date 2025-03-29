@@ -5,10 +5,32 @@
 //  Created by Artur Kukhatskavolets on 23.03.25.
 //
 
-import SwiftUI
-import MapKit
+import Foundation
 
 class MapViewModel: ObservableObject {
+    // MARK: - Constants
+    private enum Constants {
+        enum Time {
+            static let timeStep: TimeInterval = 3 * 3600 // 3 hours in seconds
+            static let maxTimeRange: TimeInterval = 24 * 3600 // 24 hours in seconds
+            static let uiHideDelay: TimeInterval = 3.0 // seconds
+        }
+        
+        enum Cache {
+            static let countLimit = 1000
+        }
+        
+        enum Zoom {
+            static let minLevel = 1
+            static let maxLevel = 19
+        }
+        
+        enum Region {
+            static let significantChangeThreshold = 0.01 // degrees
+        }
+    }
+    
+    // MARK: - Published Properties
     @Published var region = MapRegion()
     @Published var errorMessage: String?
     @Published var selectedLayer: WeatherMapConfiguration.MapLayer = .accumulatedPrecipitation {
@@ -30,30 +52,34 @@ class MapViewModel: ObservableObject {
     
     @Published var currentTileOverlay: WeatherTileOverlay? {
         didSet {
-            // Be sure that cache will be cleared when switching to other layers
             if let oldValue = oldValue, oldValue.layer != selectedLayer {
                 oldValue.clearCache()
             }
         }
     }
+    
     @Published var isUIVisible: Bool = true
+    
+    // MARK: - Private Properties
     private let initialDate: Date
     private var hideTimer: Timer?
     private var cache = NSCache<NSString, NSData>()
     
+    // MARK: - Initialization
     init() {
         initialDate = Date.now.roundedToNearestHour()
         self.currentTileOverlay = createTileOverlay()
         self.updateButtonsState()
-        cache.countLimit = 1000
+        cache.countLimit = Constants.Cache.countLimit
     }
     
+    // MARK: - Private Methods
     private func updateButtonsState() {
-        let pastDate = date.addingTimeInterval(-3 * 3600)
+        let pastDate = date.addingTimeInterval(-Constants.Time.timeStep)
         isBackwardDisabled = pastDate.timeIntervalSince(initialDate) < 0
         
-        let futureDate = date.addingTimeInterval(3 * 3600)
-        isForwardDisabled = futureDate.timeIntervalSince(initialDate) > 24 * 3600
+        let futureDate = date.addingTimeInterval(Constants.Time.timeStep)
+        isForwardDisabled = futureDate.timeIntervalSince(initialDate) > Constants.Time.maxTimeRange
     }
     
     private func createTileOverlay() -> WeatherTileOverlay {
@@ -61,26 +87,27 @@ class MapViewModel: ObservableObject {
         overlay.setCache(cache)
         return overlay
     }
-        
+    
+    // MARK: - Public Methods
     func stepForward() {
         userDidInteract()
-        let newDate = date.addingTimeInterval(3 * 3600)
-        if newDate.timeIntervalSince(initialDate) <= 24 * 3600 {
+        let newDate = date.addingTimeInterval(Constants.Time.timeStep)
+        if newDate.timeIntervalSince(initialDate) <= Constants.Time.maxTimeRange {
             date = newDate
         }
     }
-        
+    
     func stepBackward() {
         userDidInteract()
-        let newDate = date.addingTimeInterval(-3 * 3600)
+        let newDate = date.addingTimeInterval(-Constants.Time.timeStep)
         if newDate.timeIntervalSince(initialDate) >= 0 {
             date = newDate
         }
     }
     
     func updateRegion(latitude: Double, longitude: Double, zoomLevel: Int) {
-        let regionChanged = region.centerLatitude != latitude ||
-                           region.centerLongitude != longitude ||
+        let regionChanged = abs(region.centerLatitude - latitude) > Constants.Region.significantChangeThreshold ||
+                           abs(region.centerLongitude - longitude) > Constants.Region.significantChangeThreshold ||
                            region.zoomLevel != zoomLevel
         
         if regionChanged {
@@ -90,16 +117,8 @@ class MapViewModel: ObservableObject {
         }
     }
     
-    func moveToLocation(_ location: CLLocationCoordinate2D) {
-        updateRegion(
-            latitude: location.latitude,
-            longitude: location.longitude,
-            zoomLevel: region.zoomLevel
-        )
-    }
-    
     func changeZoomLevel(by delta: Int) {
-        let newZoom = max(1, min(19, region.zoomLevel + delta))
+        let newZoom = max(Constants.Zoom.minLevel, min(Constants.Zoom.maxLevel, region.zoomLevel + delta))
         if newZoom != region.zoomLevel {
             updateRegion(
                 latitude: region.centerLatitude,
@@ -114,7 +133,10 @@ class MapViewModel: ObservableObject {
             self?.isUIVisible = true
         }
         hideTimer?.invalidate()
-        hideTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+        hideTimer = Timer.scheduledTimer(
+            withTimeInterval: Constants.Time.uiHideDelay,
+            repeats: false
+        ) { [weak self] _ in
             DispatchQueue.main.async {
                 self?.isUIVisible = false
             }

@@ -11,6 +11,7 @@ struct ForecastPlayerView: View {
     private let impactGenerator = UIImpactFeedbackGenerator(style: .soft)
     @ObservedObject var viewModel: MapViewModel
     
+    // TODO: Add localization
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
