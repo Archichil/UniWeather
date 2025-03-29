@@ -71,7 +71,8 @@ struct AIView: View {
                 showAnswerSheet: $showAnswerSheet,
                 viewModel: viewModel
             )
-                .presentationDetents([.fraction(0.4), .fraction(0.41)])
+                .presentationDetents([.fraction(0.35)])
+                .presentationDragIndicator(.visible)
                 .presentationBackground(Color(red: 28 / 255, green: 30 / 255, blue: 31 / 255))
         }
         .sheet(isPresented: $showAnswerSheet) {
