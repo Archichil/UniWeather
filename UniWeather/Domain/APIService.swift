@@ -6,7 +6,7 @@
 //
 
 class APIService {
-    private(set) var apiClient: APIClient?
+    var apiClient: APIClient?
 
     init(apiClient: APIClient?) {
         self.apiClient = apiClient

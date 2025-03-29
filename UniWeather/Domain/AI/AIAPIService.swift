@@ -5,6 +5,8 @@
 //  Created by Archichil on 17.03.25.
 //
 
+import Foundation
+
 /// A service class for interacting with the AI API to fetch responses for prompts.
 ///
 /// This class provides methods to send requests to the AI API and retrieve responses.
@@ -25,6 +27,12 @@
 /// }
 /// ```
 class AIAPIService: APIService {
+    private let baseURL = URL(string: "https://openrouter.ai/api/v1")!
+    
+    init() {
+        super.init(apiClient: APIClient(baseURL: baseURL))
+    }
+    
     private func fetchAIResponse<T: Decodable>(spec: AIAPISpec) async throws -> T? {
         do {
             return try await apiClient?.sendRequest(spec) as? T
