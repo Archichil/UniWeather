@@ -37,8 +37,8 @@ struct AIView: View {
                         )
                         .onTapGesture {
                             if (!viewModel.isFetching) {
+                                viewModel.selectedPrompt = prompt
                                 showDaySheet = true
-                                viewModel.handleItemClick(prompt)
                             }
                         }
                     }
@@ -76,7 +76,7 @@ struct AIView: View {
         }
         .sheet(isPresented: $showAnswerSheet) {
             AIChatView(viewModel: viewModel)
-                .presentationDetents([.fraction(1), .fraction(1.1)])
+                .presentationDetents([.fraction(0.9), .fraction(0.91)])
                 .presentationBackground(Color(red: 28 / 255, green: 30 / 255, blue: 31 / 255))
         }
         .background(backgroundGradient)

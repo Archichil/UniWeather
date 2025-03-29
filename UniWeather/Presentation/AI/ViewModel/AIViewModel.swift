@@ -11,6 +11,7 @@ import SwiftUI
 class AIViewModel: ObservableObject {
     @Published var messages: [AIMessage] = []
     @Published var selectedDayIndex = 0
+    @Published var selectedPrompt: AvailablePrompts?
     @Published var isFetching = false
     
     func handleItemClick(_ prompt: AvailablePrompts) {

@@ -37,8 +37,11 @@ struct AIDatePickerView: View {
             .clipped()
             
             Button(action: {
-                showDaySheet = false
-                showAnswerSheet = true
+                if let prompt = viewModel.selectedPrompt {
+                    showDaySheet = false
+                    showAnswerSheet = true
+                    viewModel.handleItemClick(prompt)
+                }
             }) {
                 Text("Continue")
                     .foregroundColor(.black)
