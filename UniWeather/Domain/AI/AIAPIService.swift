@@ -28,11 +28,11 @@ import Foundation
 /// ```
 class AIAPIService: APIService {
     private let baseURL = URL(string: "https://openrouter.ai/api/v1")!
-    
+
     init() {
         super.init(apiClient: APIClient(baseURL: baseURL))
     }
-    
+
     private func fetchAIResponse<T: Decodable>(spec: AIAPISpec) async throws -> T? {
         do {
             return try await apiClient?.sendRequest(spec) as? T

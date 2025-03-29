@@ -9,19 +9,19 @@ import SwiftUI
 
 struct WeatherMapContainerView: View {
     @StateObject private var viewModel = MapViewModel()
-    
+
     private enum Constants {
         enum Layout {
             static let cornerRadius: CGFloat = 8
             static let horizontalPadding: CGFloat = 8
             static let padding: CGFloat = 8
         }
-        
+
         enum Icons {
             static let layers = "square.3.layers.3d"
         }
     }
-    
+
     var body: some View {
         ZStack {
             WeatherMapRenderer(viewModel: viewModel)
@@ -61,7 +61,7 @@ struct WeatherMapContainerView: View {
                 }
                 .padding(.horizontal, Constants.Layout.horizontalPadding)
                 .frame(maxHeight: .infinity, alignment: .top)
-                
+
                 ForecastPlayerView(viewModel: viewModel)
                     .opacity(viewModel.isUIVisible ? 1 : 0)
                     .animation(.easeInOut, value: viewModel.isUIVisible)

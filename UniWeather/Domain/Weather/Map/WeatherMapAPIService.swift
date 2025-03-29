@@ -9,11 +9,11 @@ import Foundation
 
 class WeatherMapAPIService: APIService {
     private let baseURL = URL(string: "https://maps.openweathermap.org/maps/2.0/weather")!
-    
+
     init() {
         super.init(apiClient: APIClient(baseURL: baseURL))
     }
-    
+
     private func fetch<T: Decodable>(spec: WeatherMapAPISpec) async throws -> T? {
         do {
             return try await apiClient?.sendRequest(spec) as? T

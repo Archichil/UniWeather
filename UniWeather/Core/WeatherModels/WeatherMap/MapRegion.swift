@@ -9,12 +9,13 @@ struct MapRegion {
     var centerLatitude: Double
     var centerLongitude: Double
     var zoomLevel: Int
-    
+
     init(latitude: Double = WeatherMapConfiguration.defaultLatitude,
          longitude: Double = WeatherMapConfiguration.defaultLongitude,
-         zoomLevel: Int = WeatherMapConfiguration.defaultZoomLevel) {
-        self.centerLatitude = latitude
-        self.centerLongitude = longitude
+         zoomLevel: Int = WeatherMapConfiguration.defaultZoomLevel)
+    {
+        centerLatitude = latitude
+        centerLongitude = longitude
         self.zoomLevel = zoomLevel
     }
 }

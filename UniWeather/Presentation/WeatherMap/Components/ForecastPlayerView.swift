@@ -10,7 +10,7 @@ import SwiftUI
 struct ForecastPlayerView: View {
     private let impactGenerator = UIImpactFeedbackGenerator(style: .soft)
     @ObservedObject var viewModel: MapViewModel
-    
+
     // TODO: Add localization
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -19,24 +19,24 @@ struct ForecastPlayerView: View {
         formatter.locale = Locale(languageCode: .russian)
         return formatter
     }()
-    
+
     private enum Constants {
         enum Time {
             static let timeStep: TimeInterval = 3 * 3600
             static let maxForwardTime: TimeInterval = 24 * 3600
         }
-        
+
         enum Text {
             static let frameTitle: String = "Прогноз на 24 часа"
             static let timeIncrement: String = "+3ч"
             static let timeDecrement: String = "-3ч"
         }
-        
+
         enum Icons {
             static let backward: String = "backward.fill"
             static let forward: String = "forward.fill"
         }
-        
+
         enum Layout {
             static let vStackSpacing: CGFloat = 8
             static let padding: CGFloat = 8
@@ -44,7 +44,7 @@ struct ForecastPlayerView: View {
             static let arrowsFrameWidth: CGFloat = 200
         }
     }
-    
+
     var body: some View {
         VStack(spacing: Constants.Layout.vStackSpacing) {
             Text(Constants.Text.frameTitle)
@@ -64,7 +64,7 @@ struct ForecastPlayerView: View {
                 .disabled(viewModel.isBackwardDisabled)
                 .foregroundColor(viewModel.isBackwardDisabled ? .gray : .primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
+
                 Button(action: {
                     impactGenerator.impactOccurred()
                     viewModel.stepForward()
