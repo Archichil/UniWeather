@@ -85,13 +85,13 @@ struct LocationSearchView: View {
                 highlightedText(
                     location.title,
                     searchTerm: viewModel.searchTerm,
-                    highlightColor: .white
+                    highlightColor: .primary
                 )
                 .foregroundStyle(.secondary)
                 highlightedText(
                     location.subtitle,
                     searchTerm: viewModel.searchTerm,
-                    highlightColor: .white
+                    highlightColor: .primary
                 )
                 .foregroundStyle(.secondary)
                 .font(.caption)
@@ -139,7 +139,6 @@ struct LocationSearchView: View {
         
         return result
     }
-
 }
 
 // MARK: - Preview
