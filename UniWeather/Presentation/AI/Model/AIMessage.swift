@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AIMessage: Identifiable {
-    let id = UUID()
+    var id: UUID = UUID()
     let text: String
     let time: String
     let isAnswer: Bool

@@ -7,22 +7,25 @@
 
 import SwiftUI
 
-@MainActor
+
 class AIViewModel: ObservableObject {
     @Published var messages: [AIMessage] = []
     @Published var selectedDayIndex = 0
     @Published var selectedPrompt: AvailablePrompts?
     @Published var isFetching = false
     
+    @MainActor
     func handleItemClick(_ prompt: AvailablePrompts) {
         messages.append(AIMessage(text: prompt.rawValue, time: formatMessageTime(Date()), isAnswer: false))
 
-        let typingIndicator = AIMessage(text: "Typing...", time: formatMessageTime(Date()), isAnswer: true)
+        let typingIndicator = AIMessage(text: "Typing.", time: formatMessageTime(Date()), isAnswer: true)
         messages.append(typingIndicator)
         
+        startTypingAnimation()
         sendMessage(prompt)
     }
     
+    @MainActor
     private func sendMessage(_ prompt: AvailablePrompts) {
         Task { [weak self] in
             guard let self = self else { return }
@@ -30,7 +33,7 @@ class AIViewModel: ObservableObject {
             
             let response = await self.fetchAIResponse(for: prompt)
             
-            if let lastIndex = self.messages.lastIndex(where: { $0.text == "Typing..." }) {
+            if let lastIndex = self.messages.lastIndex(where: { $0.text.starts(with: "Typing") }) {
                 self.messages[lastIndex] = AIMessage(text: response, time: self.formatMessageTime(Date()), isAnswer: true)
             }
             self.isFetching = false
@@ -69,5 +72,32 @@ class AIViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
         return formatter.string(from: date)
+    }
+    
+    private var typingTimer: Timer?
+
+    private func startTypingAnimation() {
+        var dots = "."
+        
+        typingTimer?.invalidate()
+        
+        typingTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
+            guard let self = self else {
+                timer.invalidate()
+                return
+            }
+            
+            if !self.isFetching {
+                timer.invalidate()
+                return
+            }
+            
+            if let index = self.messages.lastIndex(where: { $0.text.starts(with: "Typing") }) {
+                let id = self.messages[index].id;
+                self.messages[index] = AIMessage(id: id, text: "Typing" + dots, time: self.formatMessageTime(Date()), isAnswer: true)
+            }
+            
+            dots = dots.count < 3 ? dots + "." : "."
+        }
     }
 }

@@ -44,6 +44,7 @@ struct AIChatView: View {
     @ObservedObject var viewModel: AIViewModel
     @State private var showDropdown = false
     @State private var scrollProxy: ScrollViewProxy?
+    @State private var animatedMessages: [UUID: Bool] = [:]
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Views
@@ -121,14 +122,23 @@ struct AIChatView: View {
     private var messagesListView: some View {
         ScrollViewReader { proxy in
             ScrollView {
-                ForEach(viewModel.messages) { message in
+                ForEach(viewModel.messages.indices, id: \.self) { index in
+                    let message = viewModel.messages[index]
+                    
                     AIMessageItem(
                         text: message.text,
                         time: message.time,
-                        isAnswer: message.isAnswer
+                        messageId: message.id,
+                        isAnswer: message.isAnswer,
+                        animationStarted: Binding(
+                            get: { self.animatedMessages[message.id] ?? false },
+                            set: { self.animatedMessages[message.id] = $0 }
+                        )
                     )
+                    .id(message.id)
                     .padding(message.isAnswer ? .leading : .trailing, Constants.Layout.horizontalPadding)
                     .frame(maxWidth: .infinity, alignment: message.isAnswer ? .leading : .trailing)
+                    .padding(.bottom, index == viewModel.messages.count - 1 ? 16 : 0)
                 }
             }
             .onAppear {
@@ -151,7 +161,7 @@ struct AIChatView: View {
         DispatchQueue.main.async {
             if let lastMessage = viewModel.messages.last,
                let proxy = scrollProxy {
-                withAnimation(.easeInOut(duration: 0.5)) {
+                withAnimation(.easeInOut(duration: 1.5)) {
                     proxy.scrollTo(lastMessage.id, anchor: .bottom)
                 }
             }
