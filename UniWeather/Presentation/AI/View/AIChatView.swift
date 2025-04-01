@@ -43,6 +43,7 @@ struct AIChatView: View {
     // MARK: - Properties
     @ObservedObject var viewModel: AIViewModel
     @State private var showDropdown = false
+    @State private var scrollProxy: ScrollViewProxy?
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Views
@@ -72,7 +73,11 @@ struct AIChatView: View {
             headerView
             dividerView
             messagesListView
-            AIChatDropUpMenu(viewModel: viewModel, showDropdown: $showDropdown)
+            AIChatDropUpMenu(viewModel: viewModel, showDropdown: $showDropdown
+                             ,onItemClick: {
+                scrollToBottom()
+                             }
+            )
         }
     }
     
@@ -127,7 +132,8 @@ struct AIChatView: View {
                 }
             }
             .onAppear {
-                scrollToBottom(proxy: proxy)
+                self.scrollProxy = proxy
+                scrollToBottom()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -141,9 +147,14 @@ struct AIChatView: View {
     }
     
     // MARK: - Helper Methods
-    private func scrollToBottom(proxy: ScrollViewProxy) {
-        if let lastMessage = viewModel.messages.last {
-            proxy.scrollTo(lastMessage.id, anchor: .bottom)
+    private func scrollToBottom() {
+        DispatchQueue.main.async {
+            if let lastMessage = viewModel.messages.last,
+               let proxy = scrollProxy {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                }
+            }
         }
     }
 }

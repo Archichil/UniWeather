@@ -16,7 +16,7 @@ class AIViewModel: ObservableObject {
     
     func handleItemClick(_ prompt: AvailablePrompts) {
         messages.append(AIMessage(text: prompt.rawValue, time: formatMessageTime(Date()), isAnswer: false))
-        
+
         let typingIndicator = AIMessage(text: "Typing...", time: formatMessageTime(Date()), isAnswer: true)
         messages.append(typingIndicator)
         

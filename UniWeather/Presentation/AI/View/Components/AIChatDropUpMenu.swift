@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AIChatDropUpMenu: View {
     @ObservedObject var viewModel: AIViewModel
-    
     @Binding var showDropdown: Bool
+    var onItemClick: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
@@ -21,6 +21,7 @@ struct AIChatDropUpMenu: View {
                             withAnimation {
                                 viewModel.handleItemClick(prompt)
                                 showDropdown.toggle()
+                                onItemClick()
                             }
                         }, label: {
                             HStack(spacing: 15) {
