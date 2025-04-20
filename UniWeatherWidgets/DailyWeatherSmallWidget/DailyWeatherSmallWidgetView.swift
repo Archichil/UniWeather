@@ -37,7 +37,9 @@ extension Color {
     }
 }
 
-struct DailyWeatherRow: View {
+let secondaryColor: Color = Color(hex: "#b2c8eb")
+
+private struct DailyWeatherRow: View {
     let day: String
     let icon: String
     let tempMin, tempMax: Int
@@ -57,7 +59,7 @@ struct DailyWeatherRow: View {
             
             HStack(spacing: 0) {
                 Text("\(tempMin)")
-                    .foregroundStyle(Color(hex: "#b2c8eb"))
+                    .foregroundStyle(secondaryColor)
                 
                 Text("\(tempMax)º")
                     .foregroundStyle(.white)
@@ -74,56 +76,13 @@ struct DailyWeatherSmallWidgetView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                VStack {
-                    HStack(spacing: 0) {
-                        HStack(spacing: 0) {
-                            Text("Минск")
-                                .lineLimit(1)
-                                .bold()
-                                .font(.system(size: 15))
-                            
-                            Image(systemName: "location.fill")
-                                .font(.system(size: 10))
-                                .padding(.horizontal, 2)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        
-                        Image(systemName: "cloud.sun.fill")
-                            .foregroundStyle(.white, .yellow)
-                            .font(.system(size: 16))
-                            .frame(alignment: .trailing)
-                        
-                    }
-                    
-                    HStack {
-                        Text("19º")
-                            .font(.largeTitle)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        VStack(alignment: .trailing, spacing: 2) {
-                            HStack(spacing: 0) {
-                                Image(systemName: "arrow.up")
-                                    .fontWeight(.semibold)
-                                
-                                Text("24º")
-                                    .bold()
-                                    .frame(width: 24, alignment: .trailing)
-                            }
-                            
-                            HStack(spacing: 0) {
-                                Image(systemName: "arrow.down")
-                                    .fontWeight(.semibold)
-                                
-                                Text("12º")
-                                    .bold()
-                                    .frame(width: 24, alignment: .trailing)
-                            }
-                            .foregroundStyle(Color(hex: "#b2c8eb"))
-                        }
-                        .font(.system(size: 13))
-                    }
-                }
+                LocationWeatherHeader(
+                    location: "Минск",
+                    icon: "cloud.sun.fill",
+                    currentTemp: 19,
+                    tempMin: 12,
+                    tempMax: 24
+                )
 
                 
                 VStack(spacing: 2) {
