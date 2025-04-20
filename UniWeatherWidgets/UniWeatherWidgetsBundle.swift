@@ -13,6 +13,7 @@ struct UniWeatherWidgetsBundle: WidgetBundle {
     var body: some Widget {
 //        HourlyWeatherWidget()
 //        DailyWeatherSmallWidget()
-        DetailWeatherWidget()
+//        DetailWeatherWidget()
+        CurrentWeatherWidget()
     }
 }

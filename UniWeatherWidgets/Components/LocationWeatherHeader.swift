@@ -17,18 +17,7 @@ struct LocationWeatherHeader: View {
     var body: some View {
         VStack {
             HStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    Text(location)
-                        .lineLimit(1)
-                        .bold()
-                        .font(.system(size: 15))
-                    
-                    Image(systemName: "location.fill")
-                        .font(.system(size: 10))
-                        .padding(.horizontal, 2)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
+                LocationTitle(location: location)
                 
                 Image(systemName: icon)
                     .foregroundStyle(.white, .yellow)

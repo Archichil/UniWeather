@@ -9,7 +9,7 @@ import SwiftUI
 import WidgetKit
 
 struct DetailWeatherWidget: Widget {
-    let kind: String = "CurrentWeatherWigdet"
+    let kind: String = "DetailWeatherWigdet"
     
     var body: some WidgetConfiguration {
         StaticConfiguration(

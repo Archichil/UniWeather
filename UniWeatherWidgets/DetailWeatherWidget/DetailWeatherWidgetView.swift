@@ -70,7 +70,7 @@ struct DetailWeatherWidgetView: View {
     }
 }
 
-struct CurrentWeatherWidgetView_Previews: PreviewProvider {
+struct DetailWeatherWidgetView_Previews: PreviewProvider {
     static var previews: some View {
         DetailWeatherWidgetView()
             .previewContext(WidgetPreviewContext(family: .systemSmall))
