@@ -22,6 +22,6 @@ struct HourlyWeatherWidget: Widget {
         .configurationDisplayName("Погода сейчас")
         .description("Текущие погодные условия")
         .contentMarginsDisabled()
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall])
     }
 }

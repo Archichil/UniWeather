@@ -11,6 +11,7 @@ import SwiftUI
 @main
 struct UniWeatherWidgetsBundle: WidgetBundle {
     var body: some Widget {
-        HourlyWeatherWidget()
+//        HourlyWeatherWidget()
+        DailyWeatherSmallWidget()
     }
 }
