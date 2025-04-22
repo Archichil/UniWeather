@@ -8,92 +8,60 @@
 import SwiftUI
 import WidgetKit
 
-struct ForecastItem: View {
+private struct HourlyWeatherItem: View {
     var time: String
+    var icon: String
+    var temp: Int
     
     var body: some View {
-        VStack {
-            Image(systemName: "cloud.rain.fill")
-                .font(.callout)
+        VStack(alignment: .center, spacing: 2) {
             Text(time)
-                .font(.system(size: 8))
-                .bold()
-        }.frame(maxWidth: .infinity)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            
+            Image(systemName: icon)
+                .foregroundStyle(.white, .yellow)
+                .font(.system(size: 18))
+                .frame(maxHeight: 20)
+            
+            Text("\(temp)º")
+                .font(.subheadline)
+        }
+        .fontWeight(.semibold)
     }
 }
 
 struct HourlyWeatherWidgetView: View {
-    var entry: HourlyWeatherProvider.Entry
     
     var body: some View {
         ZStack {
-            VStack() {
-                HStack() {
-                    VStack(alignment: .leading) {
-                        Text("Cloudy with")
-                            .font(.headline)
-                            .lineLimit(2)
-                        
-                        Text("32º")
-                            .font(.title2)
-//                            .padding(.top, 1)
-//                            .frame(maxHeight: .infinity, alignment: .bottom)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .fontWeight(.bold)
-                    
-                    Image(systemName: "cloud.sun.fill")
-                        .font(.title)
-                        .foregroundStyle(.white, .yellow)
-                        .frame(maxHeight: .infinity, alignment: .topTrailing)
-                    
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            VStack(alignment: .leading) {
+                LargeLocationWeatherHeader(
+                    location: "Минск",
+                    icon: "cloud.sun.fill",
+                    weather: "Временами облачно",
+                    currentTemp: 19,
+                    tempMin: 12,
+                    tempMax: 24
+                )
+
+                Spacer()
                 
-                VStack {
-                    
-                    HStack(spacing: 2) {
-                        Image(systemName: "mappin.and.ellipse")
-                            .font(.footnote)
-                        
-                        Text("MINSK")
-                            .bold()
-
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.caption)
-
-                    
-                    HStack(spacing: 2) {
-                        Image(systemName: "calendar")
-                            .font(.footnote)
-                        
-                        Text("SAT APR 19")
-                            .bold()
-
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.caption)
-                    .padding(.bottom, 1)
-                    
-                    HStack {
-                        ForecastItem(time: "18:00")
-                        
-                        ForecastItem(time: "19:00")
-                        
-                        ForecastItem(time: "20:00")
-                        
-                        ForecastItem(time: "21:00")
-                    }
-                    .frame(maxWidth: .infinity)
-                    
-
+                HStack(spacing: 0) {
+                    HourlyWeatherItem(time: "20", icon: "cloud.sun.fill", temp: 19)
+                    Spacer()
+                    HourlyWeatherItem(time: "20:15", icon: "sunset.fill", temp: 19)
+                    Spacer()
+                    HourlyWeatherItem(time: "21", icon: "cloud.fill", temp: 19)
+                    Spacer()
+                    HourlyWeatherItem(time: "22", icon: "cloud.fill", temp: 19)
+                    Spacer()
+                    HourlyWeatherItem(time: "23", icon: "cloud.fill", temp: 19)
+                    Spacer()
+                    HourlyWeatherItem(time: "00", icon: "cloud.moon.fill", temp: 19)
                 }
-                .frame(maxWidth: .infinity, alignment: .bottom)
 
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 10)
             .foregroundStyle(.white)
         }
         .containerBackground(for: .widget) {
@@ -105,14 +73,7 @@ struct HourlyWeatherWidgetView: View {
 
 struct WeatherSmallWidget_Previews: PreviewProvider {
     static var previews: some View {
-        HourlyWeatherWidgetView(
-            entry: WeatherEntry(
-                date: Date(),
-                temperature: 23,
-                condition: "partlycloudy",
-                location: "Москва"
-            )
-        )
-        .previewContext(WidgetPreviewContext(family: .systemSmall))
+        HourlyWeatherWidgetView()
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

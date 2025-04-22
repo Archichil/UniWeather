@@ -12,7 +12,7 @@ struct CurrentWeatherWidgetView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
-                LocationTitle(location: "Минск")
+                LocationTitle(location: "Минск", textSize: 15)
                 
                 Text("19º")
                     .font(.largeTitle)

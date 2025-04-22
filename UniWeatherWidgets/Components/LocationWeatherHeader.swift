@@ -17,13 +17,12 @@ struct LocationWeatherHeader: View {
     var body: some View {
         VStack {
             HStack(spacing: 0) {
-                LocationTitle(location: location)
+                LocationTitle(location: location, textSize: 15)
                 
                 Image(systemName: icon)
                     .foregroundStyle(.white, .yellow)
                     .font(.system(size: 16))
                     .frame(alignment: .trailing)
-                
             }
             
             HStack {

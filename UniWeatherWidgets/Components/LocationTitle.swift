@@ -9,16 +9,17 @@ import SwiftUI
 
 struct LocationTitle: View {
     let location: String
+    let textSize: CGFloat
     
     var body: some View {
         HStack(spacing: 0) {
             Text(location)
                 .lineLimit(1)
-                .bold()
-                .font(.system(size: 15))
+                .fontWeight(.semibold)
+                .font(.system(size: textSize))
             
             Image(systemName: "location.fill")
-                .font(.system(size: 10))
+                .font(.system(size: textSize * 2 / 3))
                 .padding(.horizontal, 2)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -16,12 +16,11 @@ struct HourlyWeatherWidget: Widget {
             kind: kind,
             provider: HourlyWeatherProvider()
         ) { entry in
-            HourlyWeatherWidgetView(entry: entry)
+            HourlyWeatherWidgetView()
 //                .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Погода сейчас")
         .description("Текущие погодные условия")
-        .contentMarginsDisabled()
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemMedium])
     }
 }
