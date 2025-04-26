@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension APIClient {
+public extension APIClient {
     /// A protocol that defines the specification for an API request.
     ///
     /// Conforming types provide the necessary details to construct a URL request,
@@ -23,7 +23,7 @@ extension APIClient {
     ///     var body: Data? { nil }
     /// }
     /// ```
-    public protocol APISpec {
+    protocol APISpec {
         /// The API endpoint for the request.
         ///
         /// This is the path that will be appended to the base URL of the ``APIClient``.

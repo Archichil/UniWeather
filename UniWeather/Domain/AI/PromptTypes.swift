@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WeatherService
 
 /// An enumeration representing types of prompts that can be sent to the AI service.
 ///
@@ -20,7 +21,7 @@ enum PromptTypes {
     ///   - units: The units of measurement (e.g., metric or imperial).
     ///   - lang: The language in which the response should be generated.
     /// - Returns: A string representing the prompt for the AI service.
-    static func getClothesRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
+    public static func getClothesRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
 

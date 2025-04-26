@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		045C44E72DBD822A00BD0451 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44E62DBD822A00BD0451 /* APIClient */; };
+		045C44EB2DBD876E00BD0451 /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44EA2DBD876E00BD0451 /* WeatherService */; };
+		045C44F42DBD898800BD0451 /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F32DBD898800BD0451 /* WeatherService */; };
+		045C44F72DBD89F500BD0451 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F62DBD89F500BD0451 /* APIClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		045C44E32DBD7E9600BD0451 /* APIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = APIClient; sourceTree = "<group>"; };
+		045C44E82DBD864200BD0451 /* WeatherService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherService; sourceTree = "<group>"; };
 		A759F5F22D8478CC001A38C1 /* UniWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A759F6022D8478CE001A38C1 /* UniWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UniWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -57,7 +61,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045C44F42DBD898800BD0451 /* WeatherService in Frameworks */,
 				045C44E72DBD822A00BD0451 /* APIClient in Frameworks */,
+				045C44F72DBD89F500BD0451 /* APIClient in Frameworks */,
+				045C44EB2DBD876E00BD0451 /* WeatherService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +81,7 @@
 		A759F5E92D8478CC001A38C1 = {
 			isa = PBXGroup;
 			children = (
+				045C44E82DBD864200BD0451 /* WeatherService */,
 				045C44E32DBD7E9600BD0451 /* APIClient */,
 				A759F5F42D8478CC001A38C1 /* UniWeather */,
 				A759F6052D8478CE001A38C1 /* UniWeatherTests */,
@@ -111,6 +119,9 @@
 			name = UniWeather;
 			packageProductDependencies = (
 				045C44E62DBD822A00BD0451 /* APIClient */,
+				045C44EA2DBD876E00BD0451 /* WeatherService */,
+				045C44F32DBD898800BD0451 /* WeatherService */,
+				045C44F62DBD89F500BD0451 /* APIClient */,
 			);
 			productName = UniWeather;
 			productReference = A759F5F22D8478CC001A38C1 /* UniWeather.app */;
@@ -168,7 +179,8 @@
 			mainGroup = A759F5E92D8478CC001A38C1;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				045C44E52DBD822A00BD0451 /* XCLocalSwiftPackageReference "APIClient" */,
+				045C44F22DBD898800BD0451 /* XCLocalSwiftPackageReference "WeatherService" */,
+				045C44F52DBD89F500BD0451 /* XCLocalSwiftPackageReference "APIClient" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A759F5F32D8478CC001A38C1 /* Products */;
@@ -474,7 +486,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		045C44E52DBD822A00BD0451 /* XCLocalSwiftPackageReference "APIClient" */ = {
+		045C44F22DBD898800BD0451 /* XCLocalSwiftPackageReference "WeatherService" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = WeatherService;
+		};
+		045C44F52DBD89F500BD0451 /* XCLocalSwiftPackageReference "APIClient" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = APIClient;
 		};
@@ -482,6 +498,18 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		045C44E62DBD822A00BD0451 /* APIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = APIClient;
+		};
+		045C44EA2DBD876E00BD0451 /* WeatherService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeatherService;
+		};
+		045C44F32DBD898800BD0451 /* WeatherService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeatherService;
+		};
+		045C44F62DBD89F500BD0451 /* APIClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = APIClient;
 		};
