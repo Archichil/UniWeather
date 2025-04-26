@@ -5,6 +5,8 @@
 //  Created by Daniil on 16.03.25.
 //
 
+import APIClient
+
 struct City: DecodableType {
     let id: Int
     let name: String

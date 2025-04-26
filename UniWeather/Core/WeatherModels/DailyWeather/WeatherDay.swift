@@ -5,6 +5,8 @@
 //  Created by Daniil on 16.03.25.
 //
 
+import APIClient
+
 struct WeatherDay: DecodableType {
     let dt: Int
     let sunrise: Int

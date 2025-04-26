@@ -5,6 +5,8 @@
 //  Created by Daniil on 15.03.25.
 //
 
+import APIClient
+
 struct Weather: DecodableType {
     let id: Int
     let main: String

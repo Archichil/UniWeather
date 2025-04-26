@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Date {
+public extension Date {
     func roundedToNearestHour() -> Date {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day, .hour], from: self)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import APIClient
 
 /// An enumeration representing the API specifications for interacting with the AI service.
 ///

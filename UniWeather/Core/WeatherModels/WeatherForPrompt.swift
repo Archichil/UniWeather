@@ -5,6 +5,8 @@
 //  Created by Daniil on 24.03.25.
 //
 
+import APIClient
+
 struct WeatherForPrompt {
     let temperature: Double
     let feelsLike: Double

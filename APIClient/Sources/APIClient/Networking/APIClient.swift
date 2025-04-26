@@ -26,7 +26,7 @@ import Foundation
 ///     }
 /// }
 /// ```
-struct APIClient {
+public struct APIClient {
     /// The base URL for the API.
     private var baseURL: URL
 
@@ -38,7 +38,7 @@ struct APIClient {
     /// - Parameters:
     ///   - baseURL: The base URL for the API.
     ///   - urlSession: The URL session to use for network requests. Defaults to `URLSession.shared`.
-    init(
+    public init(
         baseURL: URL,
         urlSession: URLSession = URLSession.shared
     ) {
@@ -58,7 +58,7 @@ struct APIClient {
     /// ```swift
     /// let response = try await apiClient.sendRequest(someAPISpec)
     /// ```
-    func sendRequest(_ apiSpec: APISpec) async throws -> DecodableType {
+    public func sendRequest(_ apiSpec: APISpec) async throws -> DecodableType {
         guard let url = URL(string: baseURL.absoluteString + apiSpec.endpoint) else {
             throw NetworkError.invalidURL
         }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import APIClient
 
 class WeatherAPIService: APIService {
     private let baseURL = URL(string: "https://api.openweathermap.org/data/2.5")!

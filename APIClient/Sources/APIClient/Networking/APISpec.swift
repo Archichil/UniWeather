@@ -23,7 +23,7 @@ extension APIClient {
     ///     var body: Data? { nil }
     /// }
     /// ```
-    protocol APISpec {
+    public protocol APISpec {
         /// The API endpoint for the request.
         ///
         /// This is the path that will be appended to the base URL of the ``APIClient``.

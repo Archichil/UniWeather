@@ -22,7 +22,7 @@
 ///     print("An unexpected error occurred: \(error)")
 /// }
 /// ```
-enum NetworkError: Error {
+public enum NetworkError: Error {
     /// Indicates that the URL is invalid.
     ///
     /// This error occurs when the URL cannot be constructed from the provided string.

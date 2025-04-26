@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import APIClient
 
 enum WeatherMapAPISpec: APIClient.APISpec {
     // FIXME: date - use Date type?

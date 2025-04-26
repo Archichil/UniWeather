@@ -17,7 +17,7 @@
 ///     let name: String
 /// }
 /// ```
-protocol DecodableType: Decodable {}
+public protocol DecodableType: Decodable {}
 
 /// Extends `Array` to conform to `DecodableType` when its elements conform to `DecodableType`.
 ///

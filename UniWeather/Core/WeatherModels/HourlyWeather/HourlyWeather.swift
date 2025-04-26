@@ -5,6 +5,8 @@
 //  Created by Daniil on 15.03.25.
 //
 
+import APIClient
+
 struct HourlyWeather: DecodableType {
     let cod: String
     let message: Int

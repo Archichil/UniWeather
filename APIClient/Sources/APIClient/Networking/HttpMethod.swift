@@ -16,7 +16,7 @@ extension APIClient {
     /// let method = APIClient.HttpMethod.post
     /// print(method.rawValue) // Output: "POST"
     /// ```
-    enum HttpMethod: String, CaseIterable {
+    public enum HttpMethod: String, CaseIterable {
         case get = "GET"
         case post = "POST"
         case patch = "PATCH"

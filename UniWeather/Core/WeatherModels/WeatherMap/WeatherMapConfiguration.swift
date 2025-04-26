@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUICore
+import APIClient
 
 enum WeatherMapConfiguration {
     static let defaultZoomLevel = 5

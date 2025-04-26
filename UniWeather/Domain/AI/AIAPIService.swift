@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import APIClient
 
 /// A service class for interacting with the AI API to fetch responses for prompts.
 ///
