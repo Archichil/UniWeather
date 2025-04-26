@@ -27,10 +27,10 @@ import APIClient
 ///     }
 /// }
 /// ```
-class AIAPIService: APIService {
+public class AIAPIService: APIService {
     private let baseURL = URL(string: "https://openrouter.ai/api/v1")!
 
-    init() {
+    public init() {
         super.init(apiClient: APIClient(baseURL: baseURL))
     }
 
@@ -43,7 +43,7 @@ class AIAPIService: APIService {
         }
     }
 
-    func fetchPromptResponse(prompt: String) async throws -> ChatCompletionResponse? {
+    public func fetchPromptResponse(prompt: String) async throws -> ChatCompletionResponse? {
         try await fetchAIResponse(spec: .getCompletion(prompt: prompt))
     }
 }

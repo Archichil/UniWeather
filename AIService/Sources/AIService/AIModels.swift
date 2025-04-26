@@ -15,7 +15,7 @@
 /// let model = AIModels.deepSeekV3
 /// print(model.rawValue) // Output: "deepseek/deepseek-chat:free"
 /// ```
-enum AIModels: String {
+public enum AIModels: String {
     case deepSeekV3 = "deepseek/deepseek-chat:free"
     case deepSeekR1 = "deepseek/deepseek-r1:free"
 }

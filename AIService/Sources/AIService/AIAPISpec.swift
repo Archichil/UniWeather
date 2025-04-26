@@ -27,7 +27,7 @@ import APIClient
 ///     }
 /// }
 /// ```
-enum AIAPISpec: APIClient.APISpec {
+public enum AIAPISpec: APIClient.APISpec {
     /// A case for fetching a completion response from the AI service.
     ///
     /// - Parameter prompt: The user's input prompt to send to the AI service.
@@ -40,19 +40,19 @@ enum AIAPISpec: APIClient.APISpec {
         }
     }
 
-    var endpoint: String {
+    public var endpoint: String {
         path
     }
 
-    var method: APIClient.HttpMethod { .post }
+    public var method: APIClient.HttpMethod { .post }
 
-    var returnType: DecodableType.Type {
+    public var returnType: DecodableType.Type {
         switch self {
         case .getCompletion: ChatCompletionResponse.self
         }
     }
 
-    var headers: [String: String]? {
+    public var headers: [String: String]? {
         switch self {
         case .getCompletion:
             [
@@ -79,7 +79,7 @@ enum AIAPISpec: APIClient.APISpec {
         return value
     }
 
-    var body: Data? {
+    public var body: Data? {
         switch self {
         case let .getCompletion(prompt):
             let requestBody: [String: Any] = [

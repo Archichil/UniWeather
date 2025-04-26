@@ -12,7 +12,7 @@ import WeatherService
 ///
 /// This enum provides static methods to generate prompts for various use cases,
 /// such as clothing recommendations based on weather conditions.
-enum PromptTypes {
+public enum PromptTypes {
     /// Generates a prompt for clothing recommendations based on the provided weather.
     ///
     /// - Parameters:
@@ -51,7 +51,7 @@ enum PromptTypes {
     ///   - units: The units of measurement (e.g., metric or imperial).
     ///   - lang: The language in which the response should be generated.
     /// - Returns: A string representing the prompt for the AI service.
-    static func getActivityRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
+    public static func getActivityRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
 
@@ -80,7 +80,7 @@ enum PromptTypes {
     ///   - units: The units of measurement (e.g., metric or imperial).
     ///   - lang: The language in which the response should be generated.
     /// - Returns: A string representing the prompt for the AI service.
-    static func getTransportRecommendation(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
+    public static func getTransportRecommendation(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
 
@@ -108,7 +108,7 @@ enum PromptTypes {
     ///   - units: The units of measurement (e.g., metric or imperial).
     ///   - lang: The language in which the response should be generated.
     /// - Returns: A string representing the prompt for the AI service.
-    static func getHealthRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
+    public static func getHealthRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
 
@@ -146,7 +146,7 @@ enum PromptTypes {
     ///   - units: The units of measurement (e.g., metric or imperial).
     ///   - lang: The language in which the response should be generated.
     /// - Returns: A string representing the prompt for the AI service.
-    static func getPlacesToVisitRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
+    public static func getPlacesToVisitRecomendations(weather: DailyWeather, index: Int, units: Units, lang: Language) -> String {
         let promptWeather = getWeatherFormatForPrompt(weather: weather.list[index])
         let date = Date(timeIntervalSince1970: TimeInterval(weather.list[index].dt))
 

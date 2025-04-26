@@ -7,6 +7,6 @@
 
 import APIClient
 
-struct Choice: DecodableType {
-    let message: Message
+public struct Choice: DecodableType {
+    public let message: Message
 }
