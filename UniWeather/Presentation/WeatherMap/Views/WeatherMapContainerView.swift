@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WeatherMapService
 
 struct WeatherMapContainerView: View {
     @StateObject private var viewModel = MapViewModel()

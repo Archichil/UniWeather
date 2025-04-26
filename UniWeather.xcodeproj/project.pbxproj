@@ -11,6 +11,7 @@
 		045C44EB2DBD876E00BD0451 /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44EA2DBD876E00BD0451 /* WeatherService */; };
 		045C44F42DBD898800BD0451 /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F32DBD898800BD0451 /* WeatherService */; };
 		045C44F72DBD89F500BD0451 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F62DBD89F500BD0451 /* APIClient */; };
+		046364232DBD911E0045B5FF /* WeatherMapService in Frameworks */ = {isa = PBXBuildFile; productRef = 046364222DBD911E0045B5FF /* WeatherMapService */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		045C44E32DBD7E9600BD0451 /* APIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = APIClient; sourceTree = "<group>"; };
 		045C44E82DBD864200BD0451 /* WeatherService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherService; sourceTree = "<group>"; };
+		046364202DBD90980045B5FF /* WeatherMapService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherMapService; sourceTree = "<group>"; };
 		A759F5F22D8478CC001A38C1 /* UniWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A759F6022D8478CE001A38C1 /* UniWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UniWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				046364232DBD911E0045B5FF /* WeatherMapService in Frameworks */,
 				045C44F42DBD898800BD0451 /* WeatherService in Frameworks */,
 				045C44E72DBD822A00BD0451 /* APIClient in Frameworks */,
 				045C44F72DBD89F500BD0451 /* APIClient in Frameworks */,
@@ -81,6 +84,7 @@
 		A759F5E92D8478CC001A38C1 = {
 			isa = PBXGroup;
 			children = (
+				046364202DBD90980045B5FF /* WeatherMapService */,
 				045C44E82DBD864200BD0451 /* WeatherService */,
 				045C44E32DBD7E9600BD0451 /* APIClient */,
 				A759F5F42D8478CC001A38C1 /* UniWeather */,
@@ -122,6 +126,7 @@
 				045C44EA2DBD876E00BD0451 /* WeatherService */,
 				045C44F32DBD898800BD0451 /* WeatherService */,
 				045C44F62DBD89F500BD0451 /* APIClient */,
+				046364222DBD911E0045B5FF /* WeatherMapService */,
 			);
 			productName = UniWeather;
 			productReference = A759F5F22D8478CC001A38C1 /* UniWeather.app */;
@@ -181,6 +186,7 @@
 			packageReferences = (
 				045C44F22DBD898800BD0451 /* XCLocalSwiftPackageReference "WeatherService" */,
 				045C44F52DBD89F500BD0451 /* XCLocalSwiftPackageReference "APIClient" */,
+				046364212DBD911E0045B5FF /* XCLocalSwiftPackageReference "WeatherMapService" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A759F5F32D8478CC001A38C1 /* Products */;
@@ -494,6 +500,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = APIClient;
 		};
+		046364212DBD911E0045B5FF /* XCLocalSwiftPackageReference "WeatherMapService" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = WeatherMapService;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -512,6 +522,10 @@
 		045C44F62DBD89F500BD0451 /* APIClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = APIClient;
+		};
+		046364222DBD911E0045B5FF /* WeatherMapService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeatherMapService;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

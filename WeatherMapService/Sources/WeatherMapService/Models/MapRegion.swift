@@ -5,12 +5,14 @@
 //  Created by Artur Kukhatskavolets on 27.03.25.
 //
 
-struct MapRegion {
-    var centerLatitude: Double
-    var centerLongitude: Double
-    var zoomLevel: Int
+import WeatherService
 
-    init(latitude: Double = WeatherMapConfiguration.defaultLatitude,
+public struct MapRegion {
+    public var centerLatitude: Double
+    public var centerLongitude: Double
+    public var zoomLevel: Int
+
+    public init(latitude: Double = WeatherMapConfiguration.defaultLatitude,
          longitude: Double = WeatherMapConfiguration.defaultLongitude,
          zoomLevel: Int = WeatherMapConfiguration.defaultZoomLevel)
     {

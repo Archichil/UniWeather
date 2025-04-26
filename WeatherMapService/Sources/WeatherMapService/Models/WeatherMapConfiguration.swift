@@ -9,13 +9,13 @@ import Foundation
 import SwiftUICore
 import APIClient
 
-enum WeatherMapConfiguration {
-    static let defaultZoomLevel = 5
-    static let defaultLatitude = 53.902284
-    static let defaultLongitude = 27.561831
+public enum WeatherMapConfiguration {
+    public static let defaultZoomLevel = 5
+    public static let defaultLatitude = 53.902284
+    public static let defaultLongitude = 27.561831
 
     // Available map layer types for Weather Map 2.0
-    enum MapLayer: String, CaseIterable, Identifiable {
+    public enum MapLayer: String, CaseIterable, Identifiable {
         // New layer types for Weather Map 2.0
         case convectivePrecipitation = "PAC0"
         case precipitationIntensity = "PR0"
@@ -33,9 +33,9 @@ enum WeatherMapConfiguration {
         case relativeHumidity = "HRD0"
         case clouds = "CL"
 
-        var id: String { rawValue }
+        public var id: String { rawValue }
 
-        var displayName: String {
+        public var displayName: String {
             switch self {
             case .convectivePrecipitation: "Convective precipitation"
             case .precipitationIntensity: "Precipitation intensity"
@@ -55,7 +55,7 @@ enum WeatherMapConfiguration {
             }
         }
 
-        var displayIcon: String {
+        public var displayIcon: String {
             switch self {
             case .convectivePrecipitation: "cloud.bolt.rain"
             case .precipitationIntensity: "cloud.rain"
@@ -75,7 +75,7 @@ enum WeatherMapConfiguration {
             }
         }
 
-        var measurementValue: String {
+        public var measurementValue: String {
             switch self {
             case .convectivePrecipitation:
                 "Осадки, мм"
@@ -110,7 +110,7 @@ enum WeatherMapConfiguration {
             }
         }
 
-        var colorLevels: [(key: String, value: Color)] {
+        public var colorLevels: [(key: String, value: Color)] {
             switch self {
             case .convectivePrecipitation:
                 [

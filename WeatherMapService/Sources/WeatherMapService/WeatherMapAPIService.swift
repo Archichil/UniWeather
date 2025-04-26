@@ -8,10 +8,10 @@
 import Foundation
 import APIClient
 
-class WeatherMapAPIService: APIService {
+public class WeatherMapAPIService: APIService {
     private let baseURL = URL(string: "https://maps.openweathermap.org/maps/2.0/weather")!
 
-    init() {
+    public init() {
         super.init(apiClient: APIClient(baseURL: baseURL))
     }
 
@@ -24,7 +24,7 @@ class WeatherMapAPIService: APIService {
         }
     }
 
-    func getTileData(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, opacity: Double = 0.8, fillBound: Bool = false, date: Date)
+    public func getTileData(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, opacity: Double = 0.8, fillBound: Bool = false, date: Date)
         async throws -> Data?
     {
         try await fetch(spec: .getMapTile(layer: layer, z: z, x: x, y: y, opacity: opacity, fillBound: fillBound, date: date))

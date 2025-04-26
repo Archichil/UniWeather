@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WeatherMapService
 
 class MapViewModel: ObservableObject {
     // MARK: - Constants

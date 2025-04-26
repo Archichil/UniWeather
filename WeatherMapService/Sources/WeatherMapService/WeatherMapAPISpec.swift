@@ -38,7 +38,7 @@ enum WeatherMapAPISpec: APIClient.APISpec {
         }
     }
 
-    var endpoint: String {
+    public var endpoint: String {
         switch self {
         case let .getMapTile(layer, z, x, y, _, _, _):
             let path = "/\(layer.rawValue)/\(z)/\(x)/\(y)"
@@ -49,21 +49,21 @@ enum WeatherMapAPISpec: APIClient.APISpec {
         }
     }
 
-    var method: APIClient.HttpMethod {
+    public var method: APIClient.HttpMethod {
         switch self {
         case .getMapTile:
             .get
         }
     }
 
-    var returnType: any DecodableType.Type {
+    public var returnType: any DecodableType.Type {
         switch self {
         case .getMapTile:
             Data.self
         }
     }
 
-    var headers: [String: String]? { [:] }
+    public var headers: [String: String]? { [:] }
 
-    var body: Data? { nil }
+    public var body: Data? { nil }
 }
