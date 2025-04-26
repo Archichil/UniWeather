@@ -13,9 +13,19 @@
 		045C44F72DBD89F500BD0451 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F62DBD89F500BD0451 /* APIClient */; };
 		046364232DBD911E0045B5FF /* WeatherMapService in Frameworks */ = {isa = PBXBuildFile; productRef = 046364222DBD911E0045B5FF /* WeatherMapService */; };
 		0463646D2DBD92810045B5FF /* AIService in Frameworks */ = {isa = PBXBuildFile; productRef = 0463646C2DBD92810045B5FF /* AIService */; };
+		044C4D062DB3BB5600FE35A2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C4D052DB3BB5600FE35A2 /* WidgetKit.framework */; };
+		044C4D082DB3BB5600FE35A2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C4D072DB3BB5600FE35A2 /* SwiftUI.framework */; };
+		044C4D192DB3BB5700FE35A2 /* UniWeatherWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		044C4D172DB3BB5700FE35A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A759F5EA2D8478CC001A38C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 044C4D022DB3BB5600FE35A2;
+			remoteInfo = UniWeatherWidgetsExtension;
+		};
 		A759F6032D8478CE001A38C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A759F5EA2D8478CC001A38C1 /* Project object */;
@@ -25,16 +35,40 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		044C4D1A2DB3BB5700FE35A2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				044C4D192DB3BB5700FE35A2 /* UniWeatherWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		045C44E32DBD7E9600BD0451 /* APIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = APIClient; sourceTree = "<group>"; };
 		045C44E82DBD864200BD0451 /* WeatherService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherService; sourceTree = "<group>"; };
 		046364202DBD90980045B5FF /* WeatherMapService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherMapService; sourceTree = "<group>"; };
 		0463646A2DBD91B50045B5FF /* AIService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AIService; sourceTree = "<group>"; };
+		044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = UniWeatherWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		044C4D052DB3BB5600FE35A2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		044C4D072DB3BB5600FE35A2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		A759F5F22D8478CC001A38C1 /* UniWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A759F6022D8478CE001A38C1 /* UniWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UniWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		044C4D1E2DB3BB5700FE35A2 /* Exceptions for "UniWeatherWidgets" folder in "UniWeatherWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
+		};
 		A7F6EF012D9073B6003627D9 /* Exceptions for "UniWeather" folder in "UniWeather" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -45,6 +79,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		044C4D092DB3BB5600FE35A2 /* UniWeatherWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				044C4D1E2DB3BB5700FE35A2 /* Exceptions for "UniWeatherWidgets" folder in "UniWeatherWidgetsExtension" target */,
+			);
+			path = UniWeatherWidgets;
+			sourceTree = "<group>";
+		};
 		A759F5F42D8478CC001A38C1 /* UniWeather */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -61,6 +103,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		044C4D002DB3BB5600FE35A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				044C4D082DB3BB5600FE35A2 /* SwiftUI.framework in Frameworks */,
+				044C4D062DB3BB5600FE35A2 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A759F5EF2D8478CC001A38C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,6 +135,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		044C4D042DB3BB5600FE35A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				044C4D052DB3BB5600FE35A2 /* WidgetKit.framework */,
+				044C4D072DB3BB5600FE35A2 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A759F5E92D8478CC001A38C1 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +153,8 @@
 				045C44E32DBD7E9600BD0451 /* APIClient */,
 				A759F5F42D8478CC001A38C1 /* UniWeather */,
 				A759F6052D8478CE001A38C1 /* UniWeatherTests */,
+				044C4D092DB3BB5600FE35A2 /* UniWeatherWidgets */,
+				044C4D042DB3BB5600FE35A2 /* Frameworks */,
 				A759F5F32D8478CC001A38C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,6 +164,7 @@
 			children = (
 				A759F5F22D8478CC001A38C1 /* UniWeather.app */,
 				A759F6022D8478CE001A38C1 /* UniWeatherTests.xctest */,
+				044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -109,6 +172,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 044C4D1D2DB3BB5700FE35A2 /* Build configuration list for PBXNativeTarget "UniWeatherWidgetsExtension" */;
+			buildPhases = (
+				044C4CFF2DB3BB5600FE35A2 /* Sources */,
+				044C4D002DB3BB5600FE35A2 /* Frameworks */,
+				044C4D012DB3BB5600FE35A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				044C4D092DB3BB5600FE35A2 /* UniWeatherWidgets */,
+			);
+			name = UniWeatherWidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = UniWeatherWidgetsExtension;
+			productReference = 044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		A759F5F12D8478CC001A38C1 /* UniWeather */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A759F6162D8478CE001A38C1 /* Build configuration list for PBXNativeTarget "UniWeather" */;
@@ -116,10 +201,12 @@
 				A759F5EE2D8478CC001A38C1 /* Sources */,
 				A759F5EF2D8478CC001A38C1 /* Frameworks */,
 				A759F5F02D8478CC001A38C1 /* Resources */,
+				044C4D1A2DB3BB5700FE35A2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				044C4D182DB3BB5700FE35A2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A759F5F42D8478CC001A38C1 /* UniWeather */,
@@ -170,6 +257,9 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					044C4D022DB3BB5600FE35A2 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					A759F5F12D8478CC001A38C1 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -201,11 +291,19 @@
 			targets = (
 				A759F5F12D8478CC001A38C1 /* UniWeather */,
 				A759F6012D8478CE001A38C1 /* UniWeatherTests */,
+				044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		044C4D012DB3BB5600FE35A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A759F5F02D8478CC001A38C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,6 +321,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		044C4CFF2DB3BB5600FE35A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A759F5EE2D8478CC001A38C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -240,6 +345,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		044C4D182DB3BB5700FE35A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
+			targetProxy = 044C4D172DB3BB5700FE35A2 /* PBXContainerItemProxy */;
+		};
 		A759F6042D8478CE001A38C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A759F5F12D8478CC001A38C1 /* UniWeather */;
@@ -248,6 +358,60 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		044C4D1B2DB3BB5700FE35A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38UL77W743;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UniWeatherWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather.UniWeatherWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		044C4D1C2DB3BB5700FE35A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38UL77W743;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UniWeatherWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather.UniWeatherWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		A759F6142D8478CE001A38C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -468,6 +632,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		044C4D1D2DB3BB5700FE35A2 /* Build configuration list for PBXNativeTarget "UniWeatherWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				044C4D1B2DB3BB5700FE35A2 /* Debug */,
+				044C4D1C2DB3BB5700FE35A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A759F5ED2D8478CC001A38C1 /* Build configuration list for PBXProject "UniWeather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
