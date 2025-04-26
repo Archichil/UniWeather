@@ -7,6 +7,7 @@
 
 import MapKit
 import SwiftUI
+import WeatherMapService
 
 struct WeatherMapRenderer: UIViewRepresentable {
     // MARK: - Constants
