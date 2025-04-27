@@ -16,7 +16,7 @@ struct CurrentWeatherWidget: Widget {
             kind: kind,
             provider: CurrentWeatherProvider()
         ) { entry in
-            CurrentWeatherWidgetView()
+            CurrentWeatherWidgetView(entry: entry)
         }
         .configurationDisplayName("Current weather widget")
         .description("Current weather widget desc")

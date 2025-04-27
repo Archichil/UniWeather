@@ -7,29 +7,71 @@
 
 import SwiftUI
 import WidgetKit
+import WeatherService
 
 struct CurrentWeatherProvider: TimelineProvider {
-    func placeholder(in context: Context) -> WeatherEntry {
-        WeatherEntry(date: Date(), temperature: 22, condition: "sunny", location: "Minsk")
+    private let weatherService = WeatherAPIService()
+    
+    func placeholder(in context: Context) -> CurrentWeatherEntry {
+        CurrentWeatherEntry(
+            date: Date(),
+            temperature: 0,
+            icon: "нет данных",
+            location: "нет данных",
+            minTemp: 0,
+            maxTemp: 0,
+            description: "нет данных"
+        )
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (WeatherEntry) -> Void) {
-        let entry = WeatherEntry(date: Date(), temperature: 22, condition: "sunny", location: "Minsk")
+    func getSnapshot(in context: Context, completion: @escaping (CurrentWeatherEntry) -> Void) {
+        let entry = placeholder(in: context)
         completion(entry)
     }
     
-    func getTimeline(in context: Context, completion: @escaping (Timeline<WeatherEntry>) -> Void) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<CurrentWeatherEntry>) -> Void) {
         let currentDate = Date()
-        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!
         
-        let entry = WeatherEntry(
-            date: currentDate,
-            temperature: 23,
-            condition: "partlycloudy",
-            location: "Minsk"
-        )
+        let calendar = Calendar.current
+        let nextHourDate = calendar.nextDate(
+            after: currentDate,
+            matching: DateComponents(minute: 0, second: 0),
+            matchingPolicy: .nextTime
+        )!
         
-        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-        completion(timeline)
+        let coords = Coordinates(lat: 53.9, lon: 27.5667)
+
+        Task {
+            do {
+                let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
+                
+                // for daily min and max temps (current weather request doesn't provide daily min and max temps)
+                let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
+                
+                let entry: CurrentWeatherEntry
+                if let currentWeather = currentWeather,
+                   let dailyWeather = dailyWeather {
+                    entry = CurrentWeatherEntry(
+                        date: currentDate,
+                        temperature: Int(currentWeather.main.temp.rounded()),
+                        icon: currentWeather.weather.first?.description ?? "нет данных",
+                        location: currentWeather.name,
+                        minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
+                        maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
+                        description: currentWeather.weather.first?.description ?? "нет данных"
+                    )
+                } else {
+                    entry = placeholder(in: context)
+                }
+                
+                let timeline = Timeline(entries: [entry], policy: .after(nextHourDate))
+                completion(timeline)
+                
+            } catch {
+                let entry = placeholder(in: context)
+                let timeline = Timeline(entries: [entry], policy: .after(nextHourDate))
+                completion(timeline)
+            }
+        }
     }
 }

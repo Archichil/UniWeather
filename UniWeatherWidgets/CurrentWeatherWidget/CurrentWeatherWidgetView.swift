@@ -9,12 +9,14 @@ import SwiftUI
 import WidgetKit
 
 struct CurrentWeatherWidgetView: View {
+    var entry: CurrentWeatherEntry
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
-                LocationTitle(location: "Минск", textSize: 15)
+                LocationTitle(location: entry.location, textSize: 15)
                 
-                Text("19º")
+                Text("\(entry.temperature)º")
                     .font(.largeTitle)
                 
                 
@@ -26,15 +28,18 @@ struct CurrentWeatherWidgetView: View {
                     .padding(.top, 1)
                     .font(.system(size: 13))
                     .bold()
+                    .lineLimit(2)
+                    .frame(maxHeight: .infinity)
+                
                 
                 HStack(spacing: 2) {
                     Image(systemName: "arrow.down")
                     
-                    Text("12º")
+                    Text("\(entry.minTemp)º")
                     
                     Image(systemName: "arrow.up")
                     
-                    Text("24º")
+                    Text("\(entry.maxTemp)º")
                 }
                 .padding(.top, 3)
                 .font(.system(size: 12))
@@ -51,9 +56,9 @@ struct CurrentWeatherWidgetView: View {
     }
 }
 
-struct CurrentWeatherWidgetView_Previews: PreviewProvider {
-    static var previews: some View {
-        CurrentWeatherWidgetView()
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-    }
-}
+//struct CurrentWeatherWidgetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CurrentWeatherWidgetView()
+//            .previewContext(WidgetPreviewContext(family: .systemSmall))
+//    }
+//}

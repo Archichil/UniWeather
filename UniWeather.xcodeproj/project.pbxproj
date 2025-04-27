@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		042025982DBE8A390013A3B7 /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 042025972DBE8A390013A3B7 /* WeatherService */; };
 		044C4D062DB3BB5600FE35A2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C4D052DB3BB5600FE35A2 /* WidgetKit.framework */; };
 		044C4D082DB3BB5600FE35A2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C4D072DB3BB5600FE35A2 /* SwiftUI.framework */; };
 		044C4D192DB3BB5700FE35A2 /* UniWeatherWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -107,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042025982DBE8A390013A3B7 /* WeatherService in Frameworks */,
 				044C4D082DB3BB5600FE35A2 /* SwiftUI.framework in Frameworks */,
 				044C4D062DB3BB5600FE35A2 /* WidgetKit.framework in Frameworks */,
 			);
@@ -189,6 +191,7 @@
 			);
 			name = UniWeatherWidgetsExtension;
 			packageProductDependencies = (
+				042025972DBE8A390013A3B7 /* WeatherService */,
 			);
 			productName = UniWeatherWidgetsExtension;
 			productReference = 044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */;
@@ -667,6 +670,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		042025972DBE8A390013A3B7 /* WeatherService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeatherService;
+		};
 		045C44E62DBD822A00BD0451 /* APIClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = APIClient;
