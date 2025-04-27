@@ -24,12 +24,12 @@ struct CurrentWeatherWidgetView: View {
                     .foregroundStyle(.white, .yellow)
                     .font(.system(size: 15))
                 
-                Text("Временами облачно")
+                Text(entry.description)
                     .padding(.top, 1)
                     .font(.system(size: 13))
                     .bold()
                     .lineLimit(2)
-                    .frame(maxHeight: .infinity)
+                    .frame(maxHeight: .infinity, alignment: .top)
                 
                 
                 HStack(spacing: 2) {

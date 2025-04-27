@@ -7,13 +7,15 @@
 
 import SwiftUI
 import WidgetKit
+import Intents
 
 struct CurrentWeatherWidget: Widget {
     let kind: String = "CurrentWeatherWigdet"
     
     var body: some WidgetConfiguration {
-        StaticConfiguration(
+        AppIntentConfiguration(
             kind: kind,
+            intent: LocationIntent.self,
             provider: CurrentWeatherProvider()
         ) { entry in
             CurrentWeatherWidgetView(entry: entry)
