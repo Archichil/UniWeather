@@ -11,49 +11,50 @@ import WeatherService
 import Intents
 
 struct CurrentWeatherProvider: AppIntentTimelineProvider {
-
     typealias Intent = LocationIntent
-    
     private let weatherService = WeatherAPIService()
     
     func placeholder(in context: Context) -> CurrentWeatherEntry {
         CurrentWeatherEntry(
             date: Date(),
-            temperature: 0,
-            icon: "нет данных",
-            location: "нет данных",
-            minTemp: 0,
-            maxTemp: 0,
-            description: "нет данных"
+            temperature: 19,
+            icon: "02d",
+            location: "Минск",
+            minTemp: 12,
+            maxTemp: 24,
+            description: "Переменная облачность"
         )
     }
     
-    func snapshot(for configuration: Intent, in context: Context) async -> CurrentWeatherEntry  {
+    func snapshot(for configuration: Intent, in context: Context) async -> CurrentWeatherEntry {
         placeholder(in: context)
     }
     
     func timeline(for configuration: Intent, in context: Context) async -> Timeline<CurrentWeatherEntry> {
         let currentDate = Date()
         
-        let calendar = Calendar.current
-        let nextHourDate = calendar.nextDate(
-            after: currentDate,
-            matching: DateComponents(minute: 0, second: 0),
-            matchingPolicy: .nextTime
-        )!
-        
+        let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
+
         var coords: Coordinates
-        if let geo = configuration.geo {
-            coords = geo.coordinates
-        } else {
-            coords = Coordinates(lat: 12, lon: 12)
+//        if let geo = configuration.geo {
+//            coords = geo.coordinates
+//        } else {
+
+//        }
+        
+        coords = Coordinates(lon: 12, lat: 12)
+    
+        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
+        
+        if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
+           let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
+            coords = Coordinates(lon: lon, lat: lat)
+            print(coords)
         }
         
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
-            
-            // for daily min and max temps (current weather request doesn't provide daily min and max temps)
-            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
+            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 15)
             
             let entry: CurrentWeatherEntry
             if let currentWeather = currentWeather,
@@ -61,7 +62,7 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
                 entry = CurrentWeatherEntry(
                     date: currentDate,
                     temperature: Int(currentWeather.main.temp.rounded()),
-                    icon: currentWeather.weather.first?.description ?? "нет данных",
+                    icon: currentWeather.weather.first?.icon ?? "",
                     location: currentWeather.name,
                     minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
                     maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
@@ -71,11 +72,10 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
                 entry = placeholder(in: context)
             }
             
-            return Timeline(entries: [entry], policy: .after(nextHourDate))
+            return Timeline(entries: [entry], policy: .after(nextUpdateDate))
         } catch {
             let entry = placeholder(in: context)
-            return Timeline(entries: [entry], policy: .after(nextHourDate))
+            return Timeline(entries: [entry], policy: .after(nextUpdateDate))
         }
-        
     }
 }

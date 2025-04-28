@@ -69,8 +69,8 @@ class GeolocationManager {
         }
         
         let geolocations: [LocationIntent.GeoOption] = [
-            .init(id: "1", name: "Минск", coordinates: Coordinates(lat: 53.9, lon: 27.5667)),
-            .init(id: "2", name: "Москва", coordinates: Coordinates(lat: 55.7558, lon: 37.6176)),
+            .init(id: "1", name: "Минск", coordinates: Coordinates(lon: 27.5667, lat: 53.9)),
+            .init(id: "2", name: "Москва", coordinates: Coordinates(lon: 37.6176, lat: 55.7558)),
         ]
         
         cachedGeolocations = geolocations
