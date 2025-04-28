@@ -547,6 +547,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -578,6 +581,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
