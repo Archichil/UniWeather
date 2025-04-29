@@ -35,22 +35,22 @@ struct LargeLocationWeatherHeader: View {
                 VStack(alignment: .trailing, spacing: 1) {
                     Text(weather.prefix(1).capitalized + weather.dropFirst())
                     
-                    HStack(spacing: 2) {
-                        HStack(spacing: 0) {
-                            Image(systemName: "arrow.down")
-                            Text("\(tempMin)º")
-                        }
+                    HStack(spacing: 1) {
+                        Image(systemName: "arrow.down")
+                            .font(.system(size: 11))
+                            .fontWeight(.heavy)
+                        Text("\(tempMin)º")
                         
-                        HStack(spacing: 0) {
-                            Image(systemName: "arrow.up")
-                            Text("\(tempMax)º")
-                        }
+                        Image(systemName: "arrow.up")
+                            .font(.system(size: 11))
+                            .fontWeight(.heavy)
+                        Text("\(tempMax)º")
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
-                .fontWeight(.semibold)
                 .font(.system(size: 13))
             }
+            .bold()
         }
         .frame(maxWidth: .infinity)
     }

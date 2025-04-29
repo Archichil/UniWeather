@@ -20,27 +20,30 @@ struct CurrentWeatherWidgetView: View {
                     .font(.largeTitle)
                     .fontWeight(.regular)
                 
-                VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 2) {
                     WeatherIcon(weatherCode: entry.icon)
                         .font(.system(size: 15))
                     
                     Text(entry.description.prefix(1).capitalized + entry.description.dropFirst())
-                        .padding(.top, 1)
                         .font(.system(size: 13))
                         .bold()
                         .lineLimit(2)
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
-                .padding(.bottom, 1)
                 
-                HStack(spacing: 2) {
+                HStack(spacing: 1) {
                     Image(systemName: "arrow.down")
+                        .font(.system(size: 11))
+                        .fontWeight(.heavy)
                     Text("\(entry.minTemp)º")
                     
                     Image(systemName: "arrow.up")
+                        .font(.system(size: 11))
+                        .fontWeight(.heavy)
                     Text("\(entry.maxTemp)º")
                 }
-                .font(.system(size: 12))
+                .font(.system(size: 13))
+                .padding(.top, 2)
                 
             }
             .bold()

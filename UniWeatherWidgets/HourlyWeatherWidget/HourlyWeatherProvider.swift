@@ -67,7 +67,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
     
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
-            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 15)
+            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
             let hourlyWeather = try await weatherService.getHourlyWeather(coords: coords, units: .metric, count: 6)
             
             let entry: HourlyWeatherEntry
