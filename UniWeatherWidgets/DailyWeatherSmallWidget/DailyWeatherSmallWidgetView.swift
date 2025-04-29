@@ -40,28 +40,25 @@ extension Color {
 let secondaryColor: Color = Color(hex: "#b2c8eb")
 
 private struct DailyWeatherRow: View {
-    let day: String
-    let icon: String
-    let tempMin, tempMax: Int
+    let item: DailyWeatherItem
     
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                Text(day)
+                Text(getShortWeekday(from: item.dt))
                     .frame(maxWidth: 26, alignment: .leading)
                 
-                Image(systemName: icon)
-                    .foregroundStyle(.white, .yellow)
+                WeatherIcon(weatherCode: item.icon)
 
             }
             .font(.system(size: 13))
             .frame(maxWidth: .infinity, alignment: .leading)
             
             HStack(spacing: 0) {
-                Text("\(tempMin)")
+                Text("\(item.minTemp)")
                     .foregroundStyle(secondaryColor)
                 
-                Text("\(tempMax)º")
+                Text("\(item.maxTemp)º")
                     .foregroundStyle(.white)
                     .frame(maxWidth: 26, alignment: .trailing)
             }
@@ -70,26 +67,35 @@ private struct DailyWeatherRow: View {
         .frame(maxWidth: .infinity)
         .bold()
     }
+    
+    private func getShortWeekday(from timestamp: Int) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "E"
+        return formatter.string(from: date).capitalized
+    }
 }
 
 struct DailyWeatherSmallWidgetView: View {
+    let entry: DailyWeatherSmallEntry
+    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
                 LocationWeatherHeader(
-                    location: "Минск",
-                    icon: "cloud.sun.fill",
-                    currentTemp: 19,
-                    tempMin: 12,
-                    tempMax: 24
+                    location: entry.location,
+                    icon: entry.icon,
+                    currentTemp: entry.temp,
+                    tempMin: entry.minTemp,
+                    tempMax: entry.maxTemp,
+                    isCurrentLocation: entry.isCurrentLocation
                 )
-
                 
                 VStack(spacing: 2) {
-                    DailyWeatherRow(day: "Пн", icon: "cloud.sun.fill", tempMin: 10, tempMax: 21)
-                    DailyWeatherRow(day: "Вт", icon: "cloud.fill", tempMin: 11, tempMax: 22)
-                    DailyWeatherRow(day: "Ср", icon: "cloud.rain.fill", tempMin: 12, tempMax: 23)
-                    DailyWeatherRow(day: "Чт", icon: "sun.max", tempMin: 13, tempMax: 24)
+                    ForEach(entry.items, id: \.dt) { item in
+                        DailyWeatherRow(item: item)
+                    }
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 .padding(.top, 2)
@@ -100,12 +106,5 @@ struct DailyWeatherSmallWidgetView: View {
             ContainerRelativeShape()
                 .fill(Color(.blue).gradient)
         }
-    }
-}
-
-struct DailyWeatherSmall_Previews: PreviewProvider {
-    static var previews: some View {
-        DailyWeatherSmallWidgetView()
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

@@ -1,0 +1,103 @@
+//
+//  DailyWeatherSmallProvider.swift
+//  UniWeather
+//
+//  Created by Daniil on 30.04.25.
+//
+
+import SwiftUI
+import WidgetKit
+import WeatherService
+import Intents
+
+struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
+    typealias Intent = LocationIntent
+    private let weatherService = WeatherAPIService()
+    
+    func placeholder(in context: Context) -> DailyWeatherSmallEntry {
+        DailyWeatherSmallEntry(
+            date: Date(),
+            temp: 19,
+            icon: "02d",
+            location: "Минск",
+            minTemp: 12,
+            maxTemp: 24,
+            items: [
+                DailyWeatherItem(dt: 1745956800, icon: "01d", minTemp: 10, maxTemp: 20),
+                DailyWeatherItem(dt: 1746043200, icon: "02d", minTemp: 12, maxTemp: 22),
+                DailyWeatherItem(dt: 1746129600, icon: "02d", minTemp: 14, maxTemp: 24),
+                DailyWeatherItem(dt: 1746216000, icon: "01d", minTemp: 16, maxTemp: 26),
+            ],
+            isCurrentLocation: true
+        )
+    }
+    
+    func snapshot(for configuration: Intent, in context: Context) async -> DailyWeatherSmallEntry {
+        placeholder(in: context)
+    }
+    
+    func timeline(for configuration: Intent, in context: Context) async -> Timeline<DailyWeatherSmallEntry> {
+        let currentDate = Date()
+        
+        let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
+
+        var coords: Coordinates = Coordinates(lon: 0, lat: 0)
+        var isCurrentLocation = false
+        
+        if let geo = configuration.geo {
+            if geo.isCurrentLocation == true {
+                let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
+                
+                if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
+                   let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
+                    coords = Coordinates(lon: lon, lat: lat)
+                    isCurrentLocation = true
+                }
+            }
+            else {
+                coords = Coordinates(lon: geo.coordinates.lon, lat: geo.coordinates.lat)
+            }
+        }
+    
+        do {
+            let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
+            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 5)
+            
+            let entry: DailyWeatherSmallEntry
+            if let currentWeather = currentWeather,
+               let dailyWeather = dailyWeather{
+                var dailyWeatherItems: [DailyWeatherItem] = []
+                
+                for item in dailyWeather.list.dropFirst() {
+                    dailyWeatherItems.append(
+                        DailyWeatherItem(
+                            dt: item.dt + dailyWeather.city.timezone,
+                            icon: item.weather.first?.icon ?? "",
+                            minTemp: Int(item.temp.min.rounded()),
+                            maxTemp: Int(item.temp.max.rounded())
+                        )
+                    )
+                }
+                
+                entry = DailyWeatherSmallEntry(
+                    date: currentDate,
+                    temp: Int(currentWeather.main.temp.rounded()),
+                    icon: currentWeather.weather.first?.icon ?? "",
+                    location: currentWeather.name,
+                    minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
+                    maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
+                    items: dailyWeatherItems,
+                    isCurrentLocation: isCurrentLocation
+                )
+                print(Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone)
+            } else {
+                entry = placeholder(in: context)
+            }
+            
+            return Timeline(entries: [entry], policy: .after(nextUpdateDate))
+        } catch {
+            let entry = placeholder(in: context)
+            return Timeline(entries: [entry], policy: .after(nextUpdateDate))
+        }
+    }
+}
