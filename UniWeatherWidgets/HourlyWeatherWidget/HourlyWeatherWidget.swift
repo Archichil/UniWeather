@@ -12,15 +12,16 @@ struct HourlyWeatherWidget: Widget {
     let kind: String = "HorlyWeatherWidget"
     
     var body: some WidgetConfiguration {
-        StaticConfiguration(
+        AppIntentConfiguration(
             kind: kind,
+            intent: LocationIntent.self,
             provider: HourlyWeatherProvider()
         ) { entry in
-            HourlyWeatherWidgetView()
+            HourlyWeatherWidgetView(entry: entry)
 //                .containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName("Погода сейчас")
-        .description("Текущие погодные условия")
+        .configurationDisplayName("Hourly widget")
+        .description("HourlyWeatherWidget desc")
         .supportedFamilies([.systemMedium])
     }
 }

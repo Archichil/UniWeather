@@ -70,7 +70,7 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
                     location: currentWeather.name,
                     minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
                     maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
-                    description: currentWeather.weather.first?.description ?? "нет данных",
+                    description: currentWeather.weather.first?.description ?? "Нет данных",
                     isCurrentLocation: isCurrentLocation
                 )
             } else {

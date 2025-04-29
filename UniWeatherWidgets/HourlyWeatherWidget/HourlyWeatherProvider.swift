@@ -7,37 +7,108 @@
 
 import SwiftUI
 import WidgetKit
+import WeatherService
+import Intents
 
-struct HourlyWeatherProvider: TimelineProvider {
+struct HourlyWeatherProvider: AppIntentTimelineProvider {
+    typealias Intent = LocationIntent
+    private let weatherService = WeatherAPIService()
     
-    func placeholder(in context: Context) -> WeatherEntry {
-        WeatherEntry(date: Date(), temperature: 22, condition: "sunny", location: "Minsk")
-    }
-    
-    func getSnapshot(in context: Context, completion: @escaping (WeatherEntry) -> Void) {
-        let entry = WeatherEntry(date: Date(), temperature: 22, condition: "sunny", location: "Minsk")
-        completion(entry)
-    }
-    
-    func getTimeline(in context: Context, completion: @escaping (Timeline<WeatherEntry>) -> Void) {
-        let currentDate = Date()
-        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!
-        
-        let entry = WeatherEntry(
-            date: currentDate,
-            temperature: 23,
-            condition: "partlycloudy",
-            location: "Minsk"
+    func placeholder(in context: Context) -> HourlyWeatherEntry {
+        HourlyWeatherEntry(
+            date: Date(),
+            dt: 1745953200 - 1801,
+            location: "Минск",
+            icon: "02d",
+            description: "Облачно с прояснениями",
+            temp: 19,
+            minTemp: 12,
+            maxTemp: 24,
+            sunrise: 1745953200 - 1800,
+            sunset: 0,
+            items: [
+                HourlyWeatherHourItem(dt: 1745935200, icon: "01d", temp: 10),
+                HourlyWeatherHourItem(dt: 1745938800, icon: "02d", temp: 12),
+                HourlyWeatherHourItem(dt: 1745942400, icon: "02d", temp: 14),
+                HourlyWeatherHourItem(dt: 1745946000, icon: "03d", temp: 16),
+                HourlyWeatherHourItem(dt: 1745949600, icon: "03d", temp: 18),
+                HourlyWeatherHourItem(dt: 1745953200, icon: "04d", temp: 20)
+            ],
+            isCurrentLocation: true
         )
-        
-        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-        completion(timeline)
     }
-}
+    
+    func snapshot(for configuration: Intent, in context: Context) async -> HourlyWeatherEntry {
+        placeholder(in: context)
+    }
+    
+    func timeline(for configuration: Intent, in context: Context) async -> Timeline<HourlyWeatherEntry> {
+        let currentDate = Date()
+        
+        let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
-struct WeatherEntry: TimelineEntry {
-    let date: Date
-    let temperature: Int
-    let condition: String
-    let location: String
+        var coords: Coordinates = Coordinates(lon: 0, lat: 0)
+        var isCurrentLocation = false
+        
+        if let geo = configuration.geo {
+            if geo.isCurrentLocation == true {
+                let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
+                
+                if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
+                   let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
+                    coords = Coordinates(lon: lon, lat: lat)
+                    isCurrentLocation = true
+                }
+            }
+            else {
+                coords = Coordinates(lon: geo.coordinates.lon, lat: geo.coordinates.lat)
+            }
+        }
+    
+        do {
+            let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
+            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 15)
+            let hourlyWeather = try await weatherService.getHourlyWeather(coords: coords, units: .metric, count: 6)
+            
+            let entry: HourlyWeatherEntry
+            if let currentWeather = currentWeather,
+               let dailyWeather = dailyWeather,
+               let hourlyWeather = hourlyWeather {
+                var hourlyWeatherItems: [HourlyWeatherHourItem] = []
+                
+                for item in hourlyWeather.list {
+                    hourlyWeatherItems.append(
+                        HourlyWeatherHourItem(
+                            dt: item.dt + hourlyWeather.city.timezone,
+                            icon: item.weather.first?.icon ?? "",
+                            temp: Int(item.main.temp.rounded())
+                        )
+                    )
+                }
+                
+                entry = HourlyWeatherEntry(
+                    date: currentDate,
+                    dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
+                    location: currentWeather.name,
+                    icon: currentWeather.weather.first?.icon ?? "",
+                    description: currentWeather.weather.first?.description ?? "Нет данных",
+                    temp: Int(currentWeather.main.temp.rounded()),
+                    minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
+                    maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
+                    sunrise: (dailyWeather.list.first?.sunrise ?? 0) + dailyWeather.city.timezone,
+                    sunset: (dailyWeather.list.first?.sunset ?? 0) + dailyWeather.city.timezone,
+                    items: hourlyWeatherItems,
+                    isCurrentLocation: isCurrentLocation
+                )
+                print(Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone)
+            } else {
+                entry = placeholder(in: context)
+            }
+            
+            return Timeline(entries: [entry], policy: .after(nextUpdateDate))
+        } catch {
+            let entry = placeholder(in: context)
+            return Timeline(entries: [entry], policy: .after(nextUpdateDate))
+        }
+    }
 }
