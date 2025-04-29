@@ -7,13 +7,14 @@
 
 import AppIntents
 import WeatherService
+import Intents
 
 struct LocationIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Настройки геопозиции"
     
     @Parameter(
         title: "Геопозиция",
-        default: nil,
+        default: GeoOption.currentLocation,
         optionsProvider: GeolocationOptionsProvider()
     )
     
@@ -23,22 +24,34 @@ struct LocationIntent: WidgetConfigurationIntent {
         let id: String
         let name: String
         let coordinates: Coordinates
-        
+
         static var typeDisplayRepresentation: TypeDisplayRepresentation {
             TypeDisplayRepresentation(name: "Геопозиция")
         }
-        
+
         var displayRepresentation: DisplayRepresentation {
             DisplayRepresentation(title: LocalizedStringResource(stringLiteral: name))
         }
         
+        static var currentLocation: GeoOption {
+            GeoOption(
+                id: "current_location",
+                name: "Текущее местоположение",
+                coordinates: Coordinates(lon: 0.0, lat: 0.0)
+            )
+        }
+        
+        var isCurrentLocation: Bool {
+            id == "current_location"
+        }
+
         struct Query: EntityQuery {
             @MainActor
             func entities(for identifiers: [String]) async throws -> [GeoOption] {
                 try await GeolocationManager.shared.getGeolocations()
                     .filter { identifiers.contains($0.id) }
             }
-            
+
             @MainActor
             func suggestedEntities() async throws -> [GeoOption] {
                 try await GeolocationManager.shared.getGeolocations()
@@ -47,6 +60,7 @@ struct LocationIntent: WidgetConfigurationIntent {
         
         static var defaultQuery = Query()
     }
+
     
     struct GeolocationOptionsProvider: DynamicOptionsProvider {
         typealias Intent = LocationIntent
@@ -69,6 +83,7 @@ class GeolocationManager {
         }
         
         let geolocations: [LocationIntent.GeoOption] = [
+            .init(id: "current_location", name: "Текущее местоположение", coordinates: Coordinates(lon: 0, lat: 0)),
             .init(id: "1", name: "Минск", coordinates: Coordinates(lon: 27.5667, lat: 53.9)),
             .init(id: "2", name: "Москва", coordinates: Coordinates(lon: 37.6176, lat: 55.7558)),
         ]

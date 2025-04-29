@@ -15,4 +15,5 @@ struct CurrentWeatherEntry: TimelineEntry {
     let minTemp: Int
     let maxTemp: Int
     let description: String
+    let isCurrentLocation: Bool
 }

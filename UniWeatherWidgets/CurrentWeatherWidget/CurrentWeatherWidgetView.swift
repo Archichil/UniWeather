@@ -14,21 +14,24 @@ struct CurrentWeatherWidgetView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
-                LocationTitle(location: entry.location, textSize: 15)
+                LocationTitle(location: entry.location, textSize: 15, isCurrentLocation: entry.isCurrentLocation)
                 
                 Text("\(entry.temperature)º")
                     .font(.largeTitle)
+                    .fontWeight(.regular)
                 
-                WeatherIcon(weatherCode: entry.icon)
-                    .symbolRenderingMode(.multicolor)
-                    .font(.system(size: 15))
-                
-                Text(entry.description)
-                    .padding(.top, 1)
-                    .font(.system(size: 13))
-                    .bold()
-                    .lineLimit(2)
-                    .frame(maxHeight: .infinity, alignment: .top)
+                VStack(alignment: .leading, spacing: 0) {
+                    WeatherIcon(weatherCode: entry.icon)
+                        .font(.system(size: 15))
+                    
+                    Text(entry.description.prefix(1).capitalized + entry.description.dropFirst())
+                        .padding(.top, 1)
+                        .font(.system(size: 13))
+                        .bold()
+                        .lineLimit(2)
+                }
+                .frame(maxHeight: .infinity, alignment: .bottom)
+                .padding(.bottom, 1)
                 
                 HStack(spacing: 2) {
                     Image(systemName: "arrow.down")
@@ -38,9 +41,9 @@ struct CurrentWeatherWidgetView: View {
                     Text("\(entry.maxTemp)º")
                 }
                 .font(.system(size: 12))
-                .bold()
                 
             }
+            .bold()
             .foregroundStyle(.white)
 
         }

@@ -22,7 +22,8 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
             location: "Минск",
             minTemp: 12,
             maxTemp: 24,
-            description: "Переменная облачность"
+            description: "Переменная облачность",
+            isCurrentLocation: false
         )
     }
     
@@ -35,23 +36,26 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
         
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
-        var coords: Coordinates
-//        if let geo = configuration.geo {
-//            coords = geo.coordinates
-//        } else {
-
-//        }
+        var coords: Coordinates = Coordinates(lon: 0, lat: 0)
+        var isCurrentLocation = false
         
-        coords = Coordinates(lon: 12, lat: 12)
-    
-        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
-        
-        if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
-           let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
-            coords = Coordinates(lon: lon, lat: lat)
-            print(coords)
+        if let geo = configuration.geo {
+            
+            if geo.isCurrentLocation == true {
+                let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
+                
+                if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
+                   let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
+                    coords = Coordinates(lon: lon, lat: lat)
+                    isCurrentLocation = true
+                }
+            }
+            else {
+                coords = Coordinates(lon: geo.coordinates.lon, lat: geo.coordinates.lat)
+            }
+            
         }
-        
+    
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
             let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 15)
@@ -66,7 +70,8 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
                     location: currentWeather.name,
                     minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
                     maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
-                    description: currentWeather.weather.first?.description ?? "нет данных"
+                    description: currentWeather.weather.first?.description ?? "нет данных",
+                    isCurrentLocation: isCurrentLocation
                 )
             } else {
                 entry = placeholder(in: context)
