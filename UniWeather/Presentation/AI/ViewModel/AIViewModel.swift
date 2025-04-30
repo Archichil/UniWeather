@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
-
+import WeatherService
+import AIService
 
 class AIViewModel: ObservableObject {
     @Published var messages: [AIMessage] = []
     @Published var selectedDayIndex = 0
     @Published var selectedPrompt: AvailablePrompts?
     @Published var isFetching = false
+    
+    private let weatherService = WeatherAPIService()
+    private let AIService = AIAPIService()
     
     @MainActor
     func handleItemClick(_ prompt: AvailablePrompts) {
@@ -41,31 +45,28 @@ class AIViewModel: ObservableObject {
     }
     
     private func fetchAIResponse(for prompt: AvailablePrompts) async -> String {
-        try? await Task.sleep(nanoseconds: 10_000_000_000)
-        return """
-**Weather conditions**: On 27 March, the weather in Minsk is expected to be cool and rainy, with temperatures around 6°C (feels like 3°C), 100% cloud cover, and a high chance of light rain. Humidity is 80%, and the wind is moderate at 4.03 m/s.  
-
-**Clothing**:  
-  - A waterproof or water-resistant jacket.  
-  - A warm sweater or fleece for layering.  
-  - Long pants or jeans.  
-  - A scarf to protect your neck from the wind.  
-
-**Footwear**:  
-  - Waterproof boots or shoes with good grip.  
-  - Warm socks to keep your feet dry and comfortable.  
-
-**Accessories**:  
-  - A compact umbrella.  
-  - A hat or beanie to keep your head warm.  
-  - Gloves to protect your hands from the cold.  
-
-**Useful tips**:  
-  - Layer your clothing to adjust to the changing temperatures throughout the day.  
-  - Ensure your outerwear is waterproof to stay dry in the rain.  
-  - Check the weather forecast before heading out, as conditions may change.  
-  - Keep your accessories handy to stay comfortable in the cool, damp weather.
-"""
+        let weather = try? await weatherService.getDailyWeather(coords: Coordinates(lon: 27.550, lat: 53.896), units: .metric ,count: selectedDayIndex + 1, lang: .ru)
+        if let weather {
+            let prompt: String = {
+                switch prompt {
+                case .whatToWear:
+                    PromptTypes.getClothesRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                case .transportOption:
+                    PromptTypes.getTransportRecommendation(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                case .healthTips:
+                    PromptTypes.getHealthRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                case .exploreNearby:
+                    PromptTypes.getPlacesToVisitRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                case .enjoyableActivities:
+                    PromptTypes.getActivityRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                }
+            }()
+            
+            let response = try? await AIService.fetchPromptResponse(prompt: prompt)
+            
+            return response?.choices.first?.message.content ?? "Произошла ошибка при формировании ответа!"
+        }
+        return "Произошла ошибка при отправке!"
     }
     
     private func formatMessageTime(_ date: Date) -> String {
