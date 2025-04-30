@@ -9,6 +9,9 @@ import WidgetKit
 
 struct CurrentWeatherEntry: TimelineEntry {
     let date: Date
+    let dt: Int
+    let sunrise: Int
+    let sunset: Int
     let temperature: Int
     let icon: String
     let location: String

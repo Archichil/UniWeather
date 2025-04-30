@@ -17,6 +17,9 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> CurrentWeatherEntry {
         CurrentWeatherEntry(
             date: Date(),
+            dt: 1745953200,
+            sunrise: 1745953200 - 3600 * 4,
+            sunset: 1745953200 + 3600 * 8,
             temperature: 19,
             icon: "02d",
             location: "Минск",
@@ -36,25 +39,7 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
         
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
-        var coords: Coordinates = Coordinates(lon: 0, lat: 0)
-        var isCurrentLocation = false
-        
-        if let geo = configuration.geo {
-            
-            if geo.isCurrentLocation == true {
-                let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
-                
-                if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
-                   let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
-                    coords = Coordinates(lon: lon, lat: lat)
-                    isCurrentLocation = true
-                }
-            }
-            else {
-                coords = Coordinates(lon: geo.coordinates.lon, lat: geo.coordinates.lat)
-            }
-            
-        }
+        let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
     
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
@@ -65,9 +50,12 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
                let dailyWeather = dailyWeather {
                 entry = CurrentWeatherEntry(
                     date: currentDate,
+                    dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
+                    sunrise: (dailyWeather.list.first?.sunrise ?? 0) + dailyWeather.city.timezone,
+                    sunset: (dailyWeather.list.first?.sunset ?? 0) + dailyWeather.city.timezone,
                     temperature: Int(currentWeather.main.temp.rounded()),
                     icon: currentWeather.weather.first?.icon ?? "",
-                    location: currentWeather.name,
+                    location: location,
                     minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
                     maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
                     description: currentWeather.weather.first?.description ?? "Нет данных",

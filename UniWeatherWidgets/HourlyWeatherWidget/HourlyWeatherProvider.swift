@@ -25,7 +25,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
             minTemp: 12,
             maxTemp: 24,
             sunrise: 1745953200 - 1800,
-            sunset: 0,
+            sunset: 1745953200 + 3600,
             items: [
                 HourlyWeatherHourItem(dt: 1745935200, icon: "01d", temp: 10),
                 HourlyWeatherHourItem(dt: 1745938800, icon: "02d", temp: 12),
@@ -47,23 +47,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
         
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
-        var coords: Coordinates = Coordinates(lon: 0, lat: 0)
-        var isCurrentLocation = false
-        
-        if let geo = configuration.geo {
-            if geo.isCurrentLocation == true {
-                let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
-                
-                if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
-                   let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
-                    coords = Coordinates(lon: lon, lat: lat)
-                    isCurrentLocation = true
-                }
-            }
-            else {
-                coords = Coordinates(lon: geo.coordinates.lon, lat: geo.coordinates.lat)
-            }
-        }
+        let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
     
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
@@ -89,7 +73,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
                 entry = HourlyWeatherEntry(
                     date: currentDate,
                     dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
-                    location: currentWeather.name,
+                    location: location,
                     icon: currentWeather.weather.first?.icon ?? "",
                     description: currentWeather.weather.first?.description ?? "Нет данных",
                     temp: Int(currentWeather.main.temp.rounded()),

@@ -96,3 +96,43 @@ class GeolocationManager {
         cachedGeolocations = geolocations
     }
 }
+
+func resolveCoordinates(from configuration: LocationIntent) async  -> (coords: Coordinates, isCurrentLocation: Bool, location: String) {
+    var coords = Coordinates(lon: 0, lat: 0)
+    var isCurrentLocation = false
+    var location: String?
+    
+    if let geo = configuration.geo {
+        if geo.isCurrentLocation == true {
+            let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
+            if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
+               let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
+                coords = Coordinates(lon: lon, lat: lat)
+                isCurrentLocation = true
+                location = await getPlaceName(for: coords)
+            }
+        } else {
+            coords = Coordinates(lon: geo.coordinates.lon, lat: geo.coordinates.lat)
+            location = geo.name
+        }
+    }
+    
+    return (coords, isCurrentLocation, location ?? "Неизвестно")
+}
+
+func getPlaceName(for coords: Coordinates) async -> String? {
+    let location = CLLocation(latitude: coords.lat, longitude: coords.lon)
+    let geocoder = CLGeocoder()
+
+    do {
+        let placemarks = try await geocoder.reverseGeocodeLocation(location)
+        if let placemark = placemarks.first {
+            return placemark.locality ?? placemark.name
+        }
+    } catch {
+        print("Ошибка геокодирования: \(error.localizedDescription)")
+    }
+
+    return nil
+}
+

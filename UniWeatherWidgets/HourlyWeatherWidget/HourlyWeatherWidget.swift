@@ -18,7 +18,6 @@ struct HourlyWeatherWidget: Widget {
             provider: HourlyWeatherProvider()
         ) { entry in
             HourlyWeatherWidgetView(entry: entry)
-//                .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Hourly widget")
         .description("HourlyWeatherWidget desc")

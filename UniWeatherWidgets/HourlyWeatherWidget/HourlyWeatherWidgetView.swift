@@ -64,8 +64,18 @@ struct HourlyWeatherWidgetView: View {
             .foregroundStyle(.white)
         }
         .containerBackground(for: .widget) {
+            let gradient = getBackgroundGradient(
+                weatherCode: entry.icon,
+                dt: entry.dt,
+                sunset: entry.sunset,
+                sunrise: entry.sunrise
+            )
             ContainerRelativeShape()
-                .fill(Color(.blue).gradient)
+                .fill(LinearGradient(
+                    gradient: gradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
         }
     }
     
@@ -124,20 +134,19 @@ struct HourlyWeatherWidgetView: View {
 
 struct WeatherSmallWidget_Previews: PreviewProvider {
     static var previews: some View {
-        let now = 1745935200 - 1800 + 1
+        let now = 1745935200 - 3600 * 5
         HourlyWeatherWidgetView(entry:
-                                    //c 14
                                 HourlyWeatherEntry(
                                 date: Date(),
                                 dt: now,
                                 location: "Минск",
-                                icon: "02d",
+                                icon: "01d",
                                 description: "Облачно с прояснениями",
                                 temp: 19,
                                 minTemp: 12,
                                 maxTemp: 24,
-                                sunrise: 0,
-                                sunset: 1745935200 - 1800,
+                                sunrise: 1745935200 - 1800,
+                                sunset: 1745935200 + 3600 * 12,
                                 items: [
                                     HourlyWeatherHourItem(dt: 1745935200, icon: "01d", temp: 10),
                                     HourlyWeatherHourItem(dt: 1745938800, icon: "02d", temp: 12),
@@ -149,6 +158,6 @@ struct WeatherSmallWidget_Previews: PreviewProvider {
                                 isCurrentLocation: true
                             )
         )
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+        .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
