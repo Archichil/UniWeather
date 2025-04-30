@@ -160,7 +160,7 @@ struct WeatherSmallWidget_Previews: PreviewProvider {
                         date: Date(),
                         dt: time,
                         location: "Минск",
-                        icon: "01d",
+                        icon: "50d",
                         description: "Облачно с прояснениями",
                         temp: 19,
                         minTemp: 12,

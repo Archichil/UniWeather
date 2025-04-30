@@ -48,7 +48,6 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
-    
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
             let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
@@ -84,7 +83,6 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
                     items: hourlyWeatherItems,
                     isCurrentLocation: isCurrentLocation
                 )
-                print(Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone)
             } else {
                 entry = placeholder(in: context)
             }
