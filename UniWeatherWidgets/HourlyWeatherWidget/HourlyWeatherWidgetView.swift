@@ -12,7 +12,7 @@ private struct HourlyWeatherItem: View {
     let entry: HourlyWeatherHourItem
     
     var body: some View {
-        VStack(alignment: .center, spacing: 4) {
+        VStack(spacing: 4) {
             let hour = (entry.dt % 86400) / 3600
             let min = (entry.dt % 3600) / 60
             let timeString = entry.isSunsetOrSunrise ? String(format: "%d:%02d", hour, min) : String(format: "%02d", hour)
@@ -20,13 +20,16 @@ private struct HourlyWeatherItem: View {
                 .font(.system(size: 11))
                 .foregroundStyle(.secondary)
                 .fontWeight(.heavy)
+                .frame(alignment: .center)
             
             WeatherIcon(weatherCode: entry.icon)
                 .font(.system(size: 18))
                 .frame(maxHeight: 20)
+                .frame(alignment: .center)
             
             Text("\(entry.temp)º")
                 .font(.system(size: 13))
+                .padding(.leading, 4)
         }
         .fontWeight(.semibold)
     }
@@ -131,33 +134,53 @@ struct HourlyWeatherWidgetView: View {
 
 
 }
-
 struct WeatherSmallWidget_Previews: PreviewProvider {
     static var previews: some View {
-        let now = 1745935200 - 3600 * 5
-        HourlyWeatherWidgetView(entry:
-                                HourlyWeatherEntry(
-                                date: Date(),
-                                dt: now,
-                                location: "Минск",
-                                icon: "01d",
-                                description: "Облачно с прояснениями",
-                                temp: 19,
-                                minTemp: 12,
-                                maxTemp: 24,
-                                sunrise: 1745935200 - 1800,
-                                sunset: 1745935200 + 3600 * 12,
-                                items: [
-                                    HourlyWeatherHourItem(dt: 1745935200, icon: "01d", temp: 10),
-                                    HourlyWeatherHourItem(dt: 1745938800, icon: "02d", temp: 12),
-                                    HourlyWeatherHourItem(dt: 1745942400, icon: "02d", temp: 14),
-                                    HourlyWeatherHourItem(dt: 1745946000, icon: "03d", temp: 16),
-                                    HourlyWeatherHourItem(dt: 1745949600, icon: "03d", temp: 18),
-                                    HourlyWeatherHourItem(dt: 1745953200, icon: "04d", temp: 20)
-                                ],
-                                isCurrentLocation: true
-                            )
-        )
-        .previewContext(WidgetPreviewContext(family: .systemMedium))
+        let sunrise = 1745935200
+        let sunset = 1745935200 + 3600 * 12
+
+        let times = [
+            sunrise - 3600 - 1,
+            sunrise - 1,
+            sunrise + 1,
+            sunrise + 3600 + 1,
+            sunrise + 3600 * 3 + 1,
+            sunrise + 3600 * 5 + 1,
+            sunset - 3600 * 3 + 1,
+            sunset - 3600 * 1 + 1,
+            sunset + 1,
+            sunset + 3600 + 1
+        ]
+
+        
+        Group {
+            ForEach(times, id: \.self) { time in
+                HourlyWeatherWidgetView(entry:
+                    HourlyWeatherEntry(
+                        date: Date(),
+                        dt: time,
+                        location: "Минск",
+                        icon: "01d",
+                        description: "Облачно с прояснениями",
+                        temp: 19,
+                        minTemp: 12,
+                        maxTemp: 24,
+                        sunrise: sunrise,
+                        sunset: sunset,
+                        items: [
+                            HourlyWeatherHourItem(dt: 1745935200, icon: "01d", temp: 10),
+                            HourlyWeatherHourItem(dt: 1745938800, icon: "02d", temp: 12),
+                            HourlyWeatherHourItem(dt: 1745942400, icon: "02d", temp: 14),
+                            HourlyWeatherHourItem(dt: 1745946000, icon: "03d", temp: 16),
+                            HourlyWeatherHourItem(dt: 1745949600, icon: "03d", temp: 18),
+                            HourlyWeatherHourItem(dt: 1745953200, icon: "04d", temp: 20)
+                        ],
+                        isCurrentLocation: true
+                    )
+                )
+                .previewDisplayName("dt = \(time)")
+                .previewContext(WidgetPreviewContext(family: .systemMedium))
+            }
+        }
     }
 }

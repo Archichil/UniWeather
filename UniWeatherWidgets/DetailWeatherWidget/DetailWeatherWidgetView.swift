@@ -69,8 +69,18 @@ struct DetailWeatherWidgetView: View {
 
         }
         .containerBackground(for: .widget) {
+            let gradient = getBackgroundGradient(
+                weatherCode: entry.icon,
+                dt: entry.dt,
+                sunset: entry.sunset,
+                sunrise: entry.sunrise
+            )
             ContainerRelativeShape()
-                .fill(Color(.blue).gradient)
+                .fill(LinearGradient(
+                    gradient: gradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
         }
     }
 }

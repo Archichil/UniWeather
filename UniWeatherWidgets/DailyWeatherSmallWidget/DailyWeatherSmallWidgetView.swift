@@ -37,7 +37,7 @@ extension Color {
     }
 }
 
-let secondaryColor: Color = Color(hex: "#b2c8eb")
+let secondaryColor: Color = .secondary
 
 private struct DailyWeatherRow: View {
     let item: DailyWeatherItem
@@ -103,8 +103,18 @@ struct DailyWeatherSmallWidgetView: View {
             .foregroundStyle(.white)
         }
         .containerBackground(for: .widget) {
+            let gradient = getBackgroundGradient(
+                weatherCode: entry.icon,
+                dt: entry.dt,
+                sunset: entry.sunset,
+                sunrise: entry.sunrise
+            )
             ContainerRelativeShape()
-                .fill(Color(.blue).gradient)
+                .fill(LinearGradient(
+                    gradient: gradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
         }
     }
 }
