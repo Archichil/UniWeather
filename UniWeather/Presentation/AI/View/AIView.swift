@@ -11,23 +11,26 @@ struct AIView: View {
     // MARK: - Constants
     private enum Constants {
         enum Colors {
-            static let darkBackground = Color(red: 28/255, green: 30/255, blue: 31/255)
+            static let darkBackground = Color(red: 18/255, green: 20/255, blue: 22/255)
             static let circleIconBackground = Color(red: 29/255, green: 31/255, blue: 32/255)
             static let circleIcon = Color(red: 180/255, green: 181/255, blue: 188/255)
+            static let lightText = Color.white.opacity(0.9)
+            static let secondaryText = Color.white.opacity(0.6)
+            static let accentColor = Color(red: 101/255, green: 87/255, blue: 255/255)
             
             static let backgroundGradient = LinearGradient(
                 gradient: Gradient(colors: [
-                    Color(red: 71/255, green: 70/255, blue: 66/255),
-                    Color(red: 50/255, green: 52/255, blue: 53/255)
+                    Color(hex: "#0F0F2D"),
+                    Color(hex: "#1A1A3A")
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
             )
             
             static let titleGradient = LinearGradient(
-                gradient: Gradient(stops: [
-                    .init(color: Color(red: 255/255, green: 251/255, blue: 255/255), location: 0.3),
-                    .init(color: Color(red: 167/255, green: 169/255, blue: 173/255), location: 0.7),
+                gradient: Gradient(colors: [
+                    Color.white,
+                    Color(hex: "#B0B0FF")
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
@@ -127,12 +130,13 @@ struct AIView: View {
         AICircleIcon(
             icon: Constants.Text.chatIcon,
             size: Constants.Layout.circleIconSize,
-            bgColor: Constants.Colors.circleIconBackground,
-            iconColor: Constants.Colors.circleIcon,
+            bgColor: Constants.Colors.accentColor,
+            iconColor: Constants.Colors.lightText,
             font: .title
         )
         .padding(.trailing, Constants.Layout.horizontalPadding)
         .padding(.bottom, Constants.Layout.bottomPadding)
+        .shadow(color: Constants.Colors.accentColor.opacity(0.5), radius: 10, x: 0, y: 5)
         .onTapGesture {
             showAnswerSheet = true
         }
@@ -146,7 +150,7 @@ struct AIView: View {
         )
         .presentationDetents(Constants.Sheets.datePickerDetents)
         .presentationDragIndicator(.visible)
-        .presentationBackground(Constants.Colors.darkBackground)
+        .presentationBackground(Constants.Colors.backgroundGradient)
     }
     
     private var chatViewSheet: some View {

@@ -23,5 +23,9 @@ struct AICircleIcon: View {
                     .foregroundColor(iconColor)
                     .font(font)
             )
+            .overlay(
+                Circle()
+                    .stroke(iconColor.opacity(0.3), lineWidth: 1)
+            )
     }
 }

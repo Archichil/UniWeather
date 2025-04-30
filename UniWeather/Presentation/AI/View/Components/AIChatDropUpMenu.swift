@@ -11,8 +11,8 @@ struct AIChatDropUpMenu: View {
     // MARK: - Constants
     private enum Constants {
         enum Colors {
-            static let background = Color(red: 20/255, green: 24/255, blue: 27/255)
-            static let dropdownBackground = Color(red: 23/255, green: 27/255, blue: 30/255)
+            static let background = Color(hex: "#070728")
+            static let dropdownBackground = Color(hex: "#050524")
             static let text = Color.white
             static let disabledText = Color.gray
         }

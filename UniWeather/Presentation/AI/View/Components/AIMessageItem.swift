@@ -32,8 +32,23 @@ struct AIMessageItem: View {
                                            style: .continuous
                     )
                     .foregroundStyle(
-                        isAnswer ? Color(red: 36 / 255, green: 36 / 255, blue: 38 / 255)
-                        : Color(red: 52 / 255, green: 54 / 255, blue: 58 / 255))
+                        isAnswer ? LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(hex: "#2A2A4A"),  // Темнее на 20%
+                                Color(hex: "#1A1A3A")   // Темнее на 30%
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        : LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(hex: "#3A3A5A"),
+                                Color(hex: "#2A2A4A")
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
                 )
                 .offset(x: offset)
                 .onAppear {

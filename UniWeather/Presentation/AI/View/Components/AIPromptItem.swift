@@ -12,26 +12,38 @@ struct AIPromptItem: View {
     var text: String
     var icon: String
     
+    let promptGradient = LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: "#3A3A5A"),
+                        Color(hex: "#2A2A4A")
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+    
+    let lightText = Color.white.opacity(0.9)
+    
     var body: some View {
         VStack(alignment: .leading) {
             
             AICircleIcon(
                 icon: icon,
                 size: 50,
-                bgColor: Color(red: 52 / 255, green: 54 / 255, blue: 58 / 255),
-                iconColor: Color(red: 180 / 255, green: 181 / 255, blue: 188 / 255),
+                bgColor: Color(red: 30/255, green: 32/255, blue: 36/255),
+                iconColor: Color(red: 101/255, green: 87/255, blue: 255/255),
                 font: .title2
             )
             
             Text(text)
                 .font(.subheadline)
-                .foregroundStyle(Color(red: 180 / 255, green: 181 / 255, blue: 188 / 255))
+                .foregroundStyle(lightText)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
             
         }
         .padding()
         .frame(width: size, height: size)
-        .background(Color(red: 29 / 255, green: 31 / 255, blue: 32 / 255))
+        .background(promptGradient)
+        .background(Color(red: 30/255, green: 32/255, blue: 36/255))
         .cornerRadius(10)
     }
 }

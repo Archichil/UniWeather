@@ -12,11 +12,20 @@ struct AIChatView: View {
     private enum Constants {
         enum Colors {
             static let background = Color(red: 28/255, green: 30/255, blue: 31/255)
-            static let bubbleBackground = Color(red: 52/255, green: 54/255, blue: 58/255)
-            static let icon = Color(red: 180/255, green: 181/255, blue: 188/255)
+            static let bubbleBackground = Color(red: 30/255, green: 32/255, blue: 36/255)
+            static let icon = Color(red: 101/255, green: 87/255, blue: 255/255)
             static let text = Color.white
             static let secondaryText = Color.gray
             static let divider = Color.gray.opacity(0.5)
+            static let secondaryBackground = Color(hex: "#070728")
+            static let backgroundGradient = LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(hex: "#0F0F2D"),
+                    Color(hex: "#1A1A3A")
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
         }
         
         enum Layout {
@@ -50,8 +59,8 @@ struct AIChatView: View {
     // MARK: - Views
     var body: some View {
         ZStack {
-            emptyStateView
             mainChatView
+            emptyStateView
         }
     }
     
@@ -111,6 +120,7 @@ struct AIChatView: View {
         .padding(.horizontal, Constants.Layout.horizontalPadding)
         .padding(.bottom, Constants.Layout.topPadding)
         .padding(.top)
+        .background(Constants.Colors.secondaryBackground)
     }
     
     private var dividerView: some View {
@@ -122,6 +132,8 @@ struct AIChatView: View {
     private var messagesListView: some View {
         ScrollViewReader { proxy in
             ScrollView {
+                Rectangle().frame(height: 16).opacity(0)
+                
                 ForEach(viewModel.messages.indices, id: \.self) { index in
                     let message = viewModel.messages[index]
                     
@@ -147,8 +159,7 @@ struct AIChatView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.top)
-        .background(Constants.Colors.background)
+        .background(Constants.Colors.backgroundGradient)
     }
     
     // MARK: - Helper Properties
