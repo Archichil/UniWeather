@@ -20,8 +20,8 @@ struct CurrentWeatherWidget: Widget {
         ) { entry in
             CurrentWeatherWidgetView(entry: entry)
         }
-        .configurationDisplayName("Current weather widget")
-        .description("Current weather widget desc")
+        .configurationDisplayName("Текущая погода")
+        .description("Отображает текущую температу, погодные условия, прогноз на день и местоположение с динамическим фоном, который меняется в зависимости от погоды и времени суток.")
         .supportedFamilies([.systemSmall])
     }
 }

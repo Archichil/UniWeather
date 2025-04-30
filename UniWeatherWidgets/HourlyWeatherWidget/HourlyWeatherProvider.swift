@@ -18,7 +18,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
         HourlyWeatherEntry(
             date: Date(),
             dt: 1745953200 - 1801,
-            location: "Минск",
+            location: "Локакция",
             icon: "02d",
             description: "Облачно с прояснениями",
             temp: 19,

@@ -20,8 +20,8 @@ struct DailyWeatherSmallWidget: Widget {
         ) { entry in
             DailyWeatherSmallWidgetView(entry: entry)
         }
-        .configurationDisplayName("daily weather")
-        .description("daily weather")
+        .configurationDisplayName("Прогноз")
+        .description("Отображает текущую температуру, погодные условия, местоположение и прогноз на несколько дней с динамическим фоном, который меняется в зависимости от погоды и времени суток.")
         .supportedFamilies([.systemSmall])
     }
 }

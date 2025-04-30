@@ -19,8 +19,8 @@ struct HourlyWeatherWidget: Widget {
         ) { entry in
             HourlyWeatherWidgetView(entry: entry)
         }
-        .configurationDisplayName("Hourly widget")
-        .description("HourlyWeatherWidget desc")
+        .configurationDisplayName("Почасовой прогноз")
+        .description("Отображает почасовой прогноз погоды с температурой и погодными условиями, включая информацию времени восхода и заката солнца  динамическим фоном, который меняется в зависимости от погоды и времени суток.")
         .supportedFamilies([.systemMedium])
     }
 }
