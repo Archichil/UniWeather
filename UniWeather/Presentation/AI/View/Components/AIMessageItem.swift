@@ -34,8 +34,8 @@ struct AIMessageItem: View {
                     .foregroundStyle(
                         isAnswer ? LinearGradient(
                             gradient: Gradient(colors: [
-                                Color(hex: "#2A2A4A"),  // Темнее на 20%
-                                Color(hex: "#1A1A3A")   // Темнее на 30%
+                                Color(hex: "#2A2A4A"),
+                                Color(hex: "#272756")
                             ]),
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing

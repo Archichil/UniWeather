@@ -58,10 +58,7 @@ struct AIChatView: View {
     
     // MARK: - Views
     var body: some View {
-        ZStack {
-            mainChatView
-            emptyStateView
-        }
+        mainChatView
     }
     
     private var emptyStateView: some View {
@@ -74,6 +71,7 @@ struct AIChatView: View {
                         .padding()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .background(Constants.Colors.backgroundGradient)
             }
         }
     }
@@ -82,12 +80,12 @@ struct AIChatView: View {
         VStack(spacing: Constants.Layout.vericalSpacing) {
             headerView
             dividerView
-            messagesListView
-            AIChatDropUpMenu(viewModel: viewModel, showDropdown: $showDropdown
-                             ,onItemClick: {
-                scrollToBottom()
-                             }
-            )
+            if !viewModel.messages.isEmpty {
+                messagesListView
+            } else {
+                emptyStateView
+            }
+            AIChatDropUpMenu(viewModel: viewModel, showDropdown: $showDropdown, onItemClick: { scrollToBottom() })
         }
     }
     

@@ -45,6 +45,7 @@ class AIViewModel: ObservableObject {
     }
     
     private func fetchAIResponse(for prompt: AvailablePrompts) async -> String {
+        // TODO: Change coordinates
         let weather = try? await weatherService.getDailyWeather(coords: Coordinates(lon: 27.550, lat: 53.896), units: .metric ,count: selectedDayIndex + 1, lang: .ru)
         if let weather {
             let prompt: String = {
