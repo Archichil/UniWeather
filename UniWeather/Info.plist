@@ -4,5 +4,7 @@
 <dict>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array/>
+    <key>NSCalendarsUsageDescription</key>
+        <string>Приложению нужен доступ к календарю для отображения праздников</string>
 </dict>
 </plist>
