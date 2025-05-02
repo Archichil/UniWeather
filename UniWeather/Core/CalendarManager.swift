@@ -11,6 +11,7 @@ import SwiftUI
 struct Holiday: Identifiable {
     let id = UUID()
     let title: String
+    let notes: String?
     let date: Date
 }
 
@@ -60,7 +61,7 @@ class CalendarManager {
 
         let events = eventStore.events(matching: predicate)
             .filter { !$0.title.isEmpty }
-            .map { Holiday(title: $0.title, date: $0.startDate) }
+            .map { Holiday(title: $0.title, notes: $0.notes, date: $0.startDate) }
             .sorted { $0.date < $1.date }
 
         completion(events)

@@ -47,14 +47,21 @@ struct HolidaysForecastView: View {
                         ForEach(viewModel.eventsWithWeather, id: \.title) { holiday in
                             HolidayCard(holiday: holiday)
                         }
+                        
+                        if viewModel.eventsWithWeather.isEmpty {
+                            Text("Ближайших праздников не найдено!")
+                                .foregroundStyle(Constants.Colors.textSecondary)
+                                .padding(.top, 200)
+                        }
                     }
                     .padding(.horizontal, Constants.Layout.cardPadding)
                 }
                 .padding(.top, Constants.Layout.largeSpacing)
             }
+            .frame(maxWidth: .infinity)
             .background(Constants.Colors.backgroundGradient.edgesIgnoringSafeArea(.all))
         }
-        .onAppear {
+        .refreshable {
             Task {
                 await viewModel.fetchEventsWithWeather()
             }
@@ -116,7 +123,7 @@ struct HolidaysForecastView: View {
                             WeatherIcon(weatherCode: holiday.icon)
                                 .font(.system(size: Constants.Layout.iconSize))
                             
-                            Text(holiday.weather)
+                            Text(holiday.weather.prefix(1).capitalized + holiday.weather.dropFirst())
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.trailing)
