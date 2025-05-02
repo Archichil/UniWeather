@@ -6,6 +6,8 @@
 //
 
 import MapKit
+import APIClient
+import WeatherMapService
 
 class WeatherTileOverlay: MKTileOverlay {
     private var cache = NSCache<NSString, NSData>()
