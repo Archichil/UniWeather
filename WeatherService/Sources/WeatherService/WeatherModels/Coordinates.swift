@@ -11,8 +11,8 @@ public struct Coordinates: DecodableType {
     public let lon: Double
     public let lat: Double
 
-    public init(lat: Double, lon: Double) {
-        self.lat = lat
+    public init(lon: Double, lat: Double) {
         self.lon = lon
+        self.lat = lat
     }
 }
