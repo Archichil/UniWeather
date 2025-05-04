@@ -2,7 +2,7 @@
 //  TemperatureGradientBarView.swift
 //  UniWeather
 //
-//  Created by Artur Kukhatskavolets on 31.03.25.
+//  Created by Artur Kukhatskavolets on 01.05.25.
 //
 
 import SwiftUI
