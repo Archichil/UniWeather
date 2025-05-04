@@ -1,5 +1,5 @@
 //
-//  WeatherInfoView.swift
+//  WeatherIconView.swift
 //  UniWeather
 //
 //  Created by Artur Kukhatskavolets on 17.04.25.
