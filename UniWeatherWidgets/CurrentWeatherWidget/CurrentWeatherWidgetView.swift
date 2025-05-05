@@ -66,10 +66,3 @@ struct CurrentWeatherWidgetView: View {
         }
     }
 }
-
-//struct CurrentWeatherWidgetView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CurrentWeatherWidgetView()
-//            .previewContext(WidgetPreviewContext(family: .systemSmall))
-//    }
-//}

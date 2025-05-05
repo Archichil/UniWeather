@@ -15,5 +15,6 @@ struct UniWeatherWidgetsBundle: WidgetBundle {
         DailyWeatherSmallWidget()
         DetailWeatherWidget()
         CurrentWeatherWidget()
+        DailyWeatherLargeWidget()
     }
 }

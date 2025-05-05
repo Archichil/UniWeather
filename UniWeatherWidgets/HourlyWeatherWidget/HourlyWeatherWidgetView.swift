@@ -8,7 +8,7 @@
 import SwiftUI
 import WidgetKit
 
-private struct HourlyWeatherItem: View {
+struct HourlyWeatherItemView: View {
     let entry: HourlyWeatherHourItem
     
     var body: some View {
@@ -18,7 +18,7 @@ private struct HourlyWeatherItem: View {
             let timeString = entry.isSunsetOrSunrise ? String(format: "%d:%02d", hour, min) : String(format: "%02d", hour)
             Text(timeString)
                 .font(.system(size: 11))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(secondaryColor)
                 .fontWeight(.heavy)
                 .frame(alignment: .center)
             
@@ -54,10 +54,15 @@ struct HourlyWeatherWidgetView: View {
                 Spacer()
                 
                 HStack(spacing: 0) {
-                    let items = itemsWithSunEvents(entry: entry)
+                    let items = itemsWithSunEvents(
+                        items: entry.items,
+                        count: entry.items.count,
+                        sunrise: entry.sunrise,
+                        sunset: entry.sunset,
+                        dt: entry.dt)
                     ForEach(items.indices, id: \.self) { index in
                         let item = items[index]
-                        HourlyWeatherItem(entry: item)
+                        HourlyWeatherItemView(entry: item)
                         if index < items.count - 1 {
                             Spacer()
                         }
@@ -81,59 +86,9 @@ struct HourlyWeatherWidgetView: View {
                 ))
         }
     }
-    
-    private func itemsWithSunEvents(entry: HourlyWeatherEntry) -> [HourlyWeatherHourItem] {
-        var result = entry.items
-
-        func insert(type: String, time: Int) {
-            let sunEventItem = HourlyWeatherHourItem(
-                dt: time,
-                icon: type,
-                temp: nearestTemp(for: time, in: result),
-                isSunsetOrSunrise: true
-            )
-
-            if time > result.last?.dt ?? 0 {
-                return
-            }
-
-            let insertIndex = result.firstIndex(where: { $0.dt > time }) ?? result.count
-            
-            if insertIndex == 0 {
-                result.insert(sunEventItem, at: insertIndex)
-            } else if insertIndex == result.count {
-                result.append(sunEventItem)
-            } else {
-                result.insert(sunEventItem, at: insertIndex)
-            }
-
-            if result.count > entry.items.count {
-                result.removeLast()
-            }
-        }
-
-        func nearestTemp(for time: Int, in items: [HourlyWeatherHourItem]) -> Int {
-            items.min(by: { abs($0.dt - time) < abs($1.dt - time) })?.temp ?? 0
-        }
-
-        if let first = entry.items.first?.dt, let last = entry.items.last?.dt {
-            let extendedStart = first - 3600
-            let extendedEnd = last + 3600
-
-            if entry.sunrise >= extendedStart && entry.sunrise <= extendedEnd && entry.sunrise >= entry.dt {
-                insert(type: "sunrise", time: entry.sunrise)
-            }
-
-            if entry.sunset >= extendedStart && entry.sunset <= extendedEnd && entry.sunset >= entry.dt {
-                insert(type: "sunset", time: entry.sunset)
-            }
-        }
-
-        return result.sorted(by: { $0.dt < $1.dt })
-    }
-
-
 }
+
+
 struct WeatherSmallWidget_Previews: PreviewProvider {
     static var previews: some View {
         let sunrise = 1745935200
