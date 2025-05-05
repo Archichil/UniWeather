@@ -20,7 +20,7 @@ struct CurrentWeatherWidgetView: View {
                     .font(.largeTitle)
                     .fontWeight(.regular)
                 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 0) {
                     WeatherIcon(weatherCode: entry.icon)
                         .font(.system(size: 15))
                     
@@ -28,8 +28,7 @@ struct CurrentWeatherWidgetView: View {
                         .font(.system(size: 13))
                         .bold()
                         .lineLimit(2)
-                }
-                .frame(maxHeight: .infinity, alignment: .bottom)
+                }.frame(maxHeight: .infinity, alignment: .bottom)
                 
                 HStack(spacing: 1) {
                     Image(systemName: "arrow.down")
@@ -43,7 +42,7 @@ struct CurrentWeatherWidgetView: View {
                     Text("\(entry.maxTemp)º")
                 }
                 .font(.system(size: 13))
-                .padding(.top, 2)
+                .padding(.top, 1)
                 
             }
             .bold()
@@ -64,5 +63,27 @@ struct CurrentWeatherWidgetView: View {
                     endPoint: .bottom
                 ))
         }
+    }
+}
+
+
+struct CurrentWeatherWidgetView_Previews: PreviewProvider {
+    static var previews: some View {
+        let dt = 1745940771
+        CurrentWeatherWidgetView(entry:
+            CurrentWeatherEntry(
+                date: Date(),
+                dt: dt,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                temperature: 19,
+                icon: "02d",
+                location: "Локация",
+                minTemp: 12,
+                maxTemp: 24,
+                description: "Переменная облачность",
+                isCurrentLocation: true
+            )
+        ).previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

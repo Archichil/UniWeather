@@ -16,20 +16,21 @@ struct DetailWeatherProvider: AppIntentTimelineProvider {
     private let weatherService = WeatherAPIService()
     
     func placeholder(in context: Context) -> DetailWeatherEntry {
-        DetailWeatherEntry(
-            date: Date(),
-            dt: 1745953200,
-            sunrise: 1745953200 - 3600 * 4,
-            sunset: 1745953200 + 3600 * 8,
-            location: "Минск",
-            icon: "02d",
-            temp: 19,
-            minTemp: 12,
-            maxTemp: 24,
-            rain: 30,
-            wind: 12,
-            isCurrentLocation: true
-        )
+        let dt = 1745940771
+        return DetailWeatherEntry(
+                date: Date(),
+                dt: dt,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                location: "Локация",
+                icon: "02d",
+                temp: 19,
+                minTemp: 12,
+                maxTemp: 24,
+                rain: 30,
+                wind: 12,
+                isCurrentLocation: true
+            )
     }
     
     func snapshot(for configuration: Intent, in context: Context) async -> DetailWeatherEntry {

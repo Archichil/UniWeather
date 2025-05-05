@@ -15,27 +15,28 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
     private let weatherService = WeatherAPIService()
     
     func placeholder(in context: Context) -> HourlyWeatherEntry {
-        HourlyWeatherEntry(
-            date: Date(),
-            dt: 1745953200 - 1801,
-            location: "Локакция",
-            icon: "02d",
-            description: "Облачно с прояснениями",
-            temp: 19,
-            minTemp: 12,
-            maxTemp: 24,
-            sunrise: 1745953200 - 1800,
-            sunset: 1745953200 + 3600,
-            items: [
-                HourlyWeatherHourItem(dt: 1745935200, icon: "01d", temp: 10),
-                HourlyWeatherHourItem(dt: 1745938800, icon: "02d", temp: 12),
-                HourlyWeatherHourItem(dt: 1745942400, icon: "02d", temp: 14),
-                HourlyWeatherHourItem(dt: 1745946000, icon: "03d", temp: 16),
-                HourlyWeatherHourItem(dt: 1745949600, icon: "03d", temp: 18),
-                HourlyWeatherHourItem(dt: 1745953200, icon: "04d", temp: 20)
-            ],
-            isCurrentLocation: true
-        )
+        let dt = 1745940771
+        return HourlyWeatherEntry(
+                date: Date(),
+                dt: dt,
+                location: "Локация",
+                icon: "02d",
+                description: "Переменная облачность",
+                temp: 19,
+                minTemp: 12,
+                maxTemp: 24,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                items: [
+                    HourlyWeatherHourItem(dt: dt + 1 * 3600, icon: "01d", temp: 10),
+                    HourlyWeatherHourItem(dt: dt + 2 * 3600, icon: "02d", temp: 12),
+                    HourlyWeatherHourItem(dt: dt + 3 * 3600, icon: "02d", temp: 14),
+                    HourlyWeatherHourItem(dt: dt + 4 * 3600, icon: "04d", temp: 16),
+                    HourlyWeatherHourItem(dt: dt + 5 * 3600, icon: "01d", temp: 14),
+                    HourlyWeatherHourItem(dt: dt + 6 * 3600, icon: "02d", temp: 12)
+                ],
+                isCurrentLocation: true
+            )
     }
     
     func snapshot(for configuration: Intent, in context: Context) async -> HourlyWeatherEntry {

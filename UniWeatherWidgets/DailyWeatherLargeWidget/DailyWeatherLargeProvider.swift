@@ -15,78 +15,79 @@ struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
     private let weatherService = WeatherAPIService()
     
     func placeholder(in context: Context) -> DailyWeatherLargeEntry {
-        DailyWeatherLargeEntry(
+        let dt = 1745940771
+        return DailyWeatherLargeEntry(
             date: Date(),
-            dt: Int(Date().timeIntervalSince1970),
-            sunset: Int(Date().timeIntervalSince1970) - 8 * 3600,
-            sunrise: Int(Date().timeIntervalSince1970) + 8 * 3600,
-            location: "Минск",
+            dt: dt,
+            sunset: dt + 3600 * 5,
+            sunrise: dt - 3600 * 4,
+            location: "Локакция",
             icon: "02d",
-            description: "Облачно",
+            description: "Переменная облачность",
             currentTemp: 12,
             tempMin: 6,
             tempMax: 24,
             hourlyItems: [
                 HourlyWeatherHourItem(
-                    dt: Int(Date().timeIntervalSince1970) + 1 * 3600,
+                    dt: dt + 1 * 3600,
                     icon: "01d",
                     temp: 10),
                 HourlyWeatherHourItem(
-                    dt: Int(Date().timeIntervalSince1970) + 2 * 3600,
+                    dt: dt + 2 * 3600,
                     icon: "02d",
                     temp: 12),
                 HourlyWeatherHourItem(
-                    dt: Int(Date().timeIntervalSince1970) + 3 * 3600,
+                    dt: dt + 3 * 3600,
                     icon: "03d",
                     temp: 14),
                 HourlyWeatherHourItem(
-                    dt: Int(Date().timeIntervalSince1970) + 4 * 3600,
+                    dt: dt + 4 * 3600,
                     icon: "04d",
                     temp: 16),
                 HourlyWeatherHourItem(
-                    dt: Int(Date().timeIntervalSince1970) + 5 * 3600,
+                    dt: dt + 5 * 3600,
                     icon: "01d",
                     temp: 14),
                 HourlyWeatherHourItem(
-                    dt: Int(Date().timeIntervalSince1970) + 6 * 3600,
+                    dt: dt + 6 * 3600,
                     icon: "02d",
                     temp: 12),
             ],
             dailyItems: [
                 WeatherDailyItem(
-                    dt: Int(Date().timeIntervalSince1970) + 1 * 86400,
+                    dt: dt + 1 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 22,
                     icon: "01d"),
                 WeatherDailyItem(
-                    dt: Int(Date().timeIntervalSince1970) + 2 * 86400,
+                    dt: dt + 2 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 23,
                     icon: "02d"),
                 WeatherDailyItem(
-                    dt: Int(Date().timeIntervalSince1970) + 3 * 86400,
+                    dt: dt + 3 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 24,
                     icon: "03d"),
                 WeatherDailyItem(
-                    dt: Int(Date().timeIntervalSince1970) + 4 * 86400,
+                    dt: dt + 4 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 19,
                     icon: "02d"),
                 WeatherDailyItem(
-                    dt: Int(Date().timeIntervalSince1970) + 5 * 86400,
+                    dt: dt + 5 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 6,
-                    maxTemp: 19,
+                    maxTemp: 5,
                     icon: "04d"),
             ],
             isCurrentLocation: true

@@ -15,21 +15,22 @@ struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
     private let weatherService = WeatherAPIService()
     
     func placeholder(in context: Context) -> DailyWeatherSmallEntry {
-        DailyWeatherSmallEntry(
-            date: Date(),
-            dt: 1745953200,
-            sunrise: 1745953200 - 3600 * 4,
-            sunset: 1745953200 + 3600 * 8,
-            temp: 19,
-            icon: "02d",
-            location: "Минск",
-            minTemp: 12,
-            maxTemp: 24,
-            items: [
-                DailyWeatherItem(dt: 1745956800, icon: "01d", minTemp: 10, maxTemp: 20),
-                DailyWeatherItem(dt: 1746043200, icon: "02d", minTemp: 12, maxTemp: 22),
-                DailyWeatherItem(dt: 1746129600, icon: "02d", minTemp: 14, maxTemp: 24),
-                DailyWeatherItem(dt: 1746216000, icon: "01d", minTemp: 16, maxTemp: 26),
+        let dt = 1745940771
+        return DailyWeatherSmallEntry(
+                date: Date(),
+                dt: dt,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                temp: 19,
+                icon: "02d",
+                location: "Локация",
+                minTemp: 12,
+                maxTemp: 24,
+                items: [
+                    DailyWeatherItem(dt: dt + 1 * 86400, icon: "01d", minTemp: 11, maxTemp: 24),
+                    DailyWeatherItem(dt: dt + 2 * 86400, icon: "02d", minTemp: 11, maxTemp: 22),
+                    DailyWeatherItem(dt: dt + 3 * 86400, icon: "02d", minTemp: 11, maxTemp: 19),
+                    DailyWeatherItem(dt: dt + 4 * 86400, icon: "01d", minTemp: 6, maxTemp: 24),
             ],
             isCurrentLocation: true
         )

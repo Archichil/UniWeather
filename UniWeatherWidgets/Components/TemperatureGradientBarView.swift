@@ -46,7 +46,7 @@ struct TemperatureGradientBarView: View {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color.gray.opacity(0.4))
                         .frame(height: barHeight)
                     
                     Capsule()

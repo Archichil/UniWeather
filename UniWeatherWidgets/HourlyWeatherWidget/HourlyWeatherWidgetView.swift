@@ -89,53 +89,32 @@ struct HourlyWeatherWidgetView: View {
 }
 
 
-struct WeatherSmallWidget_Previews: PreviewProvider {
+struct HourlyWeatherWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        let sunrise = 1745935200
-        let sunset = 1745935200 + 3600 * 12
-
-        let times = [
-            sunrise - 3600 - 1,
-            sunrise - 1,
-            sunrise + 1,
-            sunrise + 3600 + 1,
-            sunrise + 3600 * 3 + 1,
-            sunrise + 3600 * 5 + 1,
-            sunset - 3600 * 3 + 1,
-            sunset - 3600 * 1 + 1,
-            sunset + 1,
-            sunset + 3600 + 1
-        ]
-
-        
-        Group {
-            ForEach(times, id: \.self) { time in
-                HourlyWeatherWidgetView(entry:
-                    HourlyWeatherEntry(
-                        date: Date(),
-                        dt: time,
-                        location: "Минск",
-                        icon: "50d",
-                        description: "Облачно с прояснениями",
-                        temp: 19,
-                        minTemp: 12,
-                        maxTemp: 24,
-                        sunrise: sunrise,
-                        sunset: sunset,
-                        items: [
-                            HourlyWeatherHourItem(dt: 1745935200, icon: "01d", temp: 10),
-                            HourlyWeatherHourItem(dt: 1745938800, icon: "02d", temp: 12),
-                            HourlyWeatherHourItem(dt: 1745942400, icon: "02d", temp: 14),
-                            HourlyWeatherHourItem(dt: 1745946000, icon: "03d", temp: 16),
-                            HourlyWeatherHourItem(dt: 1745949600, icon: "03d", temp: 18),
-                            HourlyWeatherHourItem(dt: 1745953200, icon: "04d", temp: 20)
-                        ],
-                        isCurrentLocation: true
-                    )
-                )
-                .previewDisplayName("dt = \(time)")
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
-            }
-        }
+        let dt = 1745940771
+        HourlyWeatherWidgetView(entry:
+            HourlyWeatherEntry(
+                date: Date(),
+                dt: dt,
+                location: "Локация",
+                icon: "02d",
+                description: "Переменная облачность",
+                temp: 19,
+                minTemp: 12,
+                maxTemp: 24,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                items: [
+                    HourlyWeatherHourItem(dt: dt + 1 * 3600, icon: "01d", temp: 10),
+                    HourlyWeatherHourItem(dt: dt + 2 * 3600, icon: "02d", temp: 12),
+                    HourlyWeatherHourItem(dt: dt + 3 * 3600, icon: "02d", temp: 14),
+                    HourlyWeatherHourItem(dt: dt + 4 * 3600, icon: "04d", temp: 16),
+                    HourlyWeatherHourItem(dt: dt + 5 * 3600, icon: "01d", temp: 14),
+                    HourlyWeatherHourItem(dt: dt + 6 * 3600, icon: "02d", temp: 12)
+                ],
+                isCurrentLocation: true
+            )
+        )
+        .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

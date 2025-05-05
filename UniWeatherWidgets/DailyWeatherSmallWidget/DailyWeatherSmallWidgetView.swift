@@ -80,3 +80,29 @@ struct DailyWeatherSmallWidgetView: View {
         }
     }
 }
+
+struct DailyWeatherSmallWidgetView_Previews: PreviewProvider {
+    static var previews: some View {
+        let dt = 1745940771
+        DailyWeatherSmallWidgetView(entry:
+            DailyWeatherSmallEntry(
+                date: Date(),
+                dt: dt,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                temp: 19,
+                icon: "02d",
+                location: "Локация",
+                minTemp: 12,
+                maxTemp: 24,
+                items: [
+                    DailyWeatherItem(dt: dt + 1 * 86400, icon: "01d", minTemp: 11, maxTemp: 24),
+                    DailyWeatherItem(dt: dt + 2 * 86400, icon: "02d", minTemp: 11, maxTemp: 22),
+                    DailyWeatherItem(dt: dt + 3 * 86400, icon: "02d", minTemp: 11, maxTemp: 19),
+                    DailyWeatherItem(dt: dt + 4 * 86400, icon: "01d", minTemp: 6, maxTemp: 24),
+            ],
+            isCurrentLocation: true
+            )
+        ).previewContext(WidgetPreviewContext(family: .systemSmall))
+    }
+}

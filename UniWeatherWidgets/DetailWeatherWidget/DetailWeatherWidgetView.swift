@@ -84,10 +84,26 @@ struct DetailWeatherWidgetView: View {
         }
     }
 }
-//
-//struct DetailWeatherWidgetView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailWeatherWidgetView()
-//            .previewContext(WidgetPreviewContext(family: .systemSmall))
-//    }
-//}
+
+struct DetailWeatherWidgetView_Previews: PreviewProvider {
+    static var previews: some View {
+        let dt = 1745940771
+        DetailWeatherWidgetView(entry:
+            DetailWeatherEntry(
+                date: Date(),
+                dt: dt,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                location: "Локация",
+                icon: "02d",
+                temp: 19,
+                minTemp: 12,
+                maxTemp: 24,
+                rain: 30,
+                wind: 12,
+                isCurrentLocation: true
+            )
+        )
+        .previewContext(WidgetPreviewContext(family: .systemSmall))
+    }
+}
