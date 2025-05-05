@@ -184,7 +184,7 @@ struct DailyWeatherLargeWidgetView_Previews: PreviewProvider {
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 6,
-                    maxTemp: 5,
+                    maxTemp: 16,
                     icon: "04d"),
             ],
             isCurrentLocation: true
