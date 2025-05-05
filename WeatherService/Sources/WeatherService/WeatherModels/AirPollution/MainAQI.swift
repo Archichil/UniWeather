@@ -7,6 +7,6 @@
 
 import APIClient
 
-public struct MainAQI: DecodableType {
+public struct MainAQI: DecodableType, Sendable {
     public let aqi: Int
 }

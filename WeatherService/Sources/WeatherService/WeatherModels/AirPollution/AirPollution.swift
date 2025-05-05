@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct AirPollution: DecodableType {
+public struct AirPollution: DecodableType, Sendable {
     public let coord: Coordinates
     public let list: [AirPollutionData]
 }

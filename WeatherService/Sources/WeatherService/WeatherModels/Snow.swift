@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct Snow: DecodableType {
+public struct Snow: DecodableType, Sendable {
     public let oneHour: Double?
 
     public enum CodingKeys: String, CodingKey {

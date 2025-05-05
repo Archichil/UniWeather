@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct TextUnits {
+public struct TextUnits, Sendable {
     public let windUnits: String
     public let tempUnits: String
     

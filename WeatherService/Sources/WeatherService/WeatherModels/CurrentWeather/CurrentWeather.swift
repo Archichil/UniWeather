@@ -8,7 +8,7 @@
 import APIClient
 
 // https://openweathermap.org/current
-public struct CurrentWeather: DecodableType {
+public struct CurrentWeather: DecodableType, Sendable {
     public let coord: Coordinates
     public let weather: [Weather]
     public let base: String

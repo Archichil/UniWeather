@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct MainWeather: DecodableType {
+public struct MainWeather: DecodableType, Sendable {
     public let temp: Double
     public let feelsLike: Double
     public let pressure: Int

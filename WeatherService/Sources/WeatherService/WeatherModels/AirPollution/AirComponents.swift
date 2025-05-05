@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct AirComponents: DecodableType {
+public struct AirComponents: DecodableType, Sendable {
     public let co: Double?
     public let no: Double?
     public let no2: Double?

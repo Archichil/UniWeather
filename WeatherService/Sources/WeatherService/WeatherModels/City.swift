@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct City: DecodableType {
+public struct City: DecodableType, Sendable {
     public let id: Int
     public let name: String
     public let coord: Coordinates

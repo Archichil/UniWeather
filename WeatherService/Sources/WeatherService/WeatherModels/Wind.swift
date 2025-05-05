@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct Wind: DecodableType {
+public struct Wind: DecodableType, Sendable {
     public let speed: Double
     public let deg: Int
     public let gust: Double

@@ -7,7 +7,7 @@
 
 import APIClient
 
-public enum Language: String {
+public enum Language: String, Sendable {
     case en
     case ru
 }

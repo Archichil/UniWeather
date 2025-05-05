@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct AirPollutionData: DecodableType {
+public struct AirPollutionData: DecodableType, Sendable {
     public let main: MainAQI
     public let components: AirComponents
     public let dt: Int

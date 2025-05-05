@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct Temperature: DecodableType {
+public struct Temperature: DecodableType, Sendable {
     public let day: Double
     public let min: Double
     public let max: Double
