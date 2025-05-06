@@ -96,31 +96,41 @@ struct HourlyForecastSectionView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         formatter.locale = Locale(identifier: Constants.Texts.localeIdentifier)
+        formatter.timeZone = TimeZone(secondsFromGMT: hourlyWeather.city.timezone)
         
         return formatter.string(from: date)
     }
 }
 
-#Preview {
-    struct PreviewWrapper: View {
-        @State var isLoaded = false
-        @State var weatherData: HourlyWeather?
-        let apiService = WeatherAPIService()
-        
-        var body: some View {
-            VStack {
-                if isLoaded {
-                    HourlyForecastSectionView(hourlyWeather: weatherData!, sunrise: weatherData?.city.sunrise, sunset: weatherData?.city.sunset)
-                }
-            }
-            .padding()
-            .task {
-                // FIXME: Concurrency issues, can not be fixed at this moment
-                weatherData = try? await apiService.getHourlyWeather(coords: Coordinates(lat: 53.893009, lon: 27.567444), units: .metric, count: 25)
-                isLoaded = true
+fileprivate struct PreviewWrapper: View {
+    @State var isLoaded = false
+    @State var weatherData: HourlyWeather?
+    let apiService = WeatherAPIService()
+    let coordinates: Coordinates
+    
+    var body: some View {
+        VStack {
+            if isLoaded {
+                HourlyForecastSectionView(hourlyWeather: weatherData!, sunrise: weatherData?.city.sunrise, sunset: weatherData?.city.sunset)
             }
         }
+        .padding()
+        .task {
+            // FIXME: Concurrency issues, can not be fixed at this moment
+            weatherData = try? await apiService.getHourlyWeather(coords: coordinates, units: .metric, count: 25)
+            isLoaded = true
+        }
     }
-    
-    return PreviewWrapper()
+}
+
+#Preview("Honolulu GMT-10") {
+    PreviewWrapper(coordinates: Coordinates(lat: 21.315603, lon: -157.858093))
+}
+
+#Preview("Minsk GMT+3") {
+    PreviewWrapper(coordinates: Coordinates(lat: 53.893009, lon: 27.567444))
+}
+
+#Preview("Petropavlovsk-Kamchatskiy GMT+12") {
+    PreviewWrapper(coordinates: Coordinates(lat: 53.04, lon: 158.65))
 }

@@ -107,44 +107,57 @@ struct WeekForecastSectionView: View {
     
     private func formatTime(_ timestamp: Int, format: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        if let timezone = TimeZone(secondsFromGMT: dailyWeather.city.timezone) {
+            calendar.timeZone = timezone
+        }
         if calendar.isDateInToday(date) {
             return Constants.Texts.today
         }
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: Constants.Texts.localeIdentifier)
         formatter.dateFormat = format
+        formatter.timeZone = TimeZone(secondsFromGMT: dailyWeather.city.timezone)
         
         return formatter.string(from: date)
     }
 }
 
-#Preview {
-    struct PreviewWrapper: View {
-        @State var isLoaded = false
-        @State var weatherData: DailyWeather?
-        let apiService = WeatherAPIService()
-        
-        var body: some View {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    Rectangle()
-                        .frame(width: 0, height: 300)
-                    if isLoaded {
-                        WeekForecastSectionView(dailyWeather: weatherData!)
-                    }
-                    Rectangle()
-                        .frame(width: 0, height: 300)
+fileprivate struct PreviewWrapper: View {
+    @State var isLoaded = false
+    @State var weatherData: DailyWeather?
+    let apiService = WeatherAPIService()
+    let coordinates: Coordinates
+    
+    var body: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack {
+                Rectangle()
+                    .frame(width: 0, height: 300)
+                if isLoaded {
+                    WeekForecastSectionView(dailyWeather: weatherData!)
                 }
-                .padding()
-                .task {
-                    // FIXME: Concurrency issues, can not be fixed at this moment
-                    weatherData = try? await apiService.getDailyWeather(coords: Coordinates(lat: 53.893009, lon: 27.567444), units: .metric, count: 14)
-                    isLoaded = true
-                }
+                Rectangle()
+                    .frame(width: 0, height: 300)
+            }
+            .padding()
+            .task {
+                // FIXME: Concurrency issues, can not be fixed at this moment
+                weatherData = try? await apiService.getDailyWeather(coords: coordinates, units: .metric, count: 14)
+                isLoaded = true
             }
         }
     }
-    
-    return PreviewWrapper()
+}
+
+#Preview("Honolulu GMT-10") {
+    PreviewWrapper(coordinates: Coordinates(lat: 21.315603, lon: -157.858093))
+}
+
+#Preview("Minsk GMT+3") {
+    PreviewWrapper(coordinates: Coordinates(lat: 53.893009, lon: 27.567444))
+}
+
+#Preview("Petropavlovsk-Kamchatskiy GMT+12") {
+    PreviewWrapper(coordinates: Coordinates(lat: 53.04, lon: 158.65))
 }
