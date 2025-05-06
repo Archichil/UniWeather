@@ -10,5 +10,5 @@ import APIClient
 public struct Wind: DecodableType, Sendable {
     public let speed: Double
     public let deg: Int
-    public let gust: Double
+    public let gust: Double?
 }

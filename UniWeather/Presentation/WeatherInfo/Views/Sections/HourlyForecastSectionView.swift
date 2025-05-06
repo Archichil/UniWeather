@@ -43,11 +43,11 @@ struct HourlyForecastSectionView: View {
         guard !hourlyWeather.list.isEmpty else { return items }
         
         let nowItem = hourlyWeather.list[0]
-        items.append(HourlyWeatherItemsWrapper(temperature: "\(String(Int(nowItem.main.temp)))º", icon: nowItem.weather.first?.icon ?? "", time: "Сейчас"))
+        items.append(HourlyWeatherItemsWrapper(temperature: "\(String(Int(nowItem.main.temp)))º", icon: nowItem.weather.first?.icon ?? "", time: Constants.Texts.now))
         appendSunEvents(for: nowItem.dt, to: &items)
         
         for item in hourlyWeather.list {
-            items.append(HourlyWeatherItemsWrapper(temperature: "\(String(Int(item.main.temp)))º", icon: item.weather.first?.icon ?? "", time: formatTime(item.dt, format: "HH")))
+            items.append(HourlyWeatherItemsWrapper(temperature: "\(String(Int(item.main.temp)))º", icon: item.weather.first?.icon ?? "", time: formatTime(item.dt, format: Constants.TimeFormats.regular)))
             appendSunEvents(for: item.dt, to: &items)
         }
         
