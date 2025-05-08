@@ -28,7 +28,7 @@ struct TemperatureGradientBarView: View {
     let dayMin: Double
     let dayMax: Double
     
-    private let barHeight: CGFloat = 8
+    private let barHeight: CGFloat = 4
 
     // MARK: — Fractions for this low/high segment
     private var startFraction: CGFloat {

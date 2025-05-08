@@ -33,7 +33,7 @@ struct CustomStackView<Title: View, Content: View >: View {
                 .lineLimit(1)
                 .frame(height: titleHeight)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.ultraThinMaterial, in: CustomCorner(corners: bottomOffset < titleHeight ? .allCorners : [.topLeft, .topRight], radius: cornerRadius))
+                .background(.ultraThinMaterial.opacity(0.4), in: CustomCorner(corners: bottomOffset < titleHeight ? .allCorners : [.topLeft, .topRight], radius: cornerRadius))
                 .zIndex(1)
             
             VStack(spacing: 0) {
@@ -43,7 +43,7 @@ struct CustomStackView<Title: View, Content: View >: View {
                     .padding(.bottom)
                     .padding(.top, 12)
             }
-            .background(.ultraThinMaterial, in: CustomCorner(corners: [.bottomLeft, .bottomRight], radius: cornerRadius))
+            .background(.ultraThinMaterial.opacity(0.4), in: CustomCorner(corners: [.bottomLeft, .bottomRight], radius: cornerRadius))
             .offset(y: topOffset >= sectionTopSafeArea ? 0 : -(-topOffset + sectionTopSafeArea))
             .zIndex(0)
             .clipped()

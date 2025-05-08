@@ -28,7 +28,7 @@ struct HumiditySection: View {
     private enum Constants {
         enum Texts {
             static let sectionName = "ВЛАЖНОСТЬ"
-            static let dewPoint = "Точка росы сейчас"
+            static let dewPoint = "Точка росы"
         }
         enum Icons {
             static let sectionIcon = "drop.fill"

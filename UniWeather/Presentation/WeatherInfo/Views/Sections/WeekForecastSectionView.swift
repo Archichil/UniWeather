@@ -85,7 +85,7 @@ struct WeekForecastSectionView: View {
                                     .foregroundStyle(.secondary)
                                     .frame(width: 50, alignment: .trailing)
                                 TemperatureGradientBarView(overallMin: day.overallMin, overallMax: day.overallMax, dayMin: Double(day.tempMin), dayMax: Double(day.tempMax))
-                                    .frame(height: 8)
+                                    .frame(height: 4)
                                 Text("\(day.tempMax)º")
                                     .frame(width: 50, alignment: .leading)
                                     .font(.title3)
