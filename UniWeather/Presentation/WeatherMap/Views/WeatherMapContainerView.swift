@@ -9,6 +9,7 @@ import SwiftUI
 import WeatherMapService
 
 struct WeatherMapContainerView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = MapViewModel()
 
     private enum Constants {
@@ -16,10 +17,15 @@ struct WeatherMapContainerView: View {
             static let cornerRadius: CGFloat = 8
             static let horizontalPadding: CGFloat = 8
             static let padding: CGFloat = 8
+            static let readyButtonPadding: CGFloat = 10
         }
 
         enum Icons {
             static let layers = "square.3.layers.3d"
+        }
+        
+        enum Texts {
+            static let ready = "Готово"
         }
     }
 
@@ -32,10 +38,25 @@ struct WeatherMapContainerView: View {
                 }
             VStack {
                 HStack(alignment: .top) {
-                    GradientLegendView(propertyName: viewModel.selectedLayer.measurementValue, colorLevels: viewModel.selectedLayer.colorLevels)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .opacity(viewModel.isUIVisible ? 1 : 0)
-                        .animation(.easeInOut, value: viewModel.isUIVisible)
+                    VStack(alignment: .leading, spacing: 16) {
+                        Button(action: {
+                            dismiss.callAsFunction()
+                        }) {
+                            Text(Constants.Texts.ready)
+                                .font(.title3)
+                                .fontWeight(.medium)
+                                .padding(Constants.Layout.readyButtonPadding)
+                                .foregroundStyle(.background)
+                                .colorInvert()
+                                .background(.ultraThinMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cornerRadius))
+                        }
+                        
+                        GradientLegendView(propertyName: viewModel.selectedLayer.measurementValue, colorLevels: viewModel.selectedLayer.colorLevels)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .opacity(viewModel.isUIVisible ? 1 : 0)
+                            .animation(.easeInOut, value: viewModel.isUIVisible)
+                    }
                     Menu {
                         ForEach(WeatherMapConfiguration.MapLayer.allCases) { layer in
                             Button(action: {
@@ -71,6 +92,7 @@ struct WeatherMapContainerView: View {
                     }
             }
         }
+        .toolbar(.hidden)
         .onAppear {
             viewModel.userDidInteract()
         }
