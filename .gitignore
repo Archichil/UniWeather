@@ -4,6 +4,7 @@
 
 ### CONFIGS ###
 Config.plist
+UniWeatherWidgets/Config.plist
 
 ### macOS ###
 *.DS_Store
@@ -82,4 +83,3 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
-UniWeatherWidgets/Config.plist
