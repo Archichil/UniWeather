@@ -74,7 +74,7 @@ class HolidaysForecastViewModel: ObservableObject {
     init() {
         Task {
             weather = try? await weatherService.getDailyWeather(
-                coords: Coordinates(lon: 27.550, lat: 53.896),
+                coords: Coordinates(lat: 53.896, lon: 27.550),
                 units: .metric ,
                 count: 15,
                 lang: .ru

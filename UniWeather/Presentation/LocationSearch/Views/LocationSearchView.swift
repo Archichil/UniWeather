@@ -171,11 +171,19 @@ struct LocationSearchView: View {
         let entity = LocationEntity(latitude: coordinate.lat, longitude: coordinate.lon)
         context.insert(entity)
         try? context.save()
+        updateUserDefaults()
     }
     
     func deleteItem(_ item: LocationEntity) {
         context.delete(item)
         try? context.save()
+        updateUserDefaults()
+    }
+    
+    func updateUserDefaults() {
+        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
+        let encodedItems = try? JSONEncoder().encode(items)
+        sharedDefaults.set(encodedItems, forKey: "savedLocations")
     }
 }
 

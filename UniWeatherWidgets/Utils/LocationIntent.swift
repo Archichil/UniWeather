@@ -82,11 +82,11 @@ class GeolocationManager {
             return cachedGeolocations
         }
         
-        let geolocations: [LocationIntent.GeoOption] = [
+        var geolocations: [LocationIntent.GeoOption] = [
             .init(id: "current_location", name: "Текущее местоположение", coordinates: Coordinates(lat: 0, lon: 0)),
-            .init(id: "1", name: "Минск", coordinates: Coordinates(lat: 53.9, lon: 27.5667)),
-            .init(id: "2", name: "Москва", coordinates: Coordinates(lat: 55.7558, lon: 37.6176)),
         ]
+        let savedLocations = getUserDefaultsLocations()
+        geolocations += savedLocations
         
         cachedGeolocations = geolocations
         return geolocations
@@ -95,6 +95,21 @@ class GeolocationManager {
     func updateGeo(_ geolocations: [LocationIntent.GeoOption]) {
         cachedGeolocations = geolocations
     }
+    
+    func getUserDefaultsLocations() -> [LocationIntent.GeoOption] {
+        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
+
+        guard let data = sharedDefaults.data(forKey: "savedLocations"),
+              let savedLocations = try? JSONDecoder().decode([LocationEntity].self, from: data) else {
+            return []
+        }
+
+        // FIXME: Use reverse geocoding to put the proper name
+        return savedLocations.map { entity in
+            LocationIntent.GeoOption(id: entity.id.uuidString, name: entity.id.uuidString, coordinates: Coordinates(lat: entity.latitude, lon: entity.longitude))
+        }
+    }
+
 }
 
 func resolveCoordinates(from configuration: LocationIntent) async  -> (coords: Coordinates, isCurrentLocation: Bool, location: String) {
@@ -104,7 +119,7 @@ func resolveCoordinates(from configuration: LocationIntent) async  -> (coords: C
     
     if let geo = configuration.geo {
         if geo.isCurrentLocation == true {
-            let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
+            let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
             if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
                let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
                 coords = Coordinates(lat: lat, lon: lon)
