@@ -1,8 +1,8 @@
 //
-//  CurrentWeatherProvider.swift
+//  DailyWeatherSmallProvider.swift
 //  UniWeather
 //
-//  Created by Daniil on 21.04.25.
+//  Created by Daniil on 30.04.25.
 //
 
 import SwiftUI
@@ -10,32 +10,37 @@ import WidgetKit
 import WeatherService
 import Intents
 
-struct CurrentWeatherProvider: AppIntentTimelineProvider {
+struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
     private let weatherService = WeatherAPIService()
     
-    func placeholder(in context: Context) -> CurrentWeatherEntry {
+    func placeholder(in context: Context) -> DailyWeatherSmallEntry {
         let dt = 1745940771
-        return CurrentWeatherEntry(
+        return DailyWeatherSmallEntry(
                 date: Date(),
                 dt: dt,
                 sunrise: dt - 3600 * 4,
                 sunset: dt + 3600 * 5,
-                temperature: 19,
+                temp: 19,
                 icon: "02d",
                 location: "Локация",
                 minTemp: 12,
                 maxTemp: 24,
-                description: "Переменная облачность",
-                isCurrentLocation: true
-            )
+                items: [
+                    DailyWeatherItem(dt: dt + 1 * 86400, icon: "01d", minTemp: 11, maxTemp: 24),
+                    DailyWeatherItem(dt: dt + 2 * 86400, icon: "02d", minTemp: 11, maxTemp: 22),
+                    DailyWeatherItem(dt: dt + 3 * 86400, icon: "02d", minTemp: 11, maxTemp: 19),
+                    DailyWeatherItem(dt: dt + 4 * 86400, icon: "01d", minTemp: 6, maxTemp: 24),
+            ],
+            isCurrentLocation: true
+        )
     }
     
-    func snapshot(for configuration: Intent, in context: Context) async -> CurrentWeatherEntry {
+    func snapshot(for configuration: Intent, in context: Context) async -> DailyWeatherSmallEntry {
         placeholder(in: context)
     }
     
-    func timeline(for configuration: Intent, in context: Context) async -> Timeline<CurrentWeatherEntry> {
+    func timeline(for configuration: Intent, in context: Context) async -> Timeline<DailyWeatherSmallEntry> {
         let currentDate = Date()
         
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
@@ -44,24 +49,38 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
     
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
-            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
+            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 5)
             
-            let entry: CurrentWeatherEntry
+            let entry: DailyWeatherSmallEntry
             if let currentWeather = currentWeather,
-               let dailyWeather = dailyWeather {
-                entry = CurrentWeatherEntry(
+               let dailyWeather = dailyWeather{
+                var dailyWeatherItems: [DailyWeatherItem] = []
+                
+                for item in dailyWeather.list.dropFirst() {
+                    dailyWeatherItems.append(
+                        DailyWeatherItem(
+                            dt: item.dt + dailyWeather.city.timezone,
+                            icon: item.weather.first?.icon ?? "",
+                            minTemp: Int(item.temp.min.rounded()),
+                            maxTemp: Int(item.temp.max.rounded())
+                        )
+                    )
+                }
+                
+                entry = DailyWeatherSmallEntry(
                     date: currentDate,
                     dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
                     sunrise: (dailyWeather.list.first?.sunrise ?? 0) + dailyWeather.city.timezone,
                     sunset: (dailyWeather.list.first?.sunset ?? 0) + dailyWeather.city.timezone,
-                    temperature: Int(currentWeather.main.temp.rounded()),
+                    temp: Int(currentWeather.main.temp.rounded()),
                     icon: currentWeather.weather.first?.icon ?? "",
                     location: location,
                     minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
                     maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
-                    description: currentWeather.weather.first?.description ?? "Нет данных",
+                    items: dailyWeatherItems,
                     isCurrentLocation: isCurrentLocation
                 )
+                print(Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone)
             } else {
                 entry = placeholder(in: context)
             }

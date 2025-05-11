@@ -13,66 +13,97 @@ private struct DetailWeatherWidgetSection: View {
     let value: Int
     let units: String
     var icon: String? = nil
-    
+    var zeroPlaceholder: String? = nil
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(title)
                 .foregroundStyle(.white)
             
             HStack(spacing: 6) {
-                if let icon = icon {
-                    Image(systemName: icon)
+                if icon != nil && zeroPlaceholder == nil {
+                    Image(systemName: icon!)
                 }
                 
-                Text("\(value) \(units)")
+                Text(zeroPlaceholder ?? "\(value) \(units)")
             }
             .foregroundStyle(secondaryColor)
         }
         .font(.system(size: 13))
-        .bold()
+        .fontWeight(.bold)
     }
 }
 
 struct DetailWeatherWidgetView: View {
+    let entry: DetailWeatherEntry
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 4) {
                 LocationWeatherHeader(
-                    location: "Минск",
-                    icon: "cloud.sun.fill",
-                    currentTemp: 19,
-                    tempMin: 12,
-                    tempMax: 24
+                    location: entry.location,
+                    icon: entry.icon,
+                    currentTemp: entry.temp,
+                    tempMin: entry.minTemp,
+                    tempMax: entry.maxTemp,
+                    isCurrentLocation: entry.isCurrentLocation
                 )
                 
-                VStack(alignment:.leading, spacing: 2) {
+                VStack(alignment:.leading, spacing: 1) {
                     DetailWeatherWidgetSection(
                         title: "Осадки",
-                        value: 30,
+                        value: entry.rain,
                         units: "%",
-                        icon: "cloud.rain.fill"
+                        icon: "cloud.rain.fill",
+                        zeroPlaceholder: entry.rain == 0 ? "Без осадков" : nil
                     )
                     
                     DetailWeatherWidgetSection(
                         title: "Ветер",
-                        value: 12,
-                        units: "км/ч"
+                        value: entry.wind,
+                        units: "км/ч",
+                        zeroPlaceholder: entry.wind == 0 ? "Безветренно" : nil
                     )
                 }
             }
 
         }
         .containerBackground(for: .widget) {
+            let gradient = getBackgroundGradient(
+                weatherCode: entry.icon,
+                dt: entry.dt,
+                sunset: entry.sunset,
+                sunrise: entry.sunrise
+            )
             ContainerRelativeShape()
-                .fill(Color(.blue).gradient)
+                .fill(LinearGradient(
+                    gradient: gradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
         }
     }
 }
 
 struct DetailWeatherWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailWeatherWidgetView()
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        let dt = 1745940771
+        DetailWeatherWidgetView(entry:
+            DetailWeatherEntry(
+                date: Date(),
+                dt: dt,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                location: "Локация",
+                icon: "02d",
+                temp: 19,
+                minTemp: 12,
+                maxTemp: 24,
+                rain: 30,
+                wind: 12,
+                isCurrentLocation: true
+            )
+        )
+        .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

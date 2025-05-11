@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct Coordinates: DecodableType {
+public struct Coordinates: DecodableType, Sendable {
     public let lon: Double
     public let lat: Double
 

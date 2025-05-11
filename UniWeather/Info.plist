@@ -4,5 +4,20 @@
 <dict>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.kuhockovolec.UniWeather.refresh</string>
+	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Для отображения погоды в виджетах</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Для показа местной погоды</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Для обновления виджета в фоне</string>
 </dict>
 </plist>
