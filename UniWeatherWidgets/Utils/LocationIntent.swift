@@ -37,7 +37,7 @@ struct LocationIntent: WidgetConfigurationIntent {
             GeoOption(
                 id: "current_location",
                 name: "Текущее местоположение",
-                coordinates: Coordinates(lon: 0.0, lat: 0.0)
+                coordinates: Coordinates(lat: 0.0, lon: 0.0)
             )
         }
         
@@ -83,9 +83,9 @@ class GeolocationManager {
         }
         
         let geolocations: [LocationIntent.GeoOption] = [
-            .init(id: "current_location", name: "Текущее местоположение", coordinates: Coordinates(lon: 0, lat: 0)),
-            .init(id: "1", name: "Минск", coordinates: Coordinates(lon: 27.5667, lat: 53.9)),
-            .init(id: "2", name: "Москва", coordinates: Coordinates(lon: 37.6176, lat: 55.7558)),
+            .init(id: "current_location", name: "Текущее местоположение", coordinates: Coordinates(lat: 0, lon: 0)),
+            .init(id: "1", name: "Минск", coordinates: Coordinates(lat: 53.9, lon: 27.5667)),
+            .init(id: "2", name: "Москва", coordinates: Coordinates(lat: 55.7558, lon: 37.6176)),
         ]
         
         cachedGeolocations = geolocations
@@ -98,7 +98,7 @@ class GeolocationManager {
 }
 
 func resolveCoordinates(from configuration: LocationIntent) async  -> (coords: Coordinates, isCurrentLocation: Bool, location: String) {
-    var coords = Coordinates(lon: 0, lat: 0)
+    var coords = Coordinates(lat: 0, lon: 0)
     var isCurrentLocation = false
     var location: String?
     
@@ -107,12 +107,12 @@ func resolveCoordinates(from configuration: LocationIntent) async  -> (coords: C
             let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
             if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
                let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
-                coords = Coordinates(lon: lon, lat: lat)
+                coords = Coordinates(lat: lat, lon: lon)
                 isCurrentLocation = true
                 location = await getPlaceName(for: coords)
             }
         } else {
-            coords = Coordinates(lon: geo.coordinates.lon, lat: geo.coordinates.lat)
+            coords = Coordinates(lat: geo.coordinates.lat, lon: geo.coordinates.lon)
             location = geo.name
         }
     }
