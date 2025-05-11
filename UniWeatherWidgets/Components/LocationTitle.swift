@@ -10,6 +10,7 @@ import SwiftUI
 struct LocationTitle: View {
     let location: String
     let textSize: CGFloat
+    var isCurrentLocation: Bool = false
     
     var body: some View {
         HStack(spacing: 0) {
@@ -18,9 +19,11 @@ struct LocationTitle: View {
                 .fontWeight(.semibold)
                 .font(.system(size: textSize))
             
-            Image(systemName: "location.fill")
-                .font(.system(size: textSize * 2 / 3))
-                .padding(.horizontal, 2)
+            if isCurrentLocation {
+                Image(systemName: "location.fill")
+                    .font(.system(size: textSize * 2 / 3))
+                    .padding(.horizontal, 2)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .foregroundStyle(.white)

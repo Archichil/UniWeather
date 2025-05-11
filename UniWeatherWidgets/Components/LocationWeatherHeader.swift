@@ -13,44 +13,46 @@ struct LocationWeatherHeader: View {
     let currentTemp: Int
     let tempMin: Int
     let tempMax: Int
+    let isCurrentLocation: Bool
     
     var body: some View {
         VStack {
             HStack(spacing: 0) {
-                LocationTitle(location: location, textSize: 15)
+                LocationTitle(location: location, textSize: 15, isCurrentLocation: isCurrentLocation)
                 
-                Image(systemName: icon)
-                    .foregroundStyle(.white, .yellow)
-                    .font(.system(size: 16))
+                WeatherIcon(weatherCode: icon)
+                    .font(.system(size: 13))
                     .frame(alignment: .trailing)
             }
             
             HStack {
                 Text("\(currentTemp)º")
                     .font(.largeTitle)
+                    .fontWeight(.regular)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                VStack(alignment: .trailing, spacing: 2) {
+                VStack(alignment: .trailing, spacing: 1) {
                     HStack(spacing: 0) {
                         Image(systemName: "arrow.up")
-                            .fontWeight(.semibold)
+                            .font(.system(size: 11))
+                            .fontWeight(.heavy)
                         
                         Text("\(tempMax)º")
-                            .bold()
                             .frame(width: 24, alignment: .trailing)
                     }
                     
                     HStack(spacing: 0) {
                         Image(systemName: "arrow.down")
-                            .fontWeight(.semibold)
+                            .font(.system(size: 11))
+                            .fontWeight(.heavy)
                         
                         Text("\(tempMin)º")
-                            .bold()
                             .frame(width: 24, alignment: .trailing)
                     }
                     .foregroundStyle(secondaryColor)
                 }
-                .font(.system(size: 12))
+                .font(.system(size: 13))
+                .bold()
             }
         }
         .foregroundStyle(.white)

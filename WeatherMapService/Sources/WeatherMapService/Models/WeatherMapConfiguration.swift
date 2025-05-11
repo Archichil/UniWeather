@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 import APIClient
 
 public enum WeatherMapConfiguration {
