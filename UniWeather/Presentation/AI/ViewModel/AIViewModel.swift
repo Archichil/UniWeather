@@ -46,20 +46,20 @@ class AIViewModel: ObservableObject {
     
     private func fetchAIResponse(for prompt: AvailablePrompts) async -> String {
         // TODO: Change coordinates
-        let weather = try? await weatherService.getDailyWeather(coords: Coordinates(lon: 27.550, lat: 53.896), units: .metric ,count: selectedDayIndex + 1, lang: .ru)
+        let weather = try? await weatherService.getDailyWeather(coords: Coordinates(lat: 53.896, lon: 27.550), units: .metric ,count: selectedDayIndex + 1, lang: .ru)
         if let weather {
             let prompt: String = {
                 switch prompt {
                 case .whatToWear:
-                    PromptTypes.getClothesRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                    PromptTypes.getClothesRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
                 case .transportOption:
                     PromptTypes.getTransportRecommendation(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
                 case .healthTips:
-                    PromptTypes.getHealthRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                    PromptTypes.getHealthRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
                 case .exploreNearby:
-                    PromptTypes.getPlacesToVisitRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                    PromptTypes.getPlacesToVisitRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
                 case .enjoyableActivities:
-                    PromptTypes.getActivityRecomendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+                    PromptTypes.getActivityRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
                 }
             }()
             
