@@ -72,7 +72,12 @@ struct TemperatureGradientBarView: View {
         var result: [Gradient.Stop] = []
         
         for (value, color) in fullStops {
-            let loc = CGFloat((value - dayMin) / (dayMax - dayMin))
+            let loc: CGFloat
+            if dayMax == dayMin {
+                loc = 0.5
+            } else {
+                loc = CGFloat((value - dayMin) / (dayMax - dayMin))
+            }
             let clamped = min(max(loc, 0), 1)
             result.append(.init(color: color, location: clamped))
         }
