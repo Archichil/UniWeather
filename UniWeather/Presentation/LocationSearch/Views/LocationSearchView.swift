@@ -7,6 +7,8 @@
 
 import SwiftUI
 import MapKit
+import SwiftData
+import WeatherService
 
 struct LocationSearchView: View {
     // MARK: - Constants
@@ -26,6 +28,8 @@ struct LocationSearchView: View {
     
     // MARK: - Properties
     @StateObject private var viewModel = LocationSearchViewModel()
+    @Environment(\.modelContext) private var context
+    @Query(sort: \LocationEntity.timestamp, order: .reverse) private var items: [LocationEntity]
     @State private var isFocused = false
     @State private var isSheetPresented = false
     
@@ -34,17 +38,19 @@ struct LocationSearchView: View {
         NavigationStack {
             searchableList
                 .navigationTitle(Constants.Text.navigationTitle)
-                .sheet(isPresented: $isSheetPresented) {
-                    sheetContent
-                }
+//                .sheet(isPresented: $isSheetPresented) {
+//                    sheetContent
+//                }
         }
     }
     
     // MARK: - Subviews
     private var searchableList: some View {
-        List {
+        VStack {
             if isFocused {
-                searchResultsContent
+                List {
+                    searchResultsContent
+                }
             } else {
                 mainContent
             }
@@ -55,6 +61,7 @@ struct LocationSearchView: View {
             placement: .navigationBarDrawer(displayMode: .always),
             prompt: Constants.Text.searchPrompt
         )
+        
     }
     
     @ViewBuilder
@@ -67,9 +74,28 @@ struct LocationSearchView: View {
     }
     
     private var mainContent: some View {
-        Text(viewModel.address)
-            .foregroundColor(Constants.Colors.highlight)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 8) {
+                ForEach(items) { item in
+                    HStack {
+                        LocationItemContainer(coordinate: Coordinates(lat: item.latitude, lon: item.longitude))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+//                        Spacer()
+                        Button(role: .destructive) {
+                            deleteItem(item)
+                        } label: {
+                            Image(systemName: "trash")
+                                .font(.title2)
+                                .foregroundColor(.red)
+                        }
+                        .buttonStyle(.borderless) // prevent weird animation bugs
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
     }
+
     
     private var sheetContent: some View {
         EmptyView()
@@ -79,7 +105,9 @@ struct LocationSearchView: View {
     
     private func locationRow(for location: MKLocalSearchCompletion) -> some View {
         Button {
-            handleLocationSelection(location)
+            Task {
+                await handleLocationSelection(location)
+            }
         } label: {
             VStack(alignment: .leading) {
                 highlightedText(
@@ -102,8 +130,9 @@ struct LocationSearchView: View {
         .buttonStyle(.plain)
     }
     
-    private func handleLocationSelection(_ location: MKLocalSearchCompletion) {
-        viewModel.reverseGeocode(location: location)
+    private func handleLocationSelection(_ location: MKLocalSearchCompletion) async {
+        let coordinate = await viewModel.reverseGeocode(location: location)
+        addItem(coordinate: coordinate)
         isSheetPresented = true
         isFocused = false
     }
@@ -138,6 +167,18 @@ struct LocationSearchView: View {
         }
         
         return result
+    }
+    
+    // MARK: - Persistence
+    func addItem(coordinate: Coordinates) {
+        let entity = LocationEntity(latitude: coordinate.lat, longitude: coordinate.lon)
+        context.insert(entity)
+        try? context.save()
+    }
+    
+    func deleteItem(_ item: LocationEntity) {
+        context.delete(item)
+        try? context.save()
     }
 }
 

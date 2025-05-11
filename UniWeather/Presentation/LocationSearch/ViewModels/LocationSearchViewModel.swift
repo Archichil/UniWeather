@@ -8,6 +8,7 @@
 import Combine
 import MapKit
 import CoreLocation
+import WeatherService
 
 class LocationSearchViewModel: NSObject, ObservableObject {
     @Published var locationResults: [MKLocalSearchCompletion] = []
@@ -46,34 +47,17 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         }
     }
 
-    func reverseGeocode(location: MKLocalSearchCompletion) {
+    func reverseGeocode(location: MKLocalSearchCompletion) async -> Coordinates {
         let searchRequest = MKLocalSearch.Request(completion: location)
         let search = MKLocalSearch(request: searchRequest)
-
-        search.start { response, error in
-            guard error == nil,
-                  let coordinate = response?.mapItems.first?.placemark.coordinate else {
-                print("Reverse geocoding error: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-
-            self.updateAddress(with: coordinate)
-        }
-    }
-
-    private func updateAddress(with coordinate: CLLocationCoordinate2D) {
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
-            guard let placemark = placemarks?.first else {
-                print("Reverse geocode error: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-
-            self.address = "\(placemark.locality ?? ""), \(coordinate.latitude), \(coordinate.longitude)"
-        }
+        var result: Coordinates
+        
+        let response = try? await search.start()
+        let coords = response?.mapItems.first?.placemark.coordinate
+        result = Coordinates(lat: coords?.latitude ?? 0, lon: coords?.longitude ?? 0)
+        return result
     }
 }
-
 
 extension LocationSearchViewModel: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
