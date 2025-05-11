@@ -19,5 +19,7 @@
 	<string>Для показа местной погоды</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Для обновления виджета в фоне</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>Приложению нужен доступ к календарю для отображения праздников</string>
 </dict>
 </plist>
