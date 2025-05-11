@@ -15,7 +15,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.kuhockovolec.UniWeather.refresh", using: nil) { task in
-            self.handleAppRefresh(task: task as! BGAppRefreshTask)
+            if let appRefreshTask = task as? BGAppRefreshTask {
+                self.handleAppRefresh(task: appRefreshTask)
+            } else {
+                print("Failed to cast task to BGAppRefreshTask. Task type: \(type(of: task))")
+                task.setTaskCompleted(success: false)
+            }
         }
         
         scheduleAppRefresh()
