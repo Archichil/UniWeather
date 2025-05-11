@@ -19,7 +19,7 @@ public class WeatherAPIService: APIService {
         do {
             return try await apiClient?.sendRequest(spec) as? T
         } catch {
-            print("Ошибка запроса: \(error.localizedDescription)")
+            print("[DEBUG] Failed to fetch weather data: \(error)")
             return nil
         }
     }
