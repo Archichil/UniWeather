@@ -38,9 +38,6 @@ struct LocationSearchView: View {
         NavigationStack {
             searchableList
                 .navigationTitle(Constants.Text.navigationTitle)
-//                .sheet(isPresented: $isSheetPresented) {
-//                    sheetContent
-//                }
         }
     }
     
