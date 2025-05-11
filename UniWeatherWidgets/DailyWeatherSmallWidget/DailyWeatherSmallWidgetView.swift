@@ -8,60 +8,27 @@
 import SwiftUI
 import WidgetKit
 
-
-// TODO: DELETE AFTER ADDING SHARED FRAMEWORK
-extension Color {
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (255, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue: Double(b) / 255,
-            opacity: Double(a) / 255
-        )
-    }
-}
-
-let secondaryColor: Color = Color(hex: "#b2c8eb")
-
 private struct DailyWeatherRow: View {
-    let day: String
-    let icon: String
-    let tempMin, tempMax: Int
+    let item: DailyWeatherItem
     
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                Text(day)
+                Text(getShortWeekday(from: item.dt))
                     .frame(maxWidth: 26, alignment: .leading)
                 
-                Image(systemName: icon)
-                    .foregroundStyle(.white, .yellow)
+                WeatherIcon(weatherCode: item.icon)
 
             }
             .font(.system(size: 13))
+            .fontWeight(.semibold)
             .frame(maxWidth: .infinity, alignment: .leading)
             
             HStack(spacing: 0) {
-                Text("\(tempMin)")
+                Text("\(item.minTemp)")
                     .foregroundStyle(secondaryColor)
                 
-                Text("\(tempMax)º")
+                Text("\(item.maxTemp)º")
                     .foregroundStyle(.white)
                     .frame(maxWidth: 26, alignment: .trailing)
             }
@@ -73,23 +40,24 @@ private struct DailyWeatherRow: View {
 }
 
 struct DailyWeatherSmallWidgetView: View {
+    let entry: DailyWeatherSmallEntry
+    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
                 LocationWeatherHeader(
-                    location: "Минск",
-                    icon: "cloud.sun.fill",
-                    currentTemp: 19,
-                    tempMin: 12,
-                    tempMax: 24
+                    location: entry.location,
+                    icon: entry.icon,
+                    currentTemp: entry.temp,
+                    tempMin: entry.minTemp,
+                    tempMax: entry.maxTemp,
+                    isCurrentLocation: entry.isCurrentLocation
                 )
-
                 
                 VStack(spacing: 2) {
-                    DailyWeatherRow(day: "Пн", icon: "cloud.sun.fill", tempMin: 10, tempMax: 21)
-                    DailyWeatherRow(day: "Вт", icon: "cloud.fill", tempMin: 11, tempMax: 22)
-                    DailyWeatherRow(day: "Ср", icon: "cloud.rain.fill", tempMin: 12, tempMax: 23)
-                    DailyWeatherRow(day: "Чт", icon: "sun.max", tempMin: 13, tempMax: 24)
+                    ForEach(entry.items, id: \.dt) { item in
+                        DailyWeatherRow(item: item)
+                    }
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 .padding(.top, 2)
@@ -97,15 +65,44 @@ struct DailyWeatherSmallWidgetView: View {
             .foregroundStyle(.white)
         }
         .containerBackground(for: .widget) {
+            let gradient = getBackgroundGradient(
+                weatherCode: entry.icon,
+                dt: entry.dt,
+                sunset: entry.sunset,
+                sunrise: entry.sunrise
+            )
             ContainerRelativeShape()
-                .fill(Color(.blue).gradient)
+                .fill(LinearGradient(
+                    gradient: gradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
         }
     }
 }
 
-struct DailyWeatherSmall_Previews: PreviewProvider {
+struct DailyWeatherSmallWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        DailyWeatherSmallWidgetView()
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        let dt = 1745940771
+        DailyWeatherSmallWidgetView(entry:
+            DailyWeatherSmallEntry(
+                date: Date(),
+                dt: dt,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                temp: 19,
+                icon: "02d",
+                location: "Локация",
+                minTemp: 12,
+                maxTemp: 24,
+                items: [
+                    DailyWeatherItem(dt: dt + 1 * 86400, icon: "01d", minTemp: 11, maxTemp: 24),
+                    DailyWeatherItem(dt: dt + 2 * 86400, icon: "02d", minTemp: 11, maxTemp: 22),
+                    DailyWeatherItem(dt: dt + 3 * 86400, icon: "02d", minTemp: 11, maxTemp: 19),
+                    DailyWeatherItem(dt: dt + 4 * 86400, icon: "01d", minTemp: 6, maxTemp: 24),
+            ],
+            isCurrentLocation: true
+            )
+        ).previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

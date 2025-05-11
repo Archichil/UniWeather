@@ -12,15 +12,15 @@ struct HourlyWeatherWidget: Widget {
     let kind: String = "HorlyWeatherWidget"
     
     var body: some WidgetConfiguration {
-        StaticConfiguration(
+        AppIntentConfiguration(
             kind: kind,
+            intent: LocationIntent.self,
             provider: HourlyWeatherProvider()
         ) { entry in
-            HourlyWeatherWidgetView()
-//                .containerBackground(.fill.tertiary, for: .widget)
+            HourlyWeatherWidgetView(entry: entry)
         }
-        .configurationDisplayName("Погода сейчас")
-        .description("Текущие погодные условия")
+        .configurationDisplayName("Почасовой прогноз")
+        .description("Отображает почасовой прогноз погоды с температурой и погодными условиями, включая информацию времени восхода и заката солнца  динамическим фоном, который меняется в зависимости от погоды и времени суток.")
         .supportedFamilies([.systemMedium])
     }
 }
