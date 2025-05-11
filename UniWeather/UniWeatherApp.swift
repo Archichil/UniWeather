@@ -13,5 +13,6 @@ struct UniWeatherApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [LocationEntity.self])
     }
 }
