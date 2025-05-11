@@ -7,6 +7,6 @@
 
 import APIClient
 
-public struct HourlyWeatherSys: DecodableType {
+public struct HourlyWeatherSys: DecodableType, Sendable {
     public let pod: String
 }

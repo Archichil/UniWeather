@@ -7,7 +7,7 @@
 
 import APIClient
 
-public enum Units: String {
+public enum Units: String, Sendable {
     case standard
     case metric
     case imperial

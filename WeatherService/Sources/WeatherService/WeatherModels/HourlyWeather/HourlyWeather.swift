@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct HourlyWeather: DecodableType {
+public struct HourlyWeather: DecodableType, Sendable {
     public let cod: String
     public let message: Int
     public let cnt: Int

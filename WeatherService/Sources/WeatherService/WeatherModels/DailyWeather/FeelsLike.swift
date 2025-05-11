@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct FeelsLike: DecodableType {
+public struct FeelsLike: DecodableType, Sendable {
     public let day: Double
     public let night: Double
     public let eve: Double

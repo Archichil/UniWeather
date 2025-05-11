@@ -7,7 +7,7 @@
 
 import APIClient
 
-public struct CurrentWeatherSys: DecodableType {
+public struct CurrentWeatherSys: DecodableType, Sendable {
     public let type: Int?
     public let id: Int?
     public let message: Double?

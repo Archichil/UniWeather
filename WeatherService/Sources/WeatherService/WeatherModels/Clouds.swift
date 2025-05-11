@@ -7,6 +7,6 @@
 
 import APIClient
 
-public struct Clouds: DecodableType {
+public struct Clouds: DecodableType, Sendable {
     public let all: Int
 }
