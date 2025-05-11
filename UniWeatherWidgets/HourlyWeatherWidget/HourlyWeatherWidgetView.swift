@@ -8,72 +8,113 @@
 import SwiftUI
 import WidgetKit
 
-private struct HourlyWeatherItem: View {
-    var time: String
-    var icon: String
-    var temp: Int
+struct HourlyWeatherItemView: View {
+    let entry: HourlyWeatherHourItem
     
     var body: some View {
-        VStack(alignment: .center, spacing: 2) {
-            Text(time)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+        VStack(spacing: 4) {
+            let hour = (entry.dt % 86400) / 3600
+            let min = (entry.dt % 3600) / 60
+            let timeString = entry.isSunsetOrSunrise ? String(format: "%d:%02d", hour, min) : String(format: "%02d", hour)
+            Text(timeString)
+                .font(.system(size: 11))
+                .foregroundStyle(secondaryColor)
+                .fontWeight(.heavy)
+                .frame(alignment: .center)
             
-            Image(systemName: icon)
-                .foregroundStyle(.white, .yellow)
+            WeatherIcon(weatherCode: entry.icon)
                 .font(.system(size: 18))
                 .frame(maxHeight: 20)
+                .frame(alignment: .center)
             
-            Text("\(temp)º")
-                .font(.subheadline)
+            Text("\(entry.temp)º")
+                .font(.system(size: 13))
+                .padding(.leading, 4)
         }
         .fontWeight(.semibold)
     }
 }
 
 struct HourlyWeatherWidgetView: View {
+    let entry: HourlyWeatherEntry
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
                 LargeLocationWeatherHeader(
-                    location: "Минск",
-                    icon: "cloud.sun.fill",
-                    weather: "Временами облачно",
-                    currentTemp: 19,
-                    tempMin: 12,
-                    tempMax: 24
+                    location: entry.location,
+                    icon: entry.icon,
+                    weather: entry.description,
+                    currentTemp: entry.temp,
+                    tempMin: entry.minTemp,
+                    tempMax: entry.maxTemp,
+                    isCurrentLocation: entry.isCurrentLocation
                 )
-
+                
                 Spacer()
                 
                 HStack(spacing: 0) {
-                    HourlyWeatherItem(time: "20", icon: "cloud.sun.fill", temp: 19)
-                    Spacer()
-                    HourlyWeatherItem(time: "20:15", icon: "sunset.fill", temp: 19)
-                    Spacer()
-                    HourlyWeatherItem(time: "21", icon: "cloud.fill", temp: 19)
-                    Spacer()
-                    HourlyWeatherItem(time: "22", icon: "cloud.fill", temp: 19)
-                    Spacer()
-                    HourlyWeatherItem(time: "23", icon: "cloud.fill", temp: 19)
-                    Spacer()
-                    HourlyWeatherItem(time: "00", icon: "cloud.moon.fill", temp: 19)
+                    let items = itemsWithSunEvents(
+                        items: entry.items,
+                        count: entry.items.count,
+                        sunrise: entry.sunrise,
+                        sunset: entry.sunset,
+                        dt: entry.dt)
+                    ForEach(items.indices, id: \.self) { index in
+                        let item = items[index]
+                        HourlyWeatherItemView(entry: item)
+                        if index < items.count - 1 {
+                            Spacer()
+                        }
+                    }
                 }
-
             }
             .foregroundStyle(.white)
         }
         .containerBackground(for: .widget) {
+            let gradient = getBackgroundGradient(
+                weatherCode: entry.icon,
+                dt: entry.dt,
+                sunset: entry.sunset,
+                sunrise: entry.sunrise
+            )
             ContainerRelativeShape()
-                .fill(Color(.blue).gradient)
+                .fill(LinearGradient(
+                    gradient: gradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
         }
     }
 }
 
-struct WeatherSmallWidget_Previews: PreviewProvider {
+
+struct HourlyWeatherWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        HourlyWeatherWidgetView()
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+        let dt = 1745940771
+        HourlyWeatherWidgetView(entry:
+            HourlyWeatherEntry(
+                date: Date(),
+                dt: dt,
+                location: "Локация",
+                icon: "02d",
+                description: "Переменная облачность",
+                temp: 19,
+                minTemp: 12,
+                maxTemp: 24,
+                sunrise: dt - 3600 * 4,
+                sunset: dt + 3600 * 5,
+                items: [
+                    HourlyWeatherHourItem(dt: dt + 1 * 3600, icon: "01d", temp: 10),
+                    HourlyWeatherHourItem(dt: dt + 2 * 3600, icon: "02d", temp: 12),
+                    HourlyWeatherHourItem(dt: dt + 3 * 3600, icon: "02d", temp: 14),
+                    HourlyWeatherHourItem(dt: dt + 4 * 3600, icon: "04d", temp: 16),
+                    HourlyWeatherHourItem(dt: dt + 5 * 3600, icon: "01d", temp: 14),
+                    HourlyWeatherHourItem(dt: dt + 6 * 3600, icon: "02d", temp: 12)
+                ],
+                isCurrentLocation: true
+            )
+        )
+        .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

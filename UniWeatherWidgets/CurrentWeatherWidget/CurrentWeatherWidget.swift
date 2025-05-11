@@ -7,19 +7,21 @@
 
 import SwiftUI
 import WidgetKit
+import Intents
 
 struct CurrentWeatherWidget: Widget {
     let kind: String = "CurrentWeatherWigdet"
     
     var body: some WidgetConfiguration {
-        StaticConfiguration(
+        AppIntentConfiguration(
             kind: kind,
+            intent: LocationIntent.self,
             provider: CurrentWeatherProvider()
         ) { entry in
-            CurrentWeatherWidgetView()
+            CurrentWeatherWidgetView(entry: entry)
         }
-        .configurationDisplayName("Current weather widget")
-        .description("Current weather widget desc")
+        .configurationDisplayName("Текущая погода")
+        .description("Отображает текущую температу, погодные условия, прогноз на день и местоположение с динамическим фоном, который меняется в зависимости от погоды и времени суток.")
         .supportedFamilies([.systemSmall])
     }
 }
