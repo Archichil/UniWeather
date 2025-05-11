@@ -85,11 +85,12 @@ class HolidaysForecastViewModel: ObservableObject {
     
     @MainActor
     func fetchEventsWithWeather() async {
-        var events: [Holiday] = []
-        CalendarManager.shared.getHolidays(daysAhead: 15) { result in
-            events = result
+        let events: [Holiday] = await withCheckedContinuation { continuation in
+            CalendarManager.shared.getHolidays(daysAhead: 15) { result in
+                continuation.resume(returning: result)
+            }
         }
-        
+    
         eventsWithWeather = []
         if let weather {
             for event in events {
