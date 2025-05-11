@@ -44,7 +44,7 @@ struct HolidaysForecastView: View {
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: Constants.Layout.largeSpacing) {
-                        ForEach(viewModel.eventsWithWeather, id: \.title) { holiday in
+                        ForEach(viewModel.eventsWithWeather) { holiday in
                             HolidayCard(holiday: holiday)
                         }
                         
