@@ -21,7 +21,7 @@ struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
             dt: dt,
             sunset: dt + 3600 * 5,
             sunrise: dt - 3600 * 4,
-            location: "Локакция",
+            location: "Локация",
             icon: "02d",
             description: "Переменная облачность",
             currentTemp: 12,
