@@ -77,27 +77,55 @@ struct WeatherInfoView: View {
                             .padding(.top, topEdge + 10)
                             .padding(.horizontal)
                         
-                        if !isNavigationBarHidden {
-                            bottomNavigationBar
-                        }
+                        bottomNavigationBar
                     } else {
-                        Color.blue
+                        LinearGradient(gradient: getBackgroundGradient(weatherCode: "01d", dt: 10000, sunset: 20000, sunrise: 0), startPoint: .top, endPoint: .bottom)
                             .ignoresSafeArea()
-                        ProgressView()
-                    }
-                }
-                .task {
-                    if isNavigationBarHidden {
-                        await viewModel.loadAllWeather()
+                        skeletonView
                     }
                 }
                 .ignoresSafeArea(.all, edges: .top)
+                .animation(.smooth(duration: 0.5), value: viewModel.isLoaded)
             }
         }
         .task {
             await viewModel.loadAllWeather()
         }
     }
+
+    private var skeletonView: some View {
+        VStack(spacing: 20) {
+            VStack(alignment: .center, spacing: 5) {
+                Text("Sometexttoplace")
+                    .font(.system(size: 35))
+                Text("SS")
+                    .font(.system(size: 95))
+                    .fontWeight(.thin)
+                Text("some text")
+                    .font(.title2)
+                    .foregroundStyle(.secondary)
+                Text("some text some ")
+                    .font(.title3)
+            }
+            
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.gray.opacity(0.3))
+                .frame(height: 150)
+            
+            ForEach(0..<3) { _ in
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(height: 200)
+            }
+        }
+        .background(getBackgroundGradient(weatherCode: "01d", dt: 10000, sunset: 20000, sunrise: 0))
+        .ignoresSafeArea()
+        .padding(.top, 80)
+        .padding(.horizontal)
+        .redacted(reason: .placeholder)
+        .transition(.identity)
+    }
+
     
     private var mainText: some View {
         VStack(alignment: .center, spacing: 5) {
