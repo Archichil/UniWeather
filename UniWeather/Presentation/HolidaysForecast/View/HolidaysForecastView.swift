@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import WeatherService
 
 struct HolidaysForecastView: View {
-    @StateObject private var viewModel = HolidaysForecastViewModel()
+    @StateObject private var viewModel: HolidaysForecastViewModel
     
     // MARK: - Constants
     private enum Constants {
@@ -34,6 +35,10 @@ struct HolidaysForecastView: View {
             static let iconSize: CGFloat = 24
             static let tempFontSize: CGFloat = 32
         }
+    }
+    
+    init(coordinates: Coordinates) {
+        _viewModel = StateObject(wrappedValue: HolidaysForecastViewModel(coordinates: coordinates))
     }
     
     // MARK: - Main View
@@ -230,9 +235,4 @@ private func getCardBackground(weatherCode: String) -> Gradient {
             Color(hex: "#4AB8D6")
         ])
     }
-}
-
-// MARK: - Preview
-#Preview {
-    HolidaysForecastView()
 }

@@ -11,6 +11,7 @@ import WeatherService
 class HolidaysForecastViewModel: ObservableObject {
     private let weatherService = WeatherAPIService()
     private var weather: DailyWeather? = nil
+    let coordinates: Coordinates
     
     @Published var eventsWithWeather: [HolidayWeather] = [
 //        HolidayWeather(
@@ -71,10 +72,11 @@ class HolidaysForecastViewModel: ObservableObject {
 //        ),
     ]
     
-    init() {
+    init(coordinates: Coordinates) {
+        self.coordinates = coordinates
         Task {
             weather = try? await weatherService.getDailyWeather(
-                coords: Coordinates(lat: 53.896, lon: 27.550),
+                coords: coordinates,
                 units: .metric ,
                 count: 15,
                 lang: .ru

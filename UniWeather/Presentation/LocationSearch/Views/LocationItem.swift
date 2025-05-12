@@ -11,7 +11,6 @@ import WeatherService
 struct LocationItem: View {
     let coordinate: Coordinates
     @StateObject private var viewModel: WeatherInfoViewModel
-
     @State private var currentTime = Date()
 
     init(coordinate: Coordinates) {
@@ -47,48 +46,55 @@ struct LocationItem: View {
     var body: some View {
         VStack {
             if viewModel.isLoaded {
-                VStack(spacing: 16) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(viewModel.currentPlace ?? Constants.Texts.unknown)
-                                .font(.title2)
-                            
-                            Text(timeString)
-                                .font(.subheadline)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .bold()
-                        
-                        Text("\(Int(viewModel.currentWeather?.main.temp.rounded() ?? Constants.Defaults.minTemp))º")
-                            .font(.system(size: 50))
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    .frame(maxWidth: .infinity)
-                    
-                    HStack {
-                        Text("\(viewModel.currentWeather?.weather.first?.description.capitalized ?? Constants.Texts.unknown)")
-                            .font(.callout)
+                NavigationLink {
+                    WeatherInfoView(viewModel: viewModel)
+                } label: {
+                    VStack(spacing: 16) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(viewModel.currentPlace ?? Constants.Texts.unknown)
+                                    .font(.title2)
+                                
+                                Text(timeString)
+                                    .font(.subheadline)
+                            }
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text("\(Constants.Texts.max): \(Int(viewModel.dailyWeather?.list.first?.temp.max.rounded() ?? Constants.Defaults.maxTemp))º, \(Constants.Texts.min): \(Int(viewModel.dailyWeather?.list.first?.temp.min.rounded() ?? Constants.Defaults.minTemp))º")
-                            .font(.callout)
-                            .fontWeight(.medium)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .bold()
+                            
+                            Text("\(Int(viewModel.currentWeather?.main.temp.rounded() ?? Constants.Defaults.minTemp))º")
+                                .font(.system(size: 50))
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        HStack {
+                            Text("\(viewModel.currentWeather?.weather.first?.description.capitalized ?? Constants.Texts.unknown)")
+                                .font(.callout)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text("\(Constants.Texts.max): \(Int(viewModel.dailyWeather?.list.first?.temp.max.rounded() ?? Constants.Defaults.maxTemp))º, \(Constants.Texts.min): \(Int(viewModel.dailyWeather?.list.first?.temp.min.rounded() ?? Constants.Defaults.minTemp))º")
+                                .font(.callout)
+                                .fontWeight(.medium)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
                     }
+                    .padding(.top, 10)
+                    .padding(.bottom, 16)
+                    .padding(.horizontal)
+                    .foregroundStyle(.white)
+                    .background(backgroundGradient)
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 16)
-                .padding(.horizontal)
-                .foregroundStyle(.white)
-                .background(backgroundGradient)
-                .clipShape(RoundedRectangle(cornerRadius: 24))
+                .buttonStyle(.plain)
+
             } else {
                 skeletonView
             }
         }
+        .animation(.smooth(duration: 0.5), value: viewModel.isLoaded)
         .task {
             await viewModel.loadAllWeather()
-            print(viewModel.isLoaded)
         }
+
         .onReceive(
             Timer.publish(every: 30, on: .main, in: .common).autoconnect()
         ) { _ in
