@@ -1059,6 +1059,516 @@
         }
       }
     },
+    "weatherMapConfiguration.mapLayer.accumulatedPrecipitation.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accumulated precipitation"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суммарные осадки"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.accumulatedPrecipitation.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accumulated precipitation (all), mm"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осадки (все), мм"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.accumulatedPrecipitationRain.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accumulated precipitation - rain"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суммарные осадки — дождь"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.accumulatedPrecipitationRain.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accumulated precipitation (rain), mm"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осадки (дождь), мм"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.accumulatedPrecipitationSnow.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accumulated precipitation - snow"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суммарные осадки — снег"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.accumulatedPrecipitationSnow.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accumulated precipitation (snow), mm"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осадки (снег), мм"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.airTemperatureTwoMetersAltitude.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperature (2m)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура (2м)"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.airTemperatureTwoMetersAltitude.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperature, °C"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура, °C"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.atmosphericPressureSeaLevel.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atmospheric pressure (sea level)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Давление (уровень моря)"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.atmosphericPressureSeaLevel.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pressure, Pa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Давление, Па"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.clouds.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloudiness"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Облачность"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.clouds.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloudiness, %"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Облачность, %"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.convectivePrecipitation.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convective precipitation"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конвективные осадки"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.convectivePrecipitation.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precipitation, mm"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осадки, мм"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.dewPointTemperature.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dew point temp"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Точка росы"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.dewPointTemperature.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperature, °C"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура, °C"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.precipitationIntensity.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precipitation intensity"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Интенсивность осадков"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.precipitationIntensity.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precipitation intensity, mm/s"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Интенсивность осадков, мм/с"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.relativeHumidity.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relative humidity"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Влажность"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.relativeHumidity.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Humidity, %"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Влажность, %"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.snowDepth.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depth of snow"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Высота снежного покрова"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.snowDepth.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snow depth, m"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Глубина снега, м"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.soilTemperatureTenCmDepth.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soil temp >10 cm (K)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура почвы >10 см (K)"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.soilTemperatureTenCmDepth.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperature, K"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура, K"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.soilTemperatureZeroDepth.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soil temp 0 cm (K)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура почвы 0 см (K)"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.soilTemperatureZeroDepth.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperature, K"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура, K"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.wind.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wind Direction + Speed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Направление и скорость ветра"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.wind.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wind speed, m/s"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скорость ветра, м/с"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.windSpeedTenMetersAltitude.displayName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wind Speed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скорость ветра"
+          }
+        }
+      }
+    },
+    "weatherMapConfiguration.mapLayer.windSpeedTenMetersAltitude.measurementValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wind speed, m/s"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скорость ветра, м/с"
+          }
+        }
+      }
+    },
     "weatherMapContainerView.ready" : {
       "localizations" : {
         "en" : {
