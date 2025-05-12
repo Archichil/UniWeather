@@ -66,6 +66,7 @@ struct HolidaysForecastView: View {
             .frame(maxWidth: .infinity)
             .background(Constants.Colors.backgroundGradient.edgesIgnoringSafeArea(.all))
         }
+        .navigationTitle("Holiday Forecast")
         .refreshable {
             Task {
                 await viewModel.fetchEventsWithWeather()

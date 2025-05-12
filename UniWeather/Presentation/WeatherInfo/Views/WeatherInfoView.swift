@@ -90,9 +90,14 @@ struct WeatherInfoView: View {
             }
             .toolbar(.hidden, for: .navigationBar)
         }
-        .task {
-            await viewModel.loadAllWeather()
+        .onAppear {
+            // only kick off the first load; coming back won’t re-run
+            guard !viewModel.isLoaded else { return }
+            Task {
+                await viewModel.loadAllWeather()
+            }
         }
+
     }
 
     private var skeletonView: some View {
