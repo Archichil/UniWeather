@@ -137,7 +137,3 @@ private struct ViewOffsetKey: PreferenceKey {
         value += nextValue()
     }
 }
-
-#Preview {
-    AIView()
-}

@@ -24,7 +24,7 @@ final class WeatherInfoViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private var cancellables = Set<AnyCancellable>()
-    private let coordinate: Coordinates
+    let coordinate: Coordinates
     
     // MARK: - Initialization
     

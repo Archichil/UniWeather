@@ -177,9 +177,3 @@ struct AIChatView: View {
         }
     }
 }
-
-// MARK: - Preview
-#Preview {
-    AIView()
-}
-

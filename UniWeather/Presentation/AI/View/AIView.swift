@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WeatherService
 
 struct AIView: View {
     // MARK: - Constants
@@ -50,6 +51,7 @@ struct AIView: View {
         enum Text {
             static let greeting = "Hello,\nhow can I help\nyou today?"
             static let chatIcon = "bubble.left.and.text.bubble.right"
+            static let navigationTitle = "AI Assistant"
         }
         
         enum Sheets {
@@ -59,7 +61,7 @@ struct AIView: View {
     }
     
     // MARK: - Properties
-    @StateObject private var viewModel = AIViewModel()
+    @StateObject var viewModel: AIViewModel
     @State private var showDaySheet = false
     @State private var showAnswerSheet = false
     
@@ -79,6 +81,7 @@ struct AIView: View {
         .sheet(isPresented: $showAnswerSheet) {
             chatViewSheet
         }
+        .navigationTitle(Constants.Text.navigationTitle)
     }
     
     // MARK: - Subviews
@@ -170,5 +173,5 @@ struct AIView: View {
 
 // MARK: - Preview
 #Preview {
-    AIView()
+    AIView(viewModel: AIViewModel(coordinates: Coordinates(lat: 53.893009, lon: 27.567444)))
 }
