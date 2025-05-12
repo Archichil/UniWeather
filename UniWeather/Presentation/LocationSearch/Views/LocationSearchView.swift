@@ -132,6 +132,7 @@ struct LocationSearchView: View {
         addItem(coordinate: coordinate)
         isSheetPresented = true
         isFocused = false
+        viewModel.searchTerm = ""
     }
 
     func highlightedText(_ text: String, searchTerm: String, highlightColor: Color) -> Text {

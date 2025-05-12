@@ -6,24 +6,37 @@
 //
 
 import SwiftUI
+import WeatherService
+import MapKit
 
 struct ContentView: View {
-    @StateObject private var locationManager = LocationManager()
+    @StateObject private var locationManager = LocationManager.shared
+    @State private var coordinate: CLLocationCoordinate2D?
     
+    private enum Constants {
+        static let defaultCoordinates = Coordinates(lat: 53.893009, lon: 27.567444)
+        static let waitingText = "Getting your location..."
+    }
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if let coordinate {
+                WeatherInfoView(viewModel: WeatherInfoViewModel(
+                    coordinate: Coordinates(lat: coordinate.latitude, lon: coordinate.longitude)
+                ))
+            } else {
+                ProgressView(Constants.waitingText)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.blue)
+            }
         }
-        .padding()
-        .onAppear {
-            locationManager.requestLocationPermission()
+        .task {
+            if locationManager.authorizationStatus == .denied || locationManager.authorizationStatus == .restricted {
+                coordinate = CLLocationCoordinate2D(latitude: Constants.defaultCoordinates.lat, longitude: Constants.defaultCoordinates.lon)
+            } else {
+                let location = await locationManager.awaitLocation()
+                coordinate = location.coordinate
+            }
         }
     }
-}
-
-#Preview {
-    ContentView()
 }

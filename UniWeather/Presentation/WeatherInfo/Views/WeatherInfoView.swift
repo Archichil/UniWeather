@@ -22,6 +22,7 @@ struct WeatherInfoView: View {
             static let map = "map"
             static let AI = "bubble.left.and.text.bubble.right"
             static let savedLocations = "list.dash"
+            static let holidayCalendar = "calendar"
         }
         
         enum Texts {
@@ -87,10 +88,16 @@ struct WeatherInfoView: View {
                 .ignoresSafeArea(.all, edges: .top)
                 .animation(.smooth(duration: 0.5), value: viewModel.isLoaded)
             }
+            .toolbar(.hidden, for: .navigationBar)
         }
-        .task {
-            await viewModel.loadAllWeather()
+        .onAppear {
+            // only kick off the first load; coming back won’t re-run
+            guard !viewModel.isLoaded else { return }
+            Task {
+                await viewModel.loadAllWeather()
+            }
         }
+
     }
 
     private var skeletonView: some View {
@@ -185,8 +192,7 @@ struct WeatherInfoView: View {
                 .background(backgroundGradient)
                 
                 NavigationLink {
-                    // TODO: Put AI View
-                    EmptyView()
+                    AIView(viewModel: AIViewModel(coordinates: viewModel.coordinate))
                 } label: {
                     Image(systemName: Constants.Icons.AI)
                         .font(.title2)
@@ -199,7 +205,20 @@ struct WeatherInfoView: View {
                 .background(backgroundGradient)
                 
                 NavigationLink {
-                    // TODO: Put Locations view
+                    HolidaysForecastView(coordinates: viewModel.coordinate)
+                } label: {
+                    Image(systemName: Constants.Icons.holidayCalendar)
+                        .font(.title2)
+                }
+                .buttonStyle(.plain)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                .frame(height: 20)
+                .padding(.top, 8)
+                .padding(.horizontal, 32)
+                .background(.ultraThinMaterial)
+                .background(backgroundGradient)
+                
+                NavigationLink {
                     LocationSearchView()
                 } label: {
                     Image(systemName: Constants.Icons.savedLocations)

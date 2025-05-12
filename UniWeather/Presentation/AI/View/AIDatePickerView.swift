@@ -133,8 +133,3 @@ struct AIDatePickerView: View {
         viewModel.handleItemClick(prompt)
     }
 }
-
-// MARK: - Preview
-#Preview {
-    AIView()
-}

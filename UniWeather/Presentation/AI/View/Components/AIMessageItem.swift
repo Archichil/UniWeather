@@ -79,7 +79,3 @@ struct AIMessageItem: View {
         .frame(maxWidth: 320)
     }
 }
-
-#Preview {
-    AIChatView(viewModel: AIViewModel())
-}

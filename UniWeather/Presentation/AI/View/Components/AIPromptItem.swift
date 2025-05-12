@@ -47,7 +47,3 @@ struct AIPromptItem: View {
         .cornerRadius(10)
     }
 }
-
-#Preview {
-    AIView()
-}

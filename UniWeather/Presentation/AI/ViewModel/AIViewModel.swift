@@ -18,6 +18,12 @@ class AIViewModel: ObservableObject {
     private let weatherService = WeatherAPIService()
     private let AIService = AIAPIService()
     
+    let coordinates: Coordinates
+    
+    init(coordinates: Coordinates) {
+        self.coordinates = coordinates
+    }
+    
     @MainActor
     func handleItemClick(_ prompt: AvailablePrompts) {
         messages.append(AIMessage(text: prompt.rawValue, time: formatMessageTime(Date()), isAnswer: false))
@@ -46,7 +52,7 @@ class AIViewModel: ObservableObject {
     
     private func fetchAIResponse(for prompt: AvailablePrompts) async -> String {
         // TODO: Change coordinates
-        let weather = try? await weatherService.getDailyWeather(coords: Coordinates(lat: 53.896, lon: 27.550), units: .metric ,count: selectedDayIndex + 1, lang: .ru)
+        let weather = try? await weatherService.getDailyWeather(coords: coordinates, units: .metric ,count: selectedDayIndex + 1, lang: .ru)
         if let weather {
             let prompt: String = {
                 switch prompt {

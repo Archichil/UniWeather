@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import WeatherService
 
 struct HolidaysForecastView: View {
-    @StateObject private var viewModel = HolidaysForecastViewModel()
+    @StateObject private var viewModel: HolidaysForecastViewModel
     
     // MARK: - Constants
     private enum Constants {
@@ -36,6 +37,10 @@ struct HolidaysForecastView: View {
         }
     }
     
+    init(coordinates: Coordinates) {
+        _viewModel = StateObject(wrappedValue: HolidaysForecastViewModel(coordinates: coordinates))
+    }
+    
     // MARK: - Main View
     var body: some View {
         ZStack {
@@ -61,6 +66,7 @@ struct HolidaysForecastView: View {
             .frame(maxWidth: .infinity)
             .background(Constants.Colors.backgroundGradient.edgesIgnoringSafeArea(.all))
         }
+        .navigationTitle("Holiday Forecast")
         .refreshable {
             Task {
                 await viewModel.fetchEventsWithWeather()
@@ -230,9 +236,4 @@ private func getCardBackground(weatherCode: String) -> Gradient {
             Color(hex: "#4AB8D6")
         ])
     }
-}
-
-// MARK: - Preview
-#Preview {
-    HolidaysForecastView()
 }
