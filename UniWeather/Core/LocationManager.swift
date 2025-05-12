@@ -32,14 +32,24 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         if let loc = lastLocation {
             return loc
         }
-        
+
         return await withCheckedContinuation { continuation in
             self.locationContinuation = continuation
-            requestLocationPermission()
-            checkAuthorization()
+
+            switch manager.authorizationStatus {
+            case .authorizedAlways, .authorizedWhenInUse:
+                manager.requestLocation()
+            case .notDetermined:
+                manager.requestWhenInUseAuthorization()
+            case .denied, .restricted:
+                continuation.resume(returning: CLLocation(latitude: 53.893009, longitude: 27.567444)) // fallback
+                self.locationContinuation = nil
+            default:
+                break
+            }
         }
     }
-    
+
     private func checkAuthorization() {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
@@ -74,8 +84,15 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         self.authorizationStatus = manager.authorizationStatus
+
+        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
+            manager.requestLocation()
+        } else if manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted {
+            self.locationContinuation?.resume(returning: CLLocation(latitude: 53.893009, longitude: 27.567444)) // fallback
+            self.locationContinuation = nil
+        }
     }
-    
+
     private func saveLocationToSharedStorage() {
         guard let location = lastLocation else { return }
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
