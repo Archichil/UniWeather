@@ -5,7 +5,9 @@
 //  Created by Artur Kukhatskavolets on 27.03.25.
 //
 
+import APIClient
 import MapKit
+import WeatherMapService
 
 class WeatherTileOverlay: MKTileOverlay {
     private var cache = NSCache<NSString, NSData>()

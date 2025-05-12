@@ -27,9 +27,9 @@ struct ForecastPlayerView: View {
         }
 
         enum Text {
-            static let frameTitle: String = "Прогноз на 24 часа"
-            static let timeIncrement: String = "+3ч"
-            static let timeDecrement: String = "-3ч"
+            static let frameTitle: String = .init(localized: "forecastPlayerView.frameTitle")
+            static let timeIncrement: String = .init(localized: "forecastPlayerView.timeIncrement")
+            static let timeDecrement: String = .init(localized: "forecastPlayerView.timeDecrement")
         }
 
         enum Icons {
