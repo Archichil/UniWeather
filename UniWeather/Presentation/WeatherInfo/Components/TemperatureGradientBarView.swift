@@ -11,13 +11,15 @@ fileprivate let allStops: [(value: Double, color: Color)] = [
     (-55, Color(hex: "821692")),
     (-40, Color(hex: "821692")),
     (-30, Color(hex: "8257DB")),
+    (-20, Color(hex: "5F95E0")),
     (-10, Color(hex: "20C4E8")),
     (  0, Color(hex: "23DDDD")),
+    ( 10, Color(hex: "A6EEC8")),
     ( 20, Color(hex: "FFF028")),
     ( 25, Color(hex: "FFC228")),
     ( 30, Color(hex: "FC8014")),
     ( 40, Color(hex: "9C2B1E")),
-    ( 50, Color(hex: "9C2B1E"))
+    ( 50, Color(hex: "9C2B1E")),
 ]
 
 struct TemperatureGradientBarView: View {
