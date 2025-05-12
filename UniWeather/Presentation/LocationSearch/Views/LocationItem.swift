@@ -30,7 +30,6 @@ struct LocationItem: View {
     }
     
     private enum Constants {
-        
         enum Texts {
             static let unknown = "Unknown"
             static let min = "Min"
@@ -40,6 +39,11 @@ struct LocationItem: View {
         enum Defaults {
             static let minTemp: Double = -99
             static let maxTemp: Double = 99
+        }
+        
+        enum Intervals {
+            static let dateUpdateInterval: Double = 10
+            static let weatherUpdateInterval: Double = 3600
         }
     }
 
@@ -91,15 +95,27 @@ struct LocationItem: View {
             }
         }
         .animation(.smooth(duration: 0.5), value: viewModel.isLoaded)
-        .task {
-            await viewModel.loadAllWeather()
+        .onAppear {
+            // only kick off the first load; coming back won’t re-run
+            guard !viewModel.isLoaded else { return }
+            Task {
+                await viewModel.loadAllWeather()
+            }
         }
 
         .onReceive(
-            Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+            Timer.publish(every: Constants.Intervals.dateUpdateInterval, on: .main, in: .common).autoconnect()
         ) { _ in
             currentTime = Date()
         }
+        .onReceive(
+            Timer.publish(every: Constants.Intervals.weatherUpdateInterval, on: .main, in: .common).autoconnect()
+        ) { _ in
+            Task {
+                await viewModel.loadAllWeather()
+            }
+        }
+
     }
     
     private var skeletonView: some View {
