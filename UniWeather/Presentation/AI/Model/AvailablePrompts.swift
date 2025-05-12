@@ -5,13 +5,28 @@
 //  Created by Daniil on 26.03.25.
 //
 
-enum AvailablePrompts: String, CaseIterable {
-    case whatToWear = "What to wear for outdoor activities?"
-    case transportOption = "Which transport option suits the weather?"
-    case enjoyableActivities = "What enjoyable activities are perfect for this weather?"
-    case exploreNearby = "Where to explore based on the weather?"
-    case healthTips = "Health tips for staying comfortable."
-    
+enum AvailablePrompts: CaseIterable {
+    case whatToWear
+    case transportOption
+    case enjoyableActivities
+    case exploreNearby
+    case healthTips
+
+    var title: String {
+        switch self {
+        case .whatToWear:
+            return String(localized: "prompt.whatToWear")
+        case .transportOption:
+            return String(localized: "prompt.transportOption")
+        case .enjoyableActivities:
+            return String(localized: "prompt.enjoyableActivities")
+        case .exploreNearby:
+            return String(localized: "prompt.exploreNearby")
+        case .healthTips:
+            return String(localized: "prompt.healthTips")
+        }
+    }
+
     var iconName: String {
         switch self {
         case .whatToWear: return "jacket"
@@ -22,3 +37,4 @@ enum AvailablePrompts: String, CaseIterable {
         }
     }
 }
+

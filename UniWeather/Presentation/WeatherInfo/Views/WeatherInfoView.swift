@@ -26,9 +26,9 @@ struct WeatherInfoView: View {
         }
         
         enum Texts {
-            static let unknown = "Unknown"
-            static let min = "Min"
-            static let max = "Max"
+            static let unknown = String(localized: "weatherInfoView.unknown")
+            static let min = String(localized: "weatherInfoView.min")
+            static let max = String(localized: "weatherInfoView.max")
             static let coordinateSpace = "scroll"
         }
         

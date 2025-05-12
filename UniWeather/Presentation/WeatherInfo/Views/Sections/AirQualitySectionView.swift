@@ -13,9 +13,9 @@ struct AirQualitySectionView: View {
     
     private enum Constants {
         enum Texts {
-            static let sectionName = "ЗАГРЯЗНЕНИЕ ВОЗДУХА"
-            static let level = "уровень"
-            static let unknown = "Неизвестно"
+            static let sectionName = String(localized: "airQualitySection.sectionName")
+            static let level = String(localized: "airQualitySection.level")
+            static let unknown = String(localized: "airQualitySection.unknown")
         }
         enum Icons {
             static let sectionIcon = "circle.hexagongrid.fill"

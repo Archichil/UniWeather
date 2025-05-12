@@ -48,7 +48,7 @@ final class WeatherInfoViewModel: ObservableObject {
         } catch {
             isLoaded = false
             self.errorMessage = error.localizedDescription
-            print("Error loading weather data: \(error)")
+            print("[DEBUG] Error loading all weather: \(error)")
         }
     }
     

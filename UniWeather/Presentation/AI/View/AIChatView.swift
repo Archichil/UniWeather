@@ -39,9 +39,9 @@ struct AIChatView: View {
         }
         
         enum Text {
-            static let emptyDialog = "The dialog is empty.\nYou can choose the prompt below!"
-            static let noPreviousMessage = "No messages"
-            static let lastUpdatedPrefix = "Last updated "
+            static let emptyDialog = String(localized: "chat.emptyDialog")
+            static let noPreviousMessage = String(localized: "chat.noPreviousMessage")
+            static let lastUpdatedPrefix = String(localized: "chat.lastUpdatedPrefix")
         }
         
         enum Icons {

@@ -15,7 +15,7 @@ struct ContentView: View {
     
     private enum Constants {
         static let defaultCoordinates = Coordinates(lat: 53.893009, lon: 27.567444)
-        static let waitingText = "Getting your location..."
+        static let waitingText = String(localized: "contentView.waitingText")
     }
 
     var body: some View {

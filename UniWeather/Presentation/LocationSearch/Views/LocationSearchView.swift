@@ -18,11 +18,13 @@ struct LocationSearchView: View {
             static let sheetBackground: Color = .blue
         }
         
+        enum Icons {
+            static let deleteIcon = "trash"
+        }
+        
         enum Text {
-            static let navigationTitle = "Search"
-            static let searchPrompt = "Search for a city or airport"
-            static let errorMessage = "Unexpected Error"
-            static let addressFormat = "City: %@, Coords: (Latitude: %f; Longitude: %f)"
+            static let navigationTitle = String(localized: "locationSearchView.navigationTitle")
+            static let searchPrompt = String(localized: "locationSearchView.searchPrompt")
         }
     }
     
@@ -81,11 +83,11 @@ struct LocationSearchView: View {
                         Button(role: .destructive) {
                             deleteItem(item)
                         } label: {
-                            Image(systemName: "trash")
+                            Image(systemName: Constants.Icons.deleteIcon)
                                 .font(.title2)
                                 .foregroundColor(.red)
                         }
-                        .buttonStyle(.borderless) // prevent weird animation bugs
+                        .buttonStyle(.borderless)
                     }
                 }
             }

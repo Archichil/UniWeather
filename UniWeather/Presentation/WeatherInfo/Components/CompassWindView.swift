@@ -6,14 +6,27 @@
 //
 
 import SwiftUI
-
 struct CompassWindView: View {
     var direction: Double
     var speed: Double?
-    var unit: String = "км/ч"
+    var unit: String = String(localized: "compassWind.unit")
     
-    private let cardinalLabels = ["C": 0.0, "В": 90.0, "Ю": 180.0, "З": 270.0]
+    private let cardinalLabels = [
+        Constants.Texts.north: 0.0,
+        Constants.Texts.west: 90.0,
+        Constants.Texts.south: 180.0,
+        Constants.Texts.east: 270.0
+    ]
     private let majorTickCount = 60
+    
+    private enum Constants {
+        enum Texts {
+            static let north = String(localized: "compassWind.north")
+            static let south = String(localized: "compassWind.south")
+            static let east = String(localized: "compassWind.east")
+            static let west = String(localized: "compassWind.west")
+        }
+    }
 
     var body: some View {
         GeometryReader { geo in

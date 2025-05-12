@@ -63,7 +63,7 @@ struct AIMessageItem: View {
             
             HStack(spacing: 0) {
                 if (isAnswer) {
-                    Text("DeepSeek AI")
+                    Text(String(localized: "ai.message.source"))
                         .foregroundStyle(.white.opacity(0.8))
                     
                     Image(systemName: "sparkles")

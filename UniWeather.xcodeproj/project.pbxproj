@@ -71,6 +71,13 @@
 			);
 			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
 		};
+		A7E768C62DD242CB00C15630 /* Exceptions for "UniWeather" folder in "UniWeatherWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Presentation/LocationSearch/Models/LocationEntity.swift,
+			);
+			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
+		};
 		A7F6EF012D9073B6003627D9 /* Exceptions for "UniWeather" folder in "UniWeather" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -93,6 +100,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A7F6EF012D9073B6003627D9 /* Exceptions for "UniWeather" folder in "UniWeather" target */,
+				A7E768C62DD242CB00C15630 /* Exceptions for "UniWeather" folder in "UniWeatherWidgetsExtension" target */,
 			);
 			path = UniWeather;
 			sourceTree = "<group>";
@@ -474,6 +482,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -530,6 +539,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

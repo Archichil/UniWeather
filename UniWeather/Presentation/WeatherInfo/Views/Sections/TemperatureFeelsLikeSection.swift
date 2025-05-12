@@ -13,9 +13,9 @@ struct TemperatureFeelsLikeSection: View {
     
     private enum Constants {
         enum Texts {
-            static let sectionName = "ОЩУЩЕНИЕ"
-            static let dewPoint = "Точка росы сейчас"
-            static let actually = "Фактически"
+            static let sectionName = String(localized: "temperatureFeelsLikeSection.sectionName")
+            static let dewPoint = String(localized: "temperatureFeelsLikeSection.dewPoint")
+            static let actually = String(localized: "temperatureFeelsLikeSection.actually")
         }
         enum Icons {
             static let sectionIcon = "thermometer.medium"
