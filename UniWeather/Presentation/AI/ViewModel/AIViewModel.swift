@@ -29,7 +29,7 @@ class AIViewModel: ObservableObject {
         }
         
         enum TimeFormats {
-            static let hourMinutes = "h:mm a"
+            static let hourMinutes = "hh:mm"
         }
     }
     

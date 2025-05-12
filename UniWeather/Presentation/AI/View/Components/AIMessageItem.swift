@@ -22,7 +22,7 @@ struct AIMessageItem: View {
             Text(.init(text))
                 .padding(16)
                 .foregroundStyle(.white)
-                .frame(minWidth: 100, alignment: isAnswer ? .leading : .trailing)
+                .frame(minWidth: 105, alignment: isAnswer ? .leading : .trailing)
                 .background(
                     UnevenRoundedRectangle(cornerRadii: .init(
                         topLeading: cornerRadiusPrimary,

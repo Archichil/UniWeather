@@ -8,6 +8,7 @@
 import AppIntents
 import WeatherService
 import Intents
+import MapKit
 
 struct LocationIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Настройки геопозиции"
@@ -81,34 +82,77 @@ class GeolocationManager {
         if let cachedGeolocations = cachedGeolocations {
             return cachedGeolocations
         }
-        
+
         var geolocations: [LocationIntent.GeoOption] = [
             .init(id: "current_location", name: "Текущее местоположение", coordinates: Coordinates(lat: 0, lon: 0)),
         ]
-        let savedLocations = getUserDefaultsLocations()
+
+        let savedLocations = await withCheckedContinuation { continuation in
+            getUserDefaultsLocations { result in
+                continuation.resume(returning: result)
+            }
+        }
+
         geolocations += savedLocations
-        
         cachedGeolocations = geolocations
         return geolocations
     }
+
     
     func updateGeo(_ geolocations: [LocationIntent.GeoOption]) {
         cachedGeolocations = geolocations
     }
     
-    func getUserDefaultsLocations() -> [LocationIntent.GeoOption] {
+    func getUserDefaultsLocations(completion: @escaping ([LocationIntent.GeoOption]) -> Void) {
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
 
         guard let data = sharedDefaults.data(forKey: "savedLocations"),
               let savedLocations = try? JSONDecoder().decode([LocationEntity].self, from: data) else {
-            return []
+            completion([])
+            return
         }
 
-        // FIXME: Use reverse geocoding to put the proper name
-        return savedLocations.map { entity in
-            LocationIntent.GeoOption(id: entity.id.uuidString, name: entity.id.uuidString, coordinates: Coordinates(lat: entity.latitude, lon: entity.longitude))
+        Task {
+            var results: [LocationIntent.GeoOption] = []
+
+            await withTaskGroup(of: LocationIntent.GeoOption?.self) { group in
+                for entity in savedLocations {
+                    group.addTask {
+                        let coords = Coordinates(lat: entity.latitude, lon: entity.longitude)
+                        let name = await self.reverseGeocode(coordinates: coords)
+                        return LocationIntent.GeoOption(id: entity.id.uuidString, name: name, coordinates: coords)
+                    }
+                }
+
+                for await result in group {
+                    if let option = result {
+                        results.append(option)
+                    }
+                }
+            }
+
+            completion(results)
         }
     }
+
+    func reverseGeocode(coordinates: Coordinates) async -> String {
+        let location = CLLocation(latitude: coordinates.lat, longitude: coordinates.lon)
+        let geocoder = CLGeocoder()
+
+        do {
+            let placemarks = try await geocoder.reverseGeocodeLocation(location)
+            if let placemark = placemarks.first?.locality {
+                return placemark
+            } else if let placemark = placemarks.first?.name {
+                return placemark
+            }
+        } catch {
+            print("Reverse geocoding failed: \(error.localizedDescription)")
+        }
+
+        return "Unknown"
+    }
+
 
 }
 

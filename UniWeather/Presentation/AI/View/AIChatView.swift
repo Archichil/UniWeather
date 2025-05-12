@@ -106,7 +106,7 @@ struct AIChatView: View {
                     .fontWeight(.medium)
                 
                 if !viewModel.messages.isEmpty {
-                    Text("\(Constants.Text.lastUpdatedPrefix)\(viewModel.messages.last?.time ?? "")")
+                    Text("\(Constants.Text.lastUpdatedPrefix): \(viewModel.messages.last?.time ?? "")")
                         .foregroundStyle(Constants.Colors.secondaryText)
                         .lineLimit(Constants.Layout.textLineLimit)
                 }

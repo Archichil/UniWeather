@@ -10,6 +10,16 @@
     "%@" : {
       "shouldTranslate" : false
     },
+    "%@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
     "%@: %lldº" : {
       "localizations" : {
         "en" : {
@@ -38,17 +48,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@: %2$lldº."
-          }
-        }
-      },
-      "shouldTranslate" : false
-    },
-    "%@%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@%2$@"
           }
         }
       },
@@ -323,7 +322,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Печатает"
+            "value" : "Думает"
           }
         }
       }
