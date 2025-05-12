@@ -5,57 +5,58 @@
 //  Created by Daniil on 30.04.25.
 //
 
-import SwiftUI
-import WidgetKit
-import WeatherService
 import Intents
+import SwiftUI
+import WeatherService
+import WidgetKit
 
 struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
     private let weatherService = WeatherAPIService()
-    
-    func placeholder(in context: Context) -> DailyWeatherSmallEntry {
-        let dt = 1745940771
+
+    func placeholder(in _: Context) -> DailyWeatherSmallEntry {
+        let dt = 1_745_940_771
         return DailyWeatherSmallEntry(
-                date: Date(),
-                dt: dt,
-                sunrise: dt - 3600 * 4,
-                sunset: dt + 3600 * 5,
-                temp: 19,
-                icon: "02d",
-                location: "Локация",
-                minTemp: 12,
-                maxTemp: 24,
-                items: [
-                    DailyWeatherItem(dt: dt + 1 * 86400, icon: "01d", minTemp: 11, maxTemp: 24),
-                    DailyWeatherItem(dt: dt + 2 * 86400, icon: "02d", minTemp: 11, maxTemp: 22),
-                    DailyWeatherItem(dt: dt + 3 * 86400, icon: "02d", minTemp: 11, maxTemp: 19),
-                    DailyWeatherItem(dt: dt + 4 * 86400, icon: "01d", minTemp: 6, maxTemp: 24),
+            date: Date(),
+            dt: dt,
+            sunrise: dt - 3600 * 4,
+            sunset: dt + 3600 * 5,
+            temp: 19,
+            icon: "02d",
+            location: "Локация",
+            minTemp: 12,
+            maxTemp: 24,
+            items: [
+                DailyWeatherItem(dt: dt + 1 * 86400, icon: "01d", minTemp: 11, maxTemp: 24),
+                DailyWeatherItem(dt: dt + 2 * 86400, icon: "02d", minTemp: 11, maxTemp: 22),
+                DailyWeatherItem(dt: dt + 3 * 86400, icon: "02d", minTemp: 11, maxTemp: 19),
+                DailyWeatherItem(dt: dt + 4 * 86400, icon: "01d", minTemp: 6, maxTemp: 24),
             ],
             isCurrentLocation: true
         )
     }
-    
-    func snapshot(for configuration: Intent, in context: Context) async -> DailyWeatherSmallEntry {
+
+    func snapshot(for _: Intent, in context: Context) async -> DailyWeatherSmallEntry {
         placeholder(in: context)
     }
-    
+
     func timeline(for configuration: Intent, in context: Context) async -> Timeline<DailyWeatherSmallEntry> {
         let currentDate = Date()
-        
+
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
-    
+
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
             let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 5)
-            
+
             let entry: DailyWeatherSmallEntry
-            if let currentWeather = currentWeather,
-               let dailyWeather = dailyWeather{
+            if let currentWeather,
+               let dailyWeather
+            {
                 var dailyWeatherItems: [DailyWeatherItem] = []
-                
+
                 for item in dailyWeather.list.dropFirst() {
                     dailyWeatherItems.append(
                         DailyWeatherItem(
@@ -66,7 +67,7 @@ struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
                         )
                     )
                 }
-                
+
                 entry = DailyWeatherSmallEntry(
                     date: currentDate,
                     dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
@@ -84,7 +85,7 @@ struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
             } else {
                 entry = placeholder(in: context)
             }
-            
+
             return Timeline(entries: [entry], policy: .after(nextUpdateDate))
         } catch {
             let entry = placeholder(in: context)

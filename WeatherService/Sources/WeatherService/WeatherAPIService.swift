@@ -5,8 +5,8 @@
 //  Created by Daniil on 15.03.25.
 //
 
-import Foundation
 import APIClient
+import Foundation
 
 public class WeatherAPIService: APIService {
     private let baseURL = URL(string: "https://api.openweathermap.org/data/2.5")!

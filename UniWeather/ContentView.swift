@@ -5,14 +5,14 @@
 //  Created by Archichil on 14.03.25.
 //
 
+import MapKit
 import SwiftUI
 import WeatherService
-import MapKit
 
 struct ContentView: View {
     @StateObject private var locationManager = LocationManager.shared
     @State private var coordinate: CLLocationCoordinate2D?
-    
+
     private enum Constants {
         static let defaultCoordinates = Coordinates(lat: 53.893009, lon: 27.567444)
         static let waitingText = String(localized: "contentView.waitingText")

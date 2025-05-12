@@ -12,22 +12,22 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     static let shared = LocationManager()
     @Published var lastLocation: CLLocation?
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
-    
+
     private let manager = CLLocationManager()
     private var locationContinuation: CheckedContinuation<CLLocation, Never>?
-    
+
     override init() {
         super.init()
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         manager.distanceFilter = 1000
     }
-    
+
     func requestLocationPermission() {
         manager.requestWhenInUseAuthorization()
         manager.requestLocation()
     }
-    
+
     func awaitLocation() async -> CLLocation {
         if let loc = lastLocation {
             return loc
@@ -65,31 +65,31 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
 
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             DispatchQueue.main.async { [unowned self] in
-                self.lastLocation = location
-                self.locationContinuation?.resume(returning: location)
-                self.locationContinuation = nil
+                lastLocation = location
+                locationContinuation?.resume(returning: location)
+                locationContinuation = nil
                 saveLocationToSharedStorage()
             }
         }
     }
 
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    func locationManager(_: CLLocationManager, didFailWithError error: Error) {
         print("[DEBUG] Failed to get location:", error)
-        self.locationContinuation?.resume(returning: CLLocation(latitude: 53.893009, longitude: 27.567444)) // fallback
-        self.locationContinuation = nil
+        locationContinuation?.resume(returning: CLLocation(latitude: 53.893009, longitude: 27.567444)) // fallback
+        locationContinuation = nil
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        self.authorizationStatus = manager.authorizationStatus
+        authorizationStatus = manager.authorizationStatus
 
         if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
             manager.requestLocation()
         } else if manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted {
-            self.locationContinuation?.resume(returning: CLLocation(latitude: 53.893009, longitude: 27.567444)) // fallback
-            self.locationContinuation = nil
+            locationContinuation?.resume(returning: CLLocation(latitude: 53.893009, longitude: 27.567444)) // fallback
+            locationContinuation = nil
         }
     }
 
@@ -101,7 +101,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         print("[DEBUG] Saved coordinates to the UD: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         WidgetCenter.shared.reloadAllTimelines()
     }
-    
+
     func requestLocationUpdateInBackground() {
         manager.requestLocation()
     }

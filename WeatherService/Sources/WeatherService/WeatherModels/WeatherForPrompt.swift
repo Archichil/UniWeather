@@ -17,7 +17,7 @@ public struct WeatherForPrompt {
     public let cloudiness: Int
     public let precipitation: Double
     public let weatherDescription: String
-    
+
     public init(temperature: Double, feelsLike: Double, tempMin: Double, tempMax: Double, humidity: Int, windSpeed: Double, cloudiness: Int, precipitation: Double, weatherDescription: String) {
         self.temperature = temperature
         self.feelsLike = feelsLike

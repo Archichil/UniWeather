@@ -5,8 +5,8 @@
 //  Created by Daniil on 19.04.25.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 @main
 struct UniWeatherWidgetsBundle: WidgetBundle {

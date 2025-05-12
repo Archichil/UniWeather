@@ -10,32 +10,32 @@ import WidgetKit
 
 struct CurrentWeatherWidgetView: View {
     var entry: CurrentWeatherEntry
-    
+
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
                 LocationTitle(location: entry.location, textSize: 15, isCurrentLocation: entry.isCurrentLocation)
-                
+
                 Text("\(entry.temperature)º")
                     .font(.largeTitle)
                     .fontWeight(.regular)
-                
+
                 VStack(alignment: .leading, spacing: 0) {
                     WeatherIcon(weatherCode: entry.icon)
                         .font(.system(size: 15))
-                    
+
                     Text(entry.description.prefix(1).capitalized + entry.description.dropFirst())
                         .font(.system(size: 13))
                         .bold()
                         .lineLimit(2)
                 }.frame(maxHeight: .infinity, alignment: .bottom)
-                
+
                 HStack(spacing: 1) {
                     Image(systemName: "arrow.down")
                         .font(.system(size: 11))
                         .fontWeight(.heavy)
                     Text("\(entry.minTemp)º")
-                    
+
                     Image(systemName: "arrow.up")
                         .font(.system(size: 11))
                         .fontWeight(.heavy)
@@ -43,11 +43,9 @@ struct CurrentWeatherWidgetView: View {
                 }
                 .font(.system(size: 13))
                 .padding(.top, 1)
-                
             }
             .bold()
             .foregroundStyle(.white)
-
         }
         .containerBackground(for: .widget) {
             let gradient = getBackgroundGradient(
@@ -66,10 +64,9 @@ struct CurrentWeatherWidgetView: View {
     }
 }
 
-
 struct CurrentWeatherWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        let dt = 1745940771
+        let dt = 1_745_940_771
         CurrentWeatherWidgetView(entry:
             CurrentWeatherEntry(
                 date: Date(),

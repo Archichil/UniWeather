@@ -5,8 +5,8 @@
 //  Created by Archichil on 17.03.25.
 //
 
-import Foundation
 import APIClient
+import Foundation
 
 /// An enumeration representing the API specifications for interacting with the AI service.
 ///

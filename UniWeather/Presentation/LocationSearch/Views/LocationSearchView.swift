@@ -5,45 +5,49 @@
 //  Created by Artur Kukhatskavolets on 31.03.25.
 //
 
-import SwiftUI
 import MapKit
 import SwiftData
+import SwiftUI
 import WeatherService
 
 struct LocationSearchView: View {
     // MARK: - Constants
+
     private enum Constants {
         enum Colors {
             static let highlight: Color = .white
             static let sheetBackground: Color = .blue
         }
-        
+
         enum Icons {
             static let deleteIcon = "trash"
         }
-        
+
         enum Text {
             static let navigationTitle = String(localized: "locationSearchView.navigationTitle")
             static let searchPrompt = String(localized: "locationSearchView.searchPrompt")
         }
     }
-    
+
     // MARK: - Properties
+
     @StateObject private var viewModel = LocationSearchViewModel()
     @Environment(\.modelContext) private var context
     @Query(sort: \LocationEntity.timestamp, order: .reverse) private var items: [LocationEntity]
     @State private var isFocused = false
     @State private var isSheetPresented = false
-    
+
     // MARK: - Main View
+
     var body: some View {
         NavigationStack {
             searchableList
                 .navigationTitle(Constants.Text.navigationTitle)
         }
     }
-    
+
     // MARK: - Subviews
+
     private var searchableList: some View {
         VStack {
             if isFocused {
@@ -60,9 +64,8 @@ struct LocationSearchView: View {
             placement: .navigationBarDrawer(displayMode: .always),
             prompt: Constants.Text.searchPrompt
         )
-        
     }
-    
+
     @ViewBuilder
     private var searchResultsContent: some View {
         if !viewModel.searchTerm.isEmpty {
@@ -71,7 +74,7 @@ struct LocationSearchView: View {
             }
         }
     }
-    
+
     private var mainContent: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 8) {
@@ -95,13 +98,12 @@ struct LocationSearchView: View {
         }
     }
 
-    
     private var sheetContent: some View {
         EmptyView()
             .presentationDragIndicator(.visible)
             .background(Constants.Colors.sheetBackground)
     }
-    
+
     private func locationRow(for location: MKLocalSearchCompletion) -> some View {
         Button {
             Task {
@@ -128,7 +130,7 @@ struct LocationSearchView: View {
         }
         .buttonStyle(.plain)
     }
-    
+
     private func handleLocationSelection(_ location: MKLocalSearchCompletion) async {
         let coordinate = await viewModel.reverseGeocode(location: location)
         addItem(coordinate: coordinate)
@@ -139,7 +141,7 @@ struct LocationSearchView: View {
 
     func highlightedText(_ text: String, searchTerm: String, highlightColor: Color) -> Text {
         guard !searchTerm.isEmpty else { return Text(text) }
-        
+
         let lowerText = text.lowercased()
         let lowerSearchTerm = searchTerm.lowercased()
         var result = Text("")
@@ -147,42 +149,43 @@ struct LocationSearchView: View {
 
         while let range = lowerText[currentIndex...].range(of: lowerSearchTerm) {
             // Add text before match
-            let beforeMatch = text[currentIndex..<range.lowerBound]
+            let beforeMatch = text[currentIndex ..< range.lowerBound]
             result = result + Text(beforeMatch)
-            
+
             // Add highlighted match
             let match = text[range]
             result = result + Text(match).foregroundColor(highlightColor)
-            
+
             currentIndex = range.upperBound
             if currentIndex == lowerText.endIndex {
                 break
             }
         }
-        
+
         // Add text after match
         if currentIndex < text.endIndex {
-            let remainder = text[currentIndex..<text.endIndex]
+            let remainder = text[currentIndex ..< text.endIndex]
             result = result + Text(remainder)
         }
-        
+
         return result
     }
-    
+
     // MARK: - Persistence
+
     func addItem(coordinate: Coordinates) {
         let entity = LocationEntity(latitude: coordinate.lat, longitude: coordinate.lon)
         context.insert(entity)
         try? context.save()
         updateUserDefaults()
     }
-    
+
     func deleteItem(_ item: LocationEntity) {
         context.delete(item)
         try? context.save()
         updateUserDefaults()
     }
-    
+
     func updateUserDefaults() {
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
         let encodedItems = try? JSONEncoder().encode(items)
@@ -191,6 +194,7 @@ struct LocationSearchView: View {
 }
 
 // MARK: - Preview
+
 #Preview {
     LocationSearchView()
         .preferredColorScheme(.dark)

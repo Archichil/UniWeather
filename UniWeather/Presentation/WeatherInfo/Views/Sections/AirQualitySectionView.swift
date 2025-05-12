@@ -10,18 +10,19 @@ import WeatherService
 
 struct AirQualitySectionView: View {
     let currentAirPollution: AirPollution
-    
+
     private enum Constants {
         enum Texts {
             static let sectionName = String(localized: "airQualitySection.sectionName")
             static let level = String(localized: "airQualitySection.level")
             static let unknown = String(localized: "airQualitySection.unknown")
         }
+
         enum Icons {
             static let sectionIcon = "circle.hexagongrid.fill"
         }
     }
-    
+
     var body: some View {
         VStack(spacing: 8) {
             CustomStackView {
@@ -46,17 +47,16 @@ struct AirQualitySectionView: View {
                 }
                 .padding(.horizontal)
             }
-
         }
     }
 }
 
-fileprivate struct PreviewWrapper: View {
+private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var airData: AirPollution?
     let apiService = WeatherAPIService()
     let coordinates: Coordinates
-    
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {

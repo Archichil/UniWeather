@@ -5,13 +5,13 @@
 //  Created by Daniil on 4.05.25.
 //
 
+import AppIntents
 import SwiftUI
 import WidgetKit
-import AppIntents
 
 struct DailyWeatherLargeWidget: Widget {
     let kind: String = "DailyWeatherLargeWidget"
-    
+
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
             kind: kind,
@@ -25,5 +25,3 @@ struct DailyWeatherLargeWidget: Widget {
         .supportedFamilies([.systemLarge])
     }
 }
-
-

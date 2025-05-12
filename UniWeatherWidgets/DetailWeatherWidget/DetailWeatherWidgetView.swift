@@ -14,17 +14,17 @@ private struct DetailWeatherWidgetSection: View {
     let units: String
     var icon: String? = nil
     var zeroPlaceholder: String? = nil
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(title)
                 .foregroundStyle(.white)
-            
+
             HStack(spacing: 6) {
-                if icon != nil && zeroPlaceholder == nil {
+                if icon != nil, zeroPlaceholder == nil {
                     Image(systemName: icon!)
                 }
-                
+
                 Text(zeroPlaceholder ?? "\(value) \(units)")
             }
             .foregroundStyle(secondaryColor)
@@ -36,7 +36,7 @@ private struct DetailWeatherWidgetSection: View {
 
 struct DetailWeatherWidgetView: View {
     let entry: DetailWeatherEntry
-    
+
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -48,8 +48,8 @@ struct DetailWeatherWidgetView: View {
                     tempMax: entry.maxTemp,
                     isCurrentLocation: entry.isCurrentLocation
                 )
-                
-                VStack(alignment:.leading, spacing: 1) {
+
+                VStack(alignment: .leading, spacing: 1) {
                     DetailWeatherWidgetSection(
                         title: "Осадки",
                         value: entry.rain,
@@ -57,7 +57,7 @@ struct DetailWeatherWidgetView: View {
                         icon: "cloud.rain.fill",
                         zeroPlaceholder: entry.rain == 0 ? "Без осадков" : nil
                     )
-                    
+
                     DetailWeatherWidgetSection(
                         title: "Ветер",
                         value: entry.wind,
@@ -66,7 +66,6 @@ struct DetailWeatherWidgetView: View {
                     )
                 }
             }
-
         }
         .containerBackground(for: .widget) {
             let gradient = getBackgroundGradient(
@@ -87,7 +86,7 @@ struct DetailWeatherWidgetView: View {
 
 struct DetailWeatherWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        let dt = 1745940771
+        let dt = 1_745_940_771
         DetailWeatherWidgetView(entry:
             DetailWeatherEntry(
                 date: Date(),

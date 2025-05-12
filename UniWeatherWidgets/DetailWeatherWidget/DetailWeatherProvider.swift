@@ -5,53 +5,52 @@
 //  Created by Daniil on 20.04.25.
 //
 
-import SwiftUI
-import WidgetKit
-import WeatherService
 import Intents
-
+import SwiftUI
+import WeatherService
+import WidgetKit
 
 struct DetailWeatherProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
     private let weatherService = WeatherAPIService()
-    
-    func placeholder(in context: Context) -> DetailWeatherEntry {
-        let dt = 1745940771
+
+    func placeholder(in _: Context) -> DetailWeatherEntry {
+        let dt = 1_745_940_771
         return DetailWeatherEntry(
-                date: Date(),
-                dt: dt,
-                sunrise: dt - 3600 * 4,
-                sunset: dt + 3600 * 5,
-                location: "Локация",
-                icon: "02d",
-                temp: 19,
-                minTemp: 12,
-                maxTemp: 24,
-                rain: 30,
-                wind: 12,
-                isCurrentLocation: true
-            )
+            date: Date(),
+            dt: dt,
+            sunrise: dt - 3600 * 4,
+            sunset: dt + 3600 * 5,
+            location: "Локация",
+            icon: "02d",
+            temp: 19,
+            minTemp: 12,
+            maxTemp: 24,
+            rain: 30,
+            wind: 12,
+            isCurrentLocation: true
+        )
     }
-    
-    func snapshot(for configuration: Intent, in context: Context) async -> DetailWeatherEntry {
+
+    func snapshot(for _: Intent, in context: Context) async -> DetailWeatherEntry {
         placeholder(in: context)
     }
-    
+
     func timeline(for configuration: Intent, in context: Context) async -> Timeline<DetailWeatherEntry> {
         let currentDate = Date()
-        
+
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
-    
+
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
             let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
-            
-            let entry: DetailWeatherEntry
-            if let currentWeather = currentWeather,
-               let dailyWeather = dailyWeather {
-                entry = DetailWeatherEntry(
+
+            let entry: DetailWeatherEntry = if let currentWeather,
+                                               let dailyWeather
+            {
+                DetailWeatherEntry(
                     date: currentDate,
                     dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
                     sunrise: (dailyWeather.list.first?.sunrise ?? 0) + dailyWeather.city.timezone,
@@ -66,9 +65,9 @@ struct DetailWeatherProvider: AppIntentTimelineProvider {
                     isCurrentLocation: isCurrentLocation
                 )
             } else {
-                entry = placeholder(in: context)
+                placeholder(in: context)
             }
-            
+
             return Timeline(entries: [entry], policy: .after(nextUpdateDate))
         } catch {
             let entry = placeholder(in: context)
@@ -76,4 +75,3 @@ struct DetailWeatherProvider: AppIntentTimelineProvider {
         }
     }
 }
-

@@ -15,26 +15,25 @@ enum AvailablePrompts: CaseIterable {
     var title: String {
         switch self {
         case .whatToWear:
-            return String(localized: "prompt.whatToWear")
+            String(localized: "prompt.whatToWear")
         case .transportOption:
-            return String(localized: "prompt.transportOption")
+            String(localized: "prompt.transportOption")
         case .enjoyableActivities:
-            return String(localized: "prompt.enjoyableActivities")
+            String(localized: "prompt.enjoyableActivities")
         case .exploreNearby:
-            return String(localized: "prompt.exploreNearby")
+            String(localized: "prompt.exploreNearby")
         case .healthTips:
-            return String(localized: "prompt.healthTips")
+            String(localized: "prompt.healthTips")
         }
     }
 
     var iconName: String {
         switch self {
-        case .whatToWear: return "jacket"
-        case .transportOption: return "bicycle"
-        case .enjoyableActivities: return "sparkles"
-        case .exploreNearby: return "building.columns"
-        case .healthTips: return "bolt.heart.fill"
+        case .whatToWear: "jacket"
+        case .transportOption: "bicycle"
+        case .enjoyableActivities: "sparkles"
+        case .exploreNearby: "building.columns"
+        case .healthTips: "bolt.heart.fill"
         }
     }
 }
-

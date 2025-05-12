@@ -4,14 +4,13 @@
 //
 //  Created by Daniil on 20.04.25.
 
-
+import AppIntents
 import SwiftUI
 import WidgetKit
-import AppIntents
 
 struct DailyWeatherSmallWidget: Widget {
     let kind: String = "DailyWeatherSmallWidget"
-    
+
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
             kind: kind,

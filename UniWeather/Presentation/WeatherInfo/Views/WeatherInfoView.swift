@@ -12,11 +12,11 @@ struct WeatherInfoView: View {
     @ObservedObject var viewModel: WeatherInfoViewModel
     @State var offset: CGFloat = 0
     var isNavigationBarHidden = false
-    
+
     private var backgroundGradient: LinearGradient {
         LinearGradient(gradient: getBackgroundGradient(weatherCode: viewModel.currentWeather?.weather.first?.icon ?? "01d", dt: viewModel.currentWeather?.dt ?? Int(Date.now.timeIntervalSince1970), sunset: viewModel.dailyWeather?.list.first?.sunset ?? 0, sunrise: viewModel.dailyWeather?.list.first?.sunrise ?? 0), startPoint: .top, endPoint: .bottom)
     }
-    
+
     private enum Constants {
         enum Icons {
             static let map = "map"
@@ -24,29 +24,29 @@ struct WeatherInfoView: View {
             static let savedLocations = "list.dash"
             static let holidayCalendar = "calendar"
         }
-        
+
         enum Texts {
             static let unknown = String(localized: "weatherInfoView.unknown")
             static let min = String(localized: "weatherInfoView.min")
             static let max = String(localized: "weatherInfoView.max")
             static let coordinateSpace = "scroll"
         }
-        
+
         enum Defaults {
             static let minTemp: Double = -99
             static let maxTemp: Double = 99
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             GeometryReader { proxy in
                 let topEdge = proxy.safeAreaInsets.top
-                
+
                 ZStack {
                     if viewModel.isLoaded {
                         backgroundGradient
-                                .ignoresSafeArea()
+                            .ignoresSafeArea()
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack {
                                 mainText
@@ -59,17 +59,17 @@ struct WeatherInfoView: View {
                             .overlay {
                                 GeometryReader { proxy -> Color in
                                     let minY = proxy.frame(in: .named(Constants.Texts.coordinateSpace)).minY
-                                    
+
                                     DispatchQueue.main.async {
-                                        self.offset = minY
+                                        offset = minY
                                     }
-                                    
+
                                     return Color.clear
                                 }
                             }
                         }
                         .coordinateSpace(name: Constants.Texts.coordinateSpace)
-                        
+
                         Text(viewModel.currentPlace ?? Constants.Texts.unknown)
                             .lineLimit(1)
                             .font(.system(size: 35))
@@ -77,7 +77,7 @@ struct WeatherInfoView: View {
                             .frame(maxHeight: .infinity, alignment: .top)
                             .padding(.top, topEdge + 10)
                             .padding(.horizontal)
-                        
+
                         bottomNavigationBar
                     } else {
                         LinearGradient(gradient: getBackgroundGradient(weatherCode: "01d", dt: 10000, sunset: 20000, sunrise: 0), startPoint: .top, endPoint: .bottom)
@@ -97,7 +97,6 @@ struct WeatherInfoView: View {
                 await viewModel.loadAllWeather()
             }
         }
-
     }
 
     private var skeletonView: some View {
@@ -114,12 +113,12 @@ struct WeatherInfoView: View {
                 Text("some text some ")
                     .font(.title3)
             }
-            
+
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.gray.opacity(0.3))
                 .frame(height: 150)
-            
-            ForEach(0..<3) { _ in
+
+            ForEach(0 ..< 3) { _ in
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.gray.opacity(0.3))
                     .frame(height: 200)
@@ -133,7 +132,6 @@ struct WeatherInfoView: View {
         .transition(.identity)
     }
 
-    
     private var mainText: some View {
         VStack(alignment: .center, spacing: 5) {
             Text(viewModel.currentPlace ?? Constants.Texts.unknown)
@@ -152,13 +150,14 @@ struct WeatherInfoView: View {
                 .opacity(getOpacity(threshold: 20))
         }
     }
-    
+
     private var weatherData: some View {
         VStack(spacing: 8) {
             if let hourlyWeather = viewModel.hourlyWeather,
                let dailyWeather = viewModel.dailyWeather,
                let currentWeather = viewModel.currentWeather,
-               let currentAirPollution = viewModel.airPollution {
+               let currentAirPollution = viewModel.airPollution
+            {
                 HourlyForecastSectionView(hourlyWeather: hourlyWeather, sunrise: hourlyWeather.city.sunrise, sunset: hourlyWeather.city.sunset)
                 WeekForecastSectionView(dailyWeather: dailyWeather)
                 AirQualitySectionView(currentAirPollution: currentAirPollution)
@@ -170,9 +169,9 @@ struct WeatherInfoView: View {
                 .frame(maxHeight: .infinity)
                 .frame(height: 160)
             }
-       }
+        }
     }
-    
+
     private var bottomNavigationBar: some View {
         VStack {
             Spacer()
@@ -190,7 +189,7 @@ struct WeatherInfoView: View {
                 .padding(.top, 8)
                 .background(.ultraThinMaterial)
                 .background(backgroundGradient)
-                
+
                 NavigationLink {
                     AIView(viewModel: AIViewModel(coordinates: viewModel.coordinate))
                 } label: {
@@ -203,7 +202,7 @@ struct WeatherInfoView: View {
                 .padding(.top, 8)
                 .background(.ultraThinMaterial)
                 .background(backgroundGradient)
-                
+
                 NavigationLink {
                     HolidaysForecastView(coordinates: viewModel.coordinate)
                 } label: {
@@ -217,7 +216,7 @@ struct WeatherInfoView: View {
                 .padding(.horizontal, 32)
                 .background(.ultraThinMaterial)
                 .background(backgroundGradient)
-                
+
                 NavigationLink {
                     LocationSearchView()
                 } label: {
@@ -234,7 +233,7 @@ struct WeatherInfoView: View {
             }
         }
     }
-    
+
     private func getTitleOffset() -> CGFloat {
         if offset < 0 {
             let progress = -offset / 145
@@ -242,7 +241,7 @@ struct WeatherInfoView: View {
         }
         return 0
     }
-    
+
     private func getOpacity(threshold: CGFloat) -> CGFloat {
         let titleOffset = -getTitleOffset()
         let progress = titleOffset / threshold

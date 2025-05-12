@@ -12,7 +12,7 @@ struct HourlyForecastSectionView: View {
     let hourlyWeather: HourlyWeather
     let sunrise: Int?
     let sunset: Int?
-    
+
     private enum Constants {
         enum Texts {
             static let sectionName = String(localized: "hourlyForecastSection.sectionName")
@@ -21,9 +21,11 @@ struct HourlyForecastSectionView: View {
             static let sunset = String(localized: "hourlyForecastSection.sunset")
             static let localeIdentifier = "ru_RU"
         }
+
         enum Icons {
             static let sectionIcon = "clock"
         }
+
         enum TimeFormats {
             static let sunset = "HH:mm"
             static let sunrise = "HH:mm"
@@ -37,23 +39,23 @@ struct HourlyForecastSectionView: View {
         let icon: String
         let time: String
     }
-    
+
     private var combinedItems: [HourlyWeatherItemsWrapper] {
         var items = [HourlyWeatherItemsWrapper]()
         guard !hourlyWeather.list.isEmpty else { return items }
-        
+
         let nowItem = hourlyWeather.list[0]
         items.append(HourlyWeatherItemsWrapper(temperature: "\(String(Int(nowItem.main.temp)))º", icon: nowItem.weather.first?.icon ?? "", time: Constants.Texts.now))
         appendSunEvents(for: nowItem.dt, to: &items)
-        
+
         for item in hourlyWeather.list {
             items.append(HourlyWeatherItemsWrapper(temperature: "\(String(Int(item.main.temp)))º", icon: item.weather.first?.icon ?? "", time: formatTime(item.dt, format: Constants.TimeFormats.regular)))
             appendSunEvents(for: item.dt, to: &items)
         }
-        
+
         return items
     }
-    
+
     var body: some View {
         CustomStackView {
             Label {
@@ -77,37 +79,38 @@ struct HourlyForecastSectionView: View {
             }
         }
     }
-    
+
     // MARK: - Helpers
+
     private func appendSunEvents(for timestamp: Int, to items: inout [HourlyWeatherItemsWrapper]) {
         let nextHour = timestamp + 3600
-        
-        if let sunrise = sunrise, (timestamp..<nextHour).contains(sunrise) {
+
+        if let sunrise, (timestamp ..< nextHour).contains(sunrise) {
             items.append(HourlyWeatherItemsWrapper(temperature: Constants.Texts.sunrise, icon: "sunrise", time: formatTime(sunrise, format: Constants.TimeFormats.sunrise)))
         }
-        
-        if let sunset = sunset, (timestamp..<nextHour).contains(sunset) {
+
+        if let sunset, (timestamp ..< nextHour).contains(sunset) {
             items.append(HourlyWeatherItemsWrapper(temperature: Constants.Texts.sunset, icon: "sunset", time: formatTime(sunset, format: Constants.TimeFormats.sunset)))
         }
     }
-    
+
     private func formatTime(_ timestamp: Int, format: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         let formatter = DateFormatter()
         formatter.dateFormat = format
         formatter.locale = Locale(identifier: Constants.Texts.localeIdentifier)
         formatter.timeZone = TimeZone(secondsFromGMT: hourlyWeather.city.timezone)
-        
+
         return formatter.string(from: date)
     }
 }
 
-fileprivate struct PreviewWrapper: View {
+private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: HourlyWeather?
     let apiService = WeatherAPIService()
     let coordinates: Coordinates
-    
+
     var body: some View {
         VStack {
             if isLoaded {

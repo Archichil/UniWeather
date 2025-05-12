@@ -10,34 +10,35 @@ import WeatherService
 
 struct AIView: View {
     // MARK: - Constants
+
     private enum Constants {
         enum Colors {
-            static let darkBackground = Color(red: 18/255, green: 20/255, blue: 22/255)
-            static let circleIconBackground = Color(red: 29/255, green: 31/255, blue: 32/255)
-            static let circleIcon = Color(red: 180/255, green: 181/255, blue: 188/255)
+            static let darkBackground = Color(red: 18 / 255, green: 20 / 255, blue: 22 / 255)
+            static let circleIconBackground = Color(red: 29 / 255, green: 31 / 255, blue: 32 / 255)
+            static let circleIcon = Color(red: 180 / 255, green: 181 / 255, blue: 188 / 255)
             static let lightText = Color.white.opacity(0.9)
             static let secondaryText = Color.white.opacity(0.6)
-            static let accentColor = Color(red: 101/255, green: 87/255, blue: 255/255)
-            
+            static let accentColor = Color(red: 101 / 255, green: 87 / 255, blue: 255 / 255)
+
             static let backgroundGradient = LinearGradient(
                 gradient: Gradient(colors: [
                     Color(hex: "#0F0F2D"),
-                    Color(hex: "#1A1A3A")
+                    Color(hex: "#1A1A3A"),
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
             )
-            
+
             static let titleGradient = LinearGradient(
                 gradient: Gradient(colors: [
                     Color.white,
-                    Color(hex: "#B0B0FF")
+                    Color(hex: "#B0B0FF"),
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
             )
         }
-        
+
         enum Layout {
             static let columnsSpacing: CGFloat = 15
             static let promptItemSize: CGFloat = 180
@@ -47,30 +48,32 @@ struct AIView: View {
             static let bottomPadding: CGFloat = 15
             static let titleFontSize: CGFloat = 45
         }
-        
+
         enum Text {
             static let greeting = String(localized: "aiView.greeting")
             static let chatIcon = "bubble.left.and.text.bubble.right"
             static let navigationTitle = String(localized: "aiView.navigationTitle")
         }
-        
+
         enum Sheets {
             static let datePickerDetents: Set<PresentationDetent> = [.fraction(0.35)]
             static let chatViewDetents: Set<PresentationDetent> = [.fraction(0.9), .fraction(0.91)]
         }
     }
-    
+
     // MARK: - Properties
+
     @StateObject var viewModel: AIViewModel
     @State private var showDaySheet = false
     @State private var showAnswerSheet = false
-    
+
     // MARK: - Main View
+
     var body: some View {
         ZStack(alignment: .bottom) {
             Constants.Colors.backgroundGradient
                 .edgesIgnoringSafeArea(.all)
-            
+
             mainContent
             chatButton
                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -83,8 +86,9 @@ struct AIView: View {
         }
         .navigationTitle(Constants.Text.navigationTitle)
     }
-    
+
     // MARK: - Subviews
+
     private var mainContent: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -96,14 +100,14 @@ struct AIView: View {
         .padding(.horizontal, Constants.Layout.horizontalPadding)
         .scrollIndicators(.hidden)
     }
-    
+
     private var greetingText: some View {
         Text(Constants.Text.greeting)
             .font(.system(size: Constants.Layout.titleFontSize))
             .fontWeight(.medium)
             .foregroundStyle(Constants.Colors.titleGradient)
     }
-    
+
     private var promptsGrid: some View {
         VStack(spacing: Constants.Layout.columnsSpacing) {
             ForEach(groupedPrompts.indices, id: \.self) { rowIndex in
@@ -124,11 +128,11 @@ struct AIView: View {
         }
         .padding(.top)
     }
-    
+
     private var groupedPrompts: [[AvailablePrompts]] {
         AvailablePrompts.allCases.chunked(into: 2)
     }
-    
+
     private var chatButton: some View {
         AICircleIcon(
             icon: Constants.Text.chatIcon,
@@ -144,7 +148,7 @@ struct AIView: View {
             showAnswerSheet = true
         }
     }
-    
+
     private var datePickerSheet: some View {
         AIDatePickerView(
             showDaySheet: $showDaySheet,
@@ -155,14 +159,15 @@ struct AIView: View {
         .presentationDragIndicator(.visible)
         .presentationBackground(Constants.Colors.backgroundGradient)
     }
-    
+
     private var chatViewSheet: some View {
         AIChatView(viewModel: viewModel)
             .presentationDetents(Constants.Sheets.chatViewDetents)
             .presentationBackground(Constants.Colors.darkBackground)
     }
-    
+
     // MARK: - Private methods
+
     private func handlePromptSelection(_ prompt: AvailablePrompts) {
         if !viewModel.isFetching {
             viewModel.selectedPrompt = prompt
@@ -172,6 +177,7 @@ struct AIView: View {
 }
 
 // MARK: - Preview
+
 #Preview {
     AIView(viewModel: AIViewModel(coordinates: Coordinates(lat: 53.893009, lon: 27.567444)))
 }

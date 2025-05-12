@@ -17,18 +17,18 @@ struct LocationItem: View {
         self.coordinate = coordinate
         _viewModel = StateObject(wrappedValue: WeatherInfoViewModel(coordinate: coordinate))
     }
-        
+
     private var timeString: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         formatter.timeZone = TimeZone(secondsFromGMT: viewModel.currentWeather?.timezone ?? 0)
         return formatter.string(from: currentTime)
     }
-    
+
     private var backgroundGradient: LinearGradient {
         LinearGradient(gradient: getBackgroundGradient(weatherCode: viewModel.currentWeather?.weather.first?.icon ?? Constants.Defaults.weatherIcon, dt: viewModel.currentWeather?.dt ?? Int(Date.now.timeIntervalSince1970), sunset: viewModel.dailyWeather?.list.first?.sunset ?? 0, sunrise: viewModel.dailyWeather?.list.first?.sunrise ?? 0), startPoint: .top, endPoint: .bottom)
     }
-    
+
     private enum Constants {
         enum Texts {
             static let unknown = String(localized: "locationItem.unknown")
@@ -41,7 +41,7 @@ struct LocationItem: View {
             static let maxTemp: Double = 99
             static let weatherIcon = "01d"
         }
-        
+
         enum Intervals {
             static let dateUpdateInterval: Double = 10
             static let weatherUpdateInterval: Double = 3600
@@ -59,19 +59,19 @@ struct LocationItem: View {
                             VStack(alignment: .leading) {
                                 Text(viewModel.currentPlace ?? Constants.Texts.unknown)
                                     .font(.title2)
-                                
+
                                 Text(timeString)
                                     .font(.subheadline)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .bold()
-                            
+
                             Text("\(Int(viewModel.currentWeather?.main.temp.rounded() ?? Constants.Defaults.minTemp))º")
                                 .font(.system(size: 50))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         }
                         .frame(maxWidth: .infinity)
-                        
+
                         HStack {
                             Text("\(viewModel.currentWeather?.weather.first?.description.capitalized ?? Constants.Texts.unknown)")
                                 .font(.callout)
@@ -116,28 +116,27 @@ struct LocationItem: View {
                 await viewModel.loadAllWeather()
             }
         }
-
     }
-    
+
     private var skeletonView: some View {
         VStack(spacing: 16) {
             HStack {
                 VStack(alignment: .leading) {
                     Text("Минск")
                         .font(.title2)
-                    
+
                     Text("10:49")
                         .font(.subheadline)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .bold()
-                
+
                 Text("4º")
                     .font(.system(size: 50))
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .frame(maxWidth: .infinity)
-            
+
             HStack {
                 Text("Облачно")
                     .font(.callout)
@@ -165,7 +164,6 @@ struct LocationItemContainer: View {
         LocationItem(coordinate: coordinate)
     }
 }
-
 
 #Preview {
     LocationItemContainer(coordinate: Coordinates(lat: 53, lon: 16))

@@ -10,18 +10,19 @@ import WeatherService
 
 struct TemperatureFeelsLikeSection: View {
     let currentWeather: CurrentWeather
-    
+
     private enum Constants {
         enum Texts {
             static let sectionName = String(localized: "temperatureFeelsLikeSection.sectionName")
             static let dewPoint = String(localized: "temperatureFeelsLikeSection.dewPoint")
             static let actually = String(localized: "temperatureFeelsLikeSection.actually")
         }
+
         enum Icons {
             static let sectionIcon = "thermometer.medium"
         }
     }
-    
+
     var body: some View {
         CustomStackView {
             Label {
@@ -44,12 +45,12 @@ struct TemperatureFeelsLikeSection: View {
     }
 }
 
-fileprivate struct PreviewWrapper: View {
+private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: CurrentWeather?
     let apiService = WeatherAPIService()
     let coordinates: Coordinates
-    
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {

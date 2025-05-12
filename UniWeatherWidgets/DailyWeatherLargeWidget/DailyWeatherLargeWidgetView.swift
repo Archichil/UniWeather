@@ -5,26 +5,25 @@
 //  Created by Daniil on 4.05.25.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 private struct DayWeatherRow: View {
     let entry: WeatherDailyItem
-    
+
     var body: some View {
         HStack(spacing: 0) {
             Text(getShortWeekday(from: entry.dt))
                 .frame(maxWidth: 55, alignment: .leading)
-            
+
             WeatherIcon(weatherCode: entry.icon)
                 .font(.system(size: 16))
-                
 
             HStack(alignment: .center, spacing: 0) {
                 Text("\(entry.minTemp)º")
                     .foregroundStyle(secondaryColor)
                     .frame(maxWidth: 24, alignment: .leading)
-                
+
                 TemperatureGradientBarView(
                     overallMin: Double(entry.overallMinTemp),
                     overallMax: Double(entry.overallMaxTemp),
@@ -32,7 +31,7 @@ private struct DayWeatherRow: View {
                     dayMax: Double(entry.maxTemp)
                 )
                 .frame(maxWidth: 135, maxHeight: 4)
-                    
+
                 Text("\(entry.maxTemp)º")
                     .frame(maxWidth: 30, alignment: .trailing)
             }
@@ -45,7 +44,7 @@ private struct DayWeatherRow: View {
 
 struct DailyWeatherLargeWidgetView: View {
     let entry: DailyWeatherLargeEntry
-    
+
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 8) {
@@ -58,18 +57,19 @@ struct DailyWeatherLargeWidgetView: View {
                     tempMax: entry.tempMax,
                     isCurrentLocation: entry.isCurrentLocation
                 )
-                
+
                 Rectangle()
                     .frame(maxHeight: 0.5)
                     .foregroundStyle(.white.opacity(0.2))
-                
+
                 HStack(spacing: 0) {
                     let items = itemsWithSunEvents(
                         items: entry.hourlyItems,
                         count: entry.hourlyItems.count,
                         sunrise: entry.sunrise,
                         sunset: entry.sunset,
-                        dt: entry.dt)
+                        dt: entry.dt
+                    )
                     ForEach(items.indices, id: \.self) { index in
                         let item = items[index]
                         HourlyWeatherItemView(entry: item)
@@ -78,17 +78,16 @@ struct DailyWeatherLargeWidgetView: View {
                         }
                     }
                 }
-                
+
                 Rectangle()
                     .frame(maxHeight: 0.5)
                     .foregroundStyle(.white.opacity(0.2))
-                
+
                 VStack(spacing: 0) {
                     ForEach(entry.dailyItems.indices, id: \.self) { index in
                         DayWeatherRow(entry: entry.dailyItems[index])
                     }
                 }
-
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .foregroundStyle(.white)
@@ -112,7 +111,7 @@ struct DailyWeatherLargeWidgetView: View {
 
 struct DailyWeatherLargeWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        let dt = 1745940771
+        let dt = 1_745_940_771
         DailyWeatherLargeWidgetView(entry: DailyWeatherLargeEntry(
             date: Date(),
             dt: dt,
@@ -128,27 +127,33 @@ struct DailyWeatherLargeWidgetView_Previews: PreviewProvider {
                 HourlyWeatherHourItem(
                     dt: dt + 1 * 3600,
                     icon: "01d",
-                    temp: 10),
+                    temp: 10
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 2 * 3600,
                     icon: "02d",
-                    temp: 12),
+                    temp: 12
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 3 * 3600,
                     icon: "03d",
-                    temp: 14),
+                    temp: 14
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 4 * 3600,
                     icon: "04d",
-                    temp: 16),
+                    temp: 16
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 5 * 3600,
                     icon: "01d",
-                    temp: 14),
+                    temp: 14
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 6 * 3600,
                     icon: "02d",
-                    temp: 12),
+                    temp: 12
+                ),
             ],
             dailyItems: [
                 WeatherDailyItem(
@@ -157,39 +162,43 @@ struct DailyWeatherLargeWidgetView_Previews: PreviewProvider {
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 22,
-                    icon: "01d"),
+                    icon: "01d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 2 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 23,
-                    icon: "02d"),
+                    icon: "02d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 3 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 24,
-                    icon: "03d"),
+                    icon: "03d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 4 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 19,
-                    icon: "02d"),
+                    icon: "02d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 5 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 6,
                     maxTemp: 16,
-                    icon: "04d"),
+                    icon: "04d"
+                ),
             ],
             isCurrentLocation: true
         ))
         .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 }
-

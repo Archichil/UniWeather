@@ -23,7 +23,7 @@ struct HourlyWeatherEntry: TimelineEntry {
 }
 
 struct HourlyWeatherHourItem: Identifiable {
-    let id: UUID = UUID()
+    let id: UUID = .init()
     let dt: Int
     let icon: String
     let temp: Int

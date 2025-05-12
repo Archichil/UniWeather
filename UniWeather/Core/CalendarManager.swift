@@ -22,7 +22,7 @@ class CalendarManager {
     private init() {}
 
     func requestCalendarAccess(completion: @escaping (Bool) -> Void) {
-        eventStore.requestFullAccessToEvents { result, err in
+        eventStore.requestFullAccessToEvents { result, _ in
             DispatchQueue.main.async {
                 completion(result)
             }

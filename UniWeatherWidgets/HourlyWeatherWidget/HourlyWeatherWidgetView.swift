@@ -10,7 +10,7 @@ import WidgetKit
 
 struct HourlyWeatherItemView: View {
     let entry: HourlyWeatherHourItem
-    
+
     var body: some View {
         VStack(spacing: 4) {
             let hour = (entry.dt % 86400) / 3600
@@ -21,12 +21,12 @@ struct HourlyWeatherItemView: View {
                 .foregroundStyle(secondaryColor)
                 .fontWeight(.heavy)
                 .frame(alignment: .center)
-            
+
             WeatherIcon(weatherCode: entry.icon)
                 .font(.system(size: 18))
                 .frame(maxHeight: 20)
                 .frame(alignment: .center)
-            
+
             Text("\(entry.temp)º")
                 .font(.system(size: 13))
                 .padding(.leading, 4)
@@ -37,7 +37,7 @@ struct HourlyWeatherItemView: View {
 
 struct HourlyWeatherWidgetView: View {
     let entry: HourlyWeatherEntry
-    
+
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
@@ -50,16 +50,17 @@ struct HourlyWeatherWidgetView: View {
                     tempMax: entry.maxTemp,
                     isCurrentLocation: entry.isCurrentLocation
                 )
-                
+
                 Spacer()
-                
+
                 HStack(spacing: 0) {
                     let items = itemsWithSunEvents(
                         items: entry.items,
                         count: entry.items.count,
                         sunrise: entry.sunrise,
                         sunset: entry.sunset,
-                        dt: entry.dt)
+                        dt: entry.dt
+                    )
                     ForEach(items.indices, id: \.self) { index in
                         let item = items[index]
                         HourlyWeatherItemView(entry: item)
@@ -88,10 +89,9 @@ struct HourlyWeatherWidgetView: View {
     }
 }
 
-
 struct HourlyWeatherWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        let dt = 1745940771
+        let dt = 1_745_940_771
         HourlyWeatherWidgetView(entry:
             HourlyWeatherEntry(
                 date: Date(),
@@ -110,7 +110,7 @@ struct HourlyWeatherWidgetView_Previews: PreviewProvider {
                     HourlyWeatherHourItem(dt: dt + 3 * 3600, icon: "02d", temp: 14),
                     HourlyWeatherHourItem(dt: dt + 4 * 3600, icon: "04d", temp: 16),
                     HourlyWeatherHourItem(dt: dt + 5 * 3600, icon: "01d", temp: 14),
-                    HourlyWeatherHourItem(dt: dt + 6 * 3600, icon: "02d", temp: 12)
+                    HourlyWeatherHourItem(dt: dt + 6 * 3600, icon: "02d", temp: 12),
                 ],
                 isCurrentLocation: true
             )

@@ -5,9 +5,9 @@
 //  Created by Artur Kukhatskavolets on 24.03.25.
 //
 
+import APIClient
 import Foundation
 import SwiftUI
-import APIClient
 
 public enum WeatherMapConfiguration {
     public static let defaultZoomLevel = 5

@@ -6,21 +6,21 @@
 //
 
 import AppIntents
-import WeatherService
 import Intents
 import MapKit
+import WeatherService
 
 struct LocationIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Настройки геопозиции"
-    
+
     @Parameter(
         title: "Геопозиция",
         default: GeoOption.currentLocation,
         optionsProvider: GeolocationOptionsProvider()
     )
-    
+
     var geo: GeoOption?
-    
+
     struct GeoOption: AppEntity, Identifiable {
         let id: String
         let name: String
@@ -33,7 +33,7 @@ struct LocationIntent: WidgetConfigurationIntent {
         var displayRepresentation: DisplayRepresentation {
             DisplayRepresentation(title: LocalizedStringResource(stringLiteral: name))
         }
-        
+
         static var currentLocation: GeoOption {
             GeoOption(
                 id: "current_location",
@@ -41,7 +41,7 @@ struct LocationIntent: WidgetConfigurationIntent {
                 coordinates: Coordinates(lat: 0.0, lon: 0.0)
             )
         }
-        
+
         var isCurrentLocation: Bool {
             id == "current_location"
         }
@@ -58,14 +58,13 @@ struct LocationIntent: WidgetConfigurationIntent {
                 try await GeolocationManager.shared.getGeolocations()
             }
         }
-        
+
         static var defaultQuery = Query()
     }
 
-    
     struct GeolocationOptionsProvider: DynamicOptionsProvider {
         typealias Intent = LocationIntent
-        
+
         @MainActor
         func results() async throws -> [GeoOption] {
             try await GeolocationManager.shared.getGeolocations()
@@ -77,9 +76,9 @@ struct LocationIntent: WidgetConfigurationIntent {
 class GeolocationManager {
     static let shared = GeolocationManager()
     private var cachedGeolocations: [LocationIntent.GeoOption]?
-    
+
     func getGeolocations() async throws -> [LocationIntent.GeoOption] {
-        if let cachedGeolocations = cachedGeolocations {
+        if let cachedGeolocations {
             return cachedGeolocations
         }
 
@@ -98,16 +97,16 @@ class GeolocationManager {
         return geolocations
     }
 
-    
     func updateGeo(_ geolocations: [LocationIntent.GeoOption]) {
         cachedGeolocations = geolocations
     }
-    
+
     func getUserDefaultsLocations(completion: @escaping ([LocationIntent.GeoOption]) -> Void) {
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
 
         guard let data = sharedDefaults.data(forKey: "savedLocations"),
-              let savedLocations = try? JSONDecoder().decode([LocationEntity].self, from: data) else {
+              let savedLocations = try? JSONDecoder().decode([LocationEntity].self, from: data)
+        else {
             completion([])
             return
         }
@@ -152,20 +151,19 @@ class GeolocationManager {
 
         return "Unknown"
     }
-
-
 }
 
-func resolveCoordinates(from configuration: LocationIntent) async  -> (coords: Coordinates, isCurrentLocation: Bool, location: String) {
+func resolveCoordinates(from configuration: LocationIntent) async -> (coords: Coordinates, isCurrentLocation: Bool, location: String) {
     var coords = Coordinates(lat: 0, lon: 0)
     var isCurrentLocation = false
     var location: String?
-    
+
     if let geo = configuration.geo {
         if geo.isCurrentLocation == true {
             let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
             if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
-               let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double {
+               let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double
+            {
                 coords = Coordinates(lat: lat, lon: lon)
                 isCurrentLocation = true
                 location = await getPlaceName(for: coords)
@@ -175,7 +173,7 @@ func resolveCoordinates(from configuration: LocationIntent) async  -> (coords: C
             location = geo.name
         }
     }
-    
+
     return (coords, isCurrentLocation, location ?? "Неизвестно")
 }
 
@@ -194,4 +192,3 @@ func getPlaceName(for coords: Coordinates) async -> String? {
 
     return nil
 }
-

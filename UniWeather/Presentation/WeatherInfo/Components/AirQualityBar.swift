@@ -3,7 +3,7 @@ import SwiftUI
 struct AirQualityBarView: View {
     private let currentAQI: Double
     private let maxAQI: Double = 500
-    
+
     private enum Constants {
         enum Texts {
             static let veryLow = String(localized: "airQualityBar.veryLow")
@@ -23,12 +23,11 @@ struct AirQualityBarView: View {
     /// Convenience initializer with only group index (1...6)
     /// Places the marker at the midpoint of the corresponding AQI band.
     init(groupIndex: Int) {
-        self.currentAQI = AirQualityBarView.midpoint(for: groupIndex)
+        currentAQI = AirQualityBarView.midpoint(for: groupIndex)
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
                     Capsule()
@@ -77,35 +76,34 @@ struct AirQualityBarView: View {
     /// Returns the midpoint AQI for a given health category index
     private static func midpoint(for groupIndex: Int) -> Double {
         let bands: [ClosedRange<Double>] = [
-            0...50,
-            50...100,
-            100...150,
-            150...200,
-            200...300,
-            300...500
+            0 ... 50,
+            50 ... 100,
+            100 ... 150,
+            150 ... 200,
+            200 ... 300,
+            300 ... 500,
         ]
         let idx = min(max(groupIndex - 1, 0), bands.count - 1)
         let range = bands[idx]
         return (range.lowerBound + range.upperBound) / 2
     }
-    
+
     public static func getLevelDescription(aqi: Int) -> String {
-        
         switch AirQualityBarView.midpoint(for: aqi) {
-        case 0..<50:
-            return Constants.Texts.veryLow
-        case 50..<100:
-            return Constants.Texts.low
-        case 100..<150:
-            return Constants.Texts.moderate
-        case 150..<200:
-            return Constants.Texts.unhealthy
-        case 200..<300:
-            return Constants.Texts.harmful
+        case 0 ..< 50:
+            Constants.Texts.veryLow
+        case 50 ..< 100:
+            Constants.Texts.low
+        case 100 ..< 150:
+            Constants.Texts.moderate
+        case 150 ..< 200:
+            Constants.Texts.unhealthy
+        case 200 ..< 300:
+            Constants.Texts.harmful
         case 300...:
-            return Constants.Texts.hazardous
+            Constants.Texts.hazardous
         default:
-            return ""
+            ""
         }
     }
 }

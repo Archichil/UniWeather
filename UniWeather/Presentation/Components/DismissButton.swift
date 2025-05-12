@@ -9,27 +9,27 @@ import SwiftUI
 
 struct DismissButton: View {
     let action: () -> Void
-    
+
     private enum Constants {
         enum Layout {
             static let circleWidth: CGFloat = 30
             static let circleHeight: CGFloat = 30
         }
-        
+
         enum Icons {
             static let closeIcon: String = "xmark"
         }
-        
+
         enum Colors {
-            static let circleColor: Color = Color.gray.opacity(0.2)
+            static let circleColor: Color = .gray.opacity(0.2)
             static let iconColor: Color = .gray
         }
-        
+
         enum Fonts {
             static let imageSize: CGFloat = 15
         }
     }
-    
+
     var body: some View {
         Button(action: action) {
             ZStack {

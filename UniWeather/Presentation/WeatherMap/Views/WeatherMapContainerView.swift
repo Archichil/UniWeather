@@ -23,7 +23,7 @@ struct WeatherMapContainerView: View {
         enum Icons {
             static let layers = "square.3.layers.3d"
         }
-        
+
         enum Texts {
             static let ready = String(localized: "weatherMapContainerView.ready")
         }
@@ -51,7 +51,7 @@ struct WeatherMapContainerView: View {
                                 .background(.ultraThinMaterial)
                                 .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cornerRadius))
                         }
-                        
+
                         GradientLegendView(propertyName: viewModel.selectedLayer.measurementValue, colorLevels: viewModel.selectedLayer.colorLevels)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .opacity(viewModel.isUIVisible ? 1 : 0)

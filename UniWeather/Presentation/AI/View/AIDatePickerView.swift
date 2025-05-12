@@ -9,13 +9,14 @@ import SwiftUI
 
 struct AIDatePickerView: View {
     // MARK: - Constants
+
     private enum Constants {
         enum Colors {
             static let text = Color.white
             static let buttonText = Color.black
             static let buttonBackground = Color.white.opacity(0.8)
         }
-        
+
         enum Layout {
             static let verticalSpacing: CGFloat = 0
             static let horizontalSpacing: CGFloat = 0
@@ -26,12 +27,12 @@ struct AIDatePickerView: View {
             static let buttonFontWeight: Font.Weight = .medium
             static let buttonPadding: CGFloat = 12
         }
-        
+
         enum Text {
             static let title = String(localized: "datepicker.title")
             static let continueButton = String(localized: "datepicker.continueButton")
         }
-        
+
         enum DateFormat {
             static let format = "dd MMMM"
             static let today = String(localized: "datepicker.today")
@@ -41,21 +42,23 @@ struct AIDatePickerView: View {
             static let tomorrowIndex = 1
         }
     }
-    
+
     // MARK: - Properties
+
     @Binding var showDaySheet: Bool
     @Binding var showAnswerSheet: Bool
     @ObservedObject var viewModel: AIViewModel
     @Environment(\.dismiss) var dismiss
-    
+
     private var dates: [Date] {
         let calendar = Calendar.current
-        return (0..<Constants.DateFormat.daysCount).map {
+        return (0 ..< Constants.DateFormat.daysCount).map {
             calendar.date(byAdding: .day, value: $0, to: Date())!
         }
     }
-    
+
     // MARK: - Views
+
     var body: some View {
         VStack(spacing: Constants.Layout.verticalSpacing) {
             HStack(spacing: Constants.Layout.horizontalSpacing) {
@@ -74,17 +77,17 @@ struct AIDatePickerView: View {
         .cornerRadius(Constants.Layout.cornerRadius)
         .edgesIgnoringSafeArea(.all)
     }
-    
+
     private var titleView: some View {
         Text(Constants.Text.title)
             .font(Constants.Layout.titleFont)
             .foregroundStyle(Constants.Colors.text)
             .fontWeight(Constants.Layout.buttonFontWeight)
     }
-    
+
     private var pickerView: some View {
         Picker(Constants.Text.title, selection: $viewModel.selectedDayIndex) {
-            ForEach(0..<dates.count, id: \.self) { index in
+            ForEach(0 ..< dates.count, id: \.self) { index in
                 Text(formattedDate(for: index))
                     .tag(index)
                     .foregroundStyle(Constants.Colors.text)
@@ -94,7 +97,7 @@ struct AIDatePickerView: View {
         .frame(maxWidth: .infinity, maxHeight: Constants.Layout.pickerHeight)
         .clipped()
     }
-    
+
     private var continueButton: some View {
         Button(action: handleContinue) {
             Text(Constants.Text.continueButton)
@@ -107,25 +110,26 @@ struct AIDatePickerView: View {
         }
         .padding(Constants.Layout.buttonPadding)
     }
-    
+
     // MARK: - Helper Methods
+
     private func formattedDate(for index: Int) -> String {
         switch index {
         case Constants.DateFormat.todayIndex:
-            return Constants.DateFormat.today
+            Constants.DateFormat.today
         case Constants.DateFormat.tomorrowIndex:
-            return Constants.DateFormat.tomorrow
+            Constants.DateFormat.tomorrow
         default:
-            return dateFormatter.string(from: dates[index])
+            dateFormatter.string(from: dates[index])
         }
     }
-    
+
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = Constants.DateFormat.format
         return formatter
     }
-    
+
     private func handleContinue() {
         guard let prompt = viewModel.selectedPrompt else { return }
         showDaySheet = false

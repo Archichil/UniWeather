@@ -10,7 +10,7 @@ import WidgetKit
 
 struct HourlyWeatherWidget: Widget {
     let kind: String = "HorlyWeatherWidget"
-    
+
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
             kind: kind,

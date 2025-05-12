@@ -5,16 +5,16 @@
 //  Created by Artur Kukhatskavolets on 4.05.25.
 //
 
-import WeatherService
-import SwiftUI
-import CoreLocation
 import Combine
+import CoreLocation
+import SwiftUI
+import WeatherService
 
 @MainActor
 final class WeatherInfoViewModel: ObservableObject {
     private let weatherService = WeatherAPIService()
     private let geocoder = CLGeocoder()
-    
+
     @Published var currentWeather: CurrentWeather?
     @Published var hourlyWeather: HourlyWeather?
     @Published var dailyWeather: DailyWeather?
@@ -22,20 +22,19 @@ final class WeatherInfoViewModel: ObservableObject {
     @Published var currentPlace: String?
     @Published var isLoaded = false
     @Published var errorMessage: String?
-    
+
     private var cancellables = Set<AnyCancellable>()
     let coordinate: Coordinates
-    
+
     // MARK: - Initialization
-    
+
     init(coordinate: Coordinates) {
         self.coordinate = coordinate
     }
-    
+
     // MARK: - Data loading
-    
+
     func loadAllWeather() async {
-        
         async let hourly = weatherService.getHourlyWeather(coords: coordinate, units: .metric, count: 25, lang: .ru)
         async let daily = weatherService.getDailyWeather(coords: coordinate, units: .metric, count: 14, lang: .ru)
         async let current = weatherService.getCurrentWeather(coords: coordinate, units: .metric, lang: .ru)
@@ -47,16 +46,16 @@ final class WeatherInfoViewModel: ObservableObject {
             try await reverseGeocode()
         } catch {
             isLoaded = false
-            self.errorMessage = error.localizedDescription
+            errorMessage = error.localizedDescription
             print("[DEBUG] Error loading all weather: \(error)")
         }
     }
-    
+
     // MARK: - Helpers
 
     func reverseGeocode() async throws {
         let location = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
-        let geocoder = self.geocoder
+        let geocoder = geocoder
 
         let placemarks = try await geocoder.reverseGeocodeLocation(location)
         if let placemark = placemarks.first?.locality {

@@ -5,8 +5,8 @@
 //  Created by Archichil on 17.03.25.
 //
 
-import Foundation
 import APIClient
+import Foundation
 
 /// A service class for interacting with the AI API to fetch responses for prompts.
 ///

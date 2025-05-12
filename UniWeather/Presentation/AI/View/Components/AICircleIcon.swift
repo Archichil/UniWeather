@@ -13,7 +13,7 @@ struct AICircleIcon: View {
     var bgColor: Color
     var iconColor: Color
     var font: Font
-    
+
     var body: some View {
         Circle()
             .fill(bgColor)

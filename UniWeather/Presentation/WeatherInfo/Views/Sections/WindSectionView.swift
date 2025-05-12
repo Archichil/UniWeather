@@ -10,7 +10,7 @@ import WeatherService
 
 struct WindSectionView: View {
     let currentWeather: CurrentWeather
-    
+
     private enum Constants {
         enum Texts {
             static let sectionName = String(localized: "windSection.sectionName")
@@ -21,10 +21,11 @@ struct WindSectionView: View {
             static let sunset = String(localized: "windSection.sunset")
             static let speedUnits = String(localized: "windSection.speedUnits")
         }
+
         enum Icons {
             static let sectionIcon = "wind"
         }
-        
+
         enum Compass {
             static let north = String(localized: "windSection.compass.north")
             static let northEast = String(localized: "windSection.compass.northEast")
@@ -34,7 +35,7 @@ struct WindSectionView: View {
             static let southWest = String(localized: "windSection.compass.southWest")
             static let west = String(localized: "windSection.compass.west")
             static let northWest = String(localized: "windSection.compass.northWest")
-            
+
             static func direction(for degrees: Int) -> String {
                 let directions = [north, northEast, east, southEast, south, southWest, west, northWest]
                 let index = Int((Double(degrees) + 22.5) / 45.0) % 8
@@ -42,7 +43,7 @@ struct WindSectionView: View {
             }
         }
     }
-    
+
     var body: some View {
         CustomStackView {
             Label {
@@ -83,7 +84,6 @@ struct WindSectionView: View {
                             .font(.subheadline)
                             .fontWeight(.semibold)
                     }
-                    
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
@@ -95,12 +95,12 @@ struct WindSectionView: View {
     }
 }
 
-fileprivate struct PreviewWrapper: View {
+private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: CurrentWeather?
     let apiService = WeatherAPIService()
     let coordinates: Coordinates
-    
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {

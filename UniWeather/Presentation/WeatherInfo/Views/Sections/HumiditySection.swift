@@ -10,31 +10,32 @@ import WeatherService
 
 struct HumiditySection: View {
     let currentWeather: CurrentWeather
-    
+
     private var dewPoint: Int {
         let temperature = currentWeather.main.temp
         let humidity = currentWeather.main.humidity
-        
+
         // Magnus-Tetens formula
         let alpha = 17.27
         let beta = 237.7
         let temp = temperature
-        let gamma = (alpha * temp) / (beta + temp) + log(Double(humidity)/100.0)
+        let gamma = (alpha * temp) / (beta + temp) + log(Double(humidity) / 100.0)
         let dewPointTemp = (beta * gamma) / (alpha - gamma)
-        
+
         return Int(dewPointTemp.rounded())
     }
-    
+
     private enum Constants {
         enum Texts {
             static let sectionName = String(localized: "humiditySection.sectionName")
             static let dewPoint = String(localized: "humiditySection.dewPoint")
         }
+
         enum Icons {
             static let sectionIcon = "drop.fill"
         }
     }
-    
+
     var body: some View {
         CustomStackView {
             Label {
@@ -59,12 +60,12 @@ struct HumiditySection: View {
     }
 }
 
-fileprivate struct PreviewWrapper: View {
+private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: CurrentWeather?
     let apiService = WeatherAPIService()
     let coordinates: Coordinates
-    
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {

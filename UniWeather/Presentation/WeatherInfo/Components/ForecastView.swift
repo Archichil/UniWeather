@@ -11,7 +11,7 @@ struct ForecastView: View {
     let time: String
     let icon: String
     let temperature: String
-    
+
     var body: some View {
         VStack(spacing: 12) {
             Text(time)

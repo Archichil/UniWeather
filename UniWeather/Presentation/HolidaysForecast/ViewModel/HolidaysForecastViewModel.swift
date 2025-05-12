@@ -12,28 +12,28 @@ class HolidaysForecastViewModel: ObservableObject {
     private let weatherService = WeatherAPIService()
     private var weather: DailyWeather? = nil
     let coordinates: Coordinates
-    
+
     @Published var eventsWithWeather: [HolidayWeather] = []
-    
+
     private enum Constants {
         enum Texts {
             static let noData = String(localized: "holidaysForecast.noData")
         }
     }
-    
+
     init(coordinates: Coordinates) {
         self.coordinates = coordinates
         Task {
             weather = try? await weatherService.getDailyWeather(
                 coords: coordinates,
-                units: .metric ,
+                units: .metric,
                 count: 15,
                 lang: .ru
             )
             await fetchEventsWithWeather()
         }
     }
-    
+
     @MainActor
     func fetchEventsWithWeather() async {
         let events: [Holiday] = await withCheckedContinuation { continuation in
@@ -41,7 +41,7 @@ class HolidaysForecastViewModel: ObservableObject {
                 continuation.resume(returning: result)
             }
         }
-    
+
         eventsWithWeather = []
         if let weather {
             for event in events {
@@ -61,7 +61,7 @@ class HolidaysForecastViewModel: ObservableObject {
         }
         print(events)
     }
-    
+
     private func dayOffset(from date: Date) -> Int {
         Calendar.current.dateComponents([.day], from: Date(), to: date).day ?? 0
     }

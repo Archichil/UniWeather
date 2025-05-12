@@ -5,8 +5,8 @@
 //  Created by Daniil on 15.03.25.
 //
 
-import Foundation
 import APIClient
+import Foundation
 
 public enum WeatherAPISpec: APIClient.APISpec {
     case getCurrentWeather(coords: Coordinates, units: Units?, lang: Language?)

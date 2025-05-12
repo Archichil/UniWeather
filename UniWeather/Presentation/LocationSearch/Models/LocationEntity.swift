@@ -5,8 +5,8 @@
 //  Created by Artur Kukhatskavolets on 11.05.25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @Model
 final class LocationEntity: Identifiable, Codable {
@@ -21,7 +21,7 @@ final class LocationEntity: Identifiable, Codable {
         self.cityName = cityName
         self.latitude = latitude
         self.longitude = longitude
-        self.timestamp = Date()
+        timestamp = Date()
     }
 
     // MARK: - Codable
@@ -33,11 +33,11 @@ final class LocationEntity: Identifiable, Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.id = try container.decode(UUID.self, forKey: .id)
-        self.cityName = try container.decodeIfPresent(String.self, forKey: .cityName)
-        self.latitude = try container.decode(Double.self, forKey: .latitude)
-        self.longitude = try container.decode(Double.self, forKey: .longitude)
-        self.timestamp = try container.decode(Date.self, forKey: .timestamp)
+        id = try container.decode(UUID.self, forKey: .id)
+        cityName = try container.decodeIfPresent(String.self, forKey: .cityName)
+        latitude = try container.decode(Double.self, forKey: .latitude)
+        longitude = try container.decode(Double.self, forKey: .longitude)
+        timestamp = try container.decode(Date.self, forKey: .timestamp)
     }
 
     func encode(to encoder: Encoder) throws {

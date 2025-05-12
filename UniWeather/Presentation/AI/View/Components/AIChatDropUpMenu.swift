@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AIChatDropUpMenu: View {
     // MARK: - Constants
+
     private enum Constants {
         enum Colors {
             static let background = Color(hex: "#070728")
@@ -16,7 +17,7 @@ struct AIChatDropUpMenu: View {
             static let text = Color.white
             static let disabledText = Color.gray
         }
-        
+
         enum Layout {
             static let spacing: CGFloat = 0
             static let buttonHPadding: CGFloat = 20
@@ -28,27 +29,28 @@ struct AIChatDropUpMenu: View {
             static let promptRowHorizontalSpacing: CGFloat = 15
             static let promptRowTextLimit: Int = 1
         }
-        
+
         enum Animation {
             static let duration: Double = 0.2
         }
-        
+
         enum Images {
             static let menu = "line.3.horizontal"
         }
-        
+
         enum Text {
             static let buttonTitle = String(localized: "prompt.buttonTitle")
-
         }
     }
-    
+
     // MARK: - Properties
+
     @ObservedObject var viewModel: AIViewModel
     @Binding var showDropdown: Bool
     var onItemClick: () -> Void
-    
+
     // MARK: - Main View
+
     var body: some View {
         VStack(spacing: Constants.Layout.spacing) {
             dropdownContent
@@ -71,12 +73,12 @@ struct AIChatDropUpMenu: View {
                 insertion: .move(edge: .bottom).combined(with: .opacity),
                 removal: .move(edge: .bottom).combined(with: .opacity)
             )
-                .animation(
-                    .easeInOut(duration: Constants.Animation.duration)
-                ))
+            .animation(
+                .easeInOut(duration: Constants.Animation.duration)
+            ))
         }
     }
-    
+
     private var scrollContent: some View {
         ForEach(AvailablePrompts.allCases, id: \.self) { prompt in
             Button {
@@ -87,7 +89,7 @@ struct AIChatDropUpMenu: View {
             .buttonStyle(PlainButtonStyle())
         }
     }
-    
+
     private func promptRow(_ prompt: AvailablePrompts) -> some View {
         HStack(spacing: Constants.Layout.promptRowHorizontalSpacing) {
             Image(systemName: prompt.iconName)
@@ -100,7 +102,7 @@ struct AIChatDropUpMenu: View {
         .padding(Constants.Layout.rowPadding)
         .contentShape(Rectangle())
     }
-    
+
     private var toggleButton: some View {
         Button {
             withAnimation(.easeInOut(duration: Constants.Animation.duration)) {
@@ -120,8 +122,9 @@ struct AIChatDropUpMenu: View {
         .padding(.top, Constants.Layout.buttonVPadding)
         .background(Constants.Colors.background)
     }
-    
+
     // MARK: - Handlers
+
     private func handlePromptSelection(_ prompt: AvailablePrompts) {
         withAnimation {
             viewModel.handleItemClick(prompt)
@@ -132,6 +135,7 @@ struct AIChatDropUpMenu: View {
 }
 
 // MARK: - Scroll Offset Handling
+
 private struct ViewOffsetKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {

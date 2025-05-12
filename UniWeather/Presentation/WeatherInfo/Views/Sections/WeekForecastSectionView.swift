@@ -18,42 +18,44 @@ struct WeekForecastSectionView: View {
         let overallMax: Double
         let icon: String
     }
-    
+
     let dailyWeather: DailyWeather
-    
+
     private var temperatureExtremes: (min: Double, max: Double) {
         let extremes = dailyWeather.list.reduce((min: Double.infinity, max: -Double.infinity)) { acc, day in
             (min: min(acc.min, day.temp.min),
-            max: max(acc.max, day.temp.max))
+             max: max(acc.max, day.temp.max))
         }
         return (min: extremes.min, max: extremes.max)
     }
-    
+
     private var wrappedDays: [DailyWeatherItemsWrapper] {
         var items = [DailyWeatherItemsWrapper]()
         guard !dailyWeather.list.isEmpty else { return items }
-        
+
         for day in dailyWeather.list {
             items.append(DailyWeatherItemsWrapper(dt: day.dt, tempMin: Int(day.temp.min), tempMax: Int(day.temp.max), overallMin: temperatureExtremes.min, overallMax: temperatureExtremes.max, icon: day.weather.first?.icon ?? ""))
         }
-        
+
         return items
     }
-    
+
     private enum Constants {
         enum Texts {
             static let today = String(localized: "weekForecastSection.today")
             static let sectionName = String(localized: "weekForecastSection.sectionName")
             static let localeIdentifier = "ru_RU"
         }
+
         enum Icons {
             static let sectionIcon = "calendar"
         }
+
         enum TimeFormats {
             static let day = "E"
         }
     }
-    
+
     var body: some View {
         VStack(spacing: 8) {
             CustomStackView {
@@ -78,7 +80,6 @@ struct WeekForecastSectionView: View {
                             .frame(alignment: .leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             HStack(spacing: 12) {
-                                
                                 Text("\(day.tempMin)º")
                                     .font(.title3)
                                     .fontWeight(.medium)
@@ -104,7 +105,7 @@ struct WeekForecastSectionView: View {
             }
         }
     }
-    
+
     private func formatTime(_ timestamp: Int, format: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         var calendar = Calendar.current
@@ -118,17 +119,17 @@ struct WeekForecastSectionView: View {
         formatter.locale = Locale(identifier: Constants.Texts.localeIdentifier)
         formatter.dateFormat = format
         formatter.timeZone = TimeZone(secondsFromGMT: dailyWeather.city.timezone)
-        
+
         return formatter.string(from: date)
     }
 }
 
-fileprivate struct PreviewWrapper: View {
+private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: DailyWeather?
     let apiService = WeatherAPIService()
     let coordinates: Coordinates
-    
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {

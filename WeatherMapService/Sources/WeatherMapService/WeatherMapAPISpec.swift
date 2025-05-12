@@ -5,8 +5,8 @@
 //  Created by Artur Kukhatskavolets on 24.03.25.
 //
 
-import Foundation
 import APIClient
+import Foundation
 import WeatherService
 
 enum WeatherMapAPISpec: APIClient.APISpec {

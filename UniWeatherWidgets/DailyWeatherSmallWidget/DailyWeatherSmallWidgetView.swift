@@ -10,24 +10,23 @@ import WidgetKit
 
 private struct DailyWeatherRow: View {
     let item: DailyWeatherItem
-    
+
     var body: some View {
         HStack {
             HStack(spacing: 0) {
                 Text(getShortWeekday(from: item.dt))
                     .frame(maxWidth: 26, alignment: .leading)
-                
-                WeatherIcon(weatherCode: item.icon)
 
+                WeatherIcon(weatherCode: item.icon)
             }
             .font(.system(size: 13))
             .fontWeight(.semibold)
             .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             HStack(spacing: 0) {
                 Text("\(item.minTemp)")
                     .foregroundStyle(secondaryColor)
-                
+
                 Text("\(item.maxTemp)º")
                     .foregroundStyle(.white)
                     .frame(maxWidth: 26, alignment: .trailing)
@@ -41,7 +40,7 @@ private struct DailyWeatherRow: View {
 
 struct DailyWeatherSmallWidgetView: View {
     let entry: DailyWeatherSmallEntry
-    
+
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -53,7 +52,7 @@ struct DailyWeatherSmallWidgetView: View {
                     tempMax: entry.maxTemp,
                     isCurrentLocation: entry.isCurrentLocation
                 )
-                
+
                 VStack(spacing: 2) {
                     ForEach(entry.items, id: \.dt) { item in
                         DailyWeatherRow(item: item)
@@ -83,7 +82,7 @@ struct DailyWeatherSmallWidgetView: View {
 
 struct DailyWeatherSmallWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        let dt = 1745940771
+        let dt = 1_745_940_771
         DailyWeatherSmallWidgetView(entry:
             DailyWeatherSmallEntry(
                 date: Date(),
@@ -100,8 +99,8 @@ struct DailyWeatherSmallWidgetView_Previews: PreviewProvider {
                     DailyWeatherItem(dt: dt + 2 * 86400, icon: "02d", minTemp: 11, maxTemp: 22),
                     DailyWeatherItem(dt: dt + 3 * 86400, icon: "02d", minTemp: 11, maxTemp: 19),
                     DailyWeatherItem(dt: dt + 4 * 86400, icon: "01d", minTemp: 6, maxTemp: 24),
-            ],
-            isCurrentLocation: true
+                ],
+                isCurrentLocation: true
             )
         ).previewContext(WidgetPreviewContext(family: .systemSmall))
     }

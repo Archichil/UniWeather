@@ -6,8 +6,8 @@
 //
 
 import Combine
-import MapKit
 import CoreLocation
+import MapKit
 import WeatherService
 
 class LocationSearchViewModel: NSObject, ObservableObject {
@@ -31,7 +31,7 @@ class LocationSearchViewModel: NSObject, ObservableObject {
                 self.searchTermToResults(searchTerm: currentSearchTerm)
             }
             .sink(receiveCompletion: { completion in
-                if case .failure(let error) = completion {
+                if case let .failure(error) = completion {
                     print("[DEBUG]: Failed while searching: \(error.localizedDescription)")
                 }
             }, receiveValue: { results in
@@ -51,7 +51,7 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         let searchRequest = MKLocalSearch.Request(completion: location)
         let search = MKLocalSearch(request: searchRequest)
         var result: Coordinates
-        
+
         let response = try? await search.start()
         let coords = response?.mapItems.first?.placemark.coordinate
         result = Coordinates(lat: coords?.latitude ?? 0, lon: coords?.longitude ?? 0)
@@ -61,10 +61,10 @@ class LocationSearchViewModel: NSObject, ObservableObject {
 
 extension LocationSearchViewModel: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-            currentPromise?(.success(completer.results))
-        }
-    
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        currentPromise?(.success(completer.results))
+    }
+
+    func completer(_: MKLocalSearchCompleter, didFailWithError error: Error) {
         print("[DEBUG]: Failed to perform search autocompletion: \(error.localizedDescription)")
     }
 }

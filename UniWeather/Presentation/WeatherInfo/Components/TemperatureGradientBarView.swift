@@ -7,38 +7,40 @@
 
 import SwiftUI
 
-fileprivate let allStops: [(value: Double, color: Color)] = [
+private let allStops: [(value: Double, color: Color)] = [
     (-55, Color(hex: "821692")),
     (-40, Color(hex: "821692")),
     (-30, Color(hex: "8257DB")),
     (-20, Color(hex: "5F95E0")),
     (-10, Color(hex: "20C4E8")),
-    (  0, Color(hex: "23DDDD")),
-    ( 10, Color(hex: "A6EEC8")),
-    ( 20, Color(hex: "FFF028")),
-    ( 25, Color(hex: "FFC228")),
-    ( 30, Color(hex: "FC8014")),
-    ( 40, Color(hex: "9C2B1E")),
-    ( 50, Color(hex: "9C2B1E")),
+    (0, Color(hex: "23DDDD")),
+    (10, Color(hex: "A6EEC8")),
+    (20, Color(hex: "FFF028")),
+    (25, Color(hex: "FFC228")),
+    (30, Color(hex: "FC8014")),
+    (40, Color(hex: "9C2B1E")),
+    (50, Color(hex: "9C2B1E")),
 ]
 
 struct TemperatureGradientBarView: View {
-    
     let overallMin: Double
     let overallMax: Double
 
     let dayMin: Double
     let dayMax: Double
-    
+
     private let barHeight: CGFloat = 4
 
     // MARK: — Fractions for this low/high segment
+
     private var startFraction: CGFloat {
-        CGFloat((dayMin  - overallMin) / (overallMax - overallMin))
+        CGFloat((dayMin - overallMin) / (overallMax - overallMin))
     }
+
     private var endFraction: CGFloat {
         CGFloat((dayMax - overallMin) / (overallMax - overallMin))
     }
+
     private var widthFraction: CGFloat {
         max(0, endFraction - startFraction)
     }
@@ -67,18 +69,17 @@ struct TemperatureGradientBarView: View {
             }
         }
     }
-    
-    private func gradientStops(in totalWidth: CGFloat) -> [Gradient.Stop] {
+
+    private func gradientStops(in _: CGFloat) -> [Gradient.Stop] {
         let fullStops = allStops
             .sorted { $0.value < $1.value }
         var result: [Gradient.Stop] = []
-        
+
         for (value, color) in fullStops {
-            let loc: CGFloat
-            if dayMax == dayMin {
-                loc = 0.5
+            let loc: CGFloat = if dayMax == dayMin {
+                0.5
             } else {
-                loc = CGFloat((value - dayMin) / (dayMax - dayMin))
+                CGFloat((value - dayMin) / (dayMax - dayMin))
             }
             let clamped = min(max(loc, 0), 1)
             result.append(.init(color: color, location: clamped))
@@ -94,38 +95,37 @@ struct TemperatureGradientBarView: View {
     }
 }
 
-
 #Preview {
     VStack(spacing: 16) {
         VStack(spacing: 0) {
             TemperatureGradientBarView(
                 overallMin: -55,
                 overallMax: 0,
-                dayMin:  -55,
+                dayMin: -55,
                 dayMax: -45
             )
             TemperatureGradientBarView(
                 overallMin: -55,
                 overallMax: 0,
-                dayMin:  -55,
+                dayMin: -55,
                 dayMax: -35
             )
             TemperatureGradientBarView(
                 overallMin: -55,
                 overallMax: 0,
-                dayMin:  -55,
+                dayMin: -55,
                 dayMax: -25
             )
             TemperatureGradientBarView(
                 overallMin: -55,
                 overallMax: 0,
-                dayMin:  -55,
+                dayMin: -55,
                 dayMax: -15
             )
             TemperatureGradientBarView(
                 overallMin: -55,
                 overallMax: 0,
-                dayMin:  -55,
+                dayMin: -55,
                 dayMax: 0
             )
         }
@@ -133,13 +133,13 @@ struct TemperatureGradientBarView: View {
             TemperatureGradientBarView(
                 overallMin: 0,
                 overallMax: 50,
-                dayMin:  0,
+                dayMin: 0,
                 dayMax: 10
             )
             TemperatureGradientBarView(
                 overallMin: 0,
                 overallMax: 50,
-                dayMin:  0,
+                dayMin: 0,
                 dayMax: 20
             )
             TemperatureGradientBarView(
@@ -157,7 +157,7 @@ struct TemperatureGradientBarView: View {
             TemperatureGradientBarView(
                 overallMin: 0,
                 overallMax: 50,
-                dayMin:  0,
+                dayMin: 0,
                 dayMax: 50
             )
         }

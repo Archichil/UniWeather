@@ -8,7 +8,7 @@
 import Foundation
 
 struct HolidayWeather: Identifiable {
-    var id: UUID = UUID()
+    var id: UUID = .init()
     let title: String
     let notes: String?
     let date: Date

@@ -5,47 +5,47 @@
 //  Created by Daniil on 19.04.25.
 //
 
-import SwiftUI
-import WidgetKit
-import WeatherService
 import Intents
+import SwiftUI
+import WeatherService
+import WidgetKit
 
 struct HourlyWeatherProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
     private let weatherService = WeatherAPIService()
-    
-    func placeholder(in context: Context) -> HourlyWeatherEntry {
-        let dt = 1745940771
+
+    func placeholder(in _: Context) -> HourlyWeatherEntry {
+        let dt = 1_745_940_771
         return HourlyWeatherEntry(
-                date: Date(),
-                dt: dt,
-                location: "Локация",
-                icon: "02d",
-                description: "Переменная облачность",
-                temp: 19,
-                minTemp: 12,
-                maxTemp: 24,
-                sunrise: dt - 3600 * 4,
-                sunset: dt + 3600 * 5,
-                items: [
-                    HourlyWeatherHourItem(dt: dt + 1 * 3600, icon: "01d", temp: 10),
-                    HourlyWeatherHourItem(dt: dt + 2 * 3600, icon: "02d", temp: 12),
-                    HourlyWeatherHourItem(dt: dt + 3 * 3600, icon: "02d", temp: 14),
-                    HourlyWeatherHourItem(dt: dt + 4 * 3600, icon: "04d", temp: 16),
-                    HourlyWeatherHourItem(dt: dt + 5 * 3600, icon: "01d", temp: 14),
-                    HourlyWeatherHourItem(dt: dt + 6 * 3600, icon: "02d", temp: 12)
-                ],
-                isCurrentLocation: true
-            )
+            date: Date(),
+            dt: dt,
+            location: "Локация",
+            icon: "02d",
+            description: "Переменная облачность",
+            temp: 19,
+            minTemp: 12,
+            maxTemp: 24,
+            sunrise: dt - 3600 * 4,
+            sunset: dt + 3600 * 5,
+            items: [
+                HourlyWeatherHourItem(dt: dt + 1 * 3600, icon: "01d", temp: 10),
+                HourlyWeatherHourItem(dt: dt + 2 * 3600, icon: "02d", temp: 12),
+                HourlyWeatherHourItem(dt: dt + 3 * 3600, icon: "02d", temp: 14),
+                HourlyWeatherHourItem(dt: dt + 4 * 3600, icon: "04d", temp: 16),
+                HourlyWeatherHourItem(dt: dt + 5 * 3600, icon: "01d", temp: 14),
+                HourlyWeatherHourItem(dt: dt + 6 * 3600, icon: "02d", temp: 12),
+            ],
+            isCurrentLocation: true
+        )
     }
-    
-    func snapshot(for configuration: Intent, in context: Context) async -> HourlyWeatherEntry {
+
+    func snapshot(for _: Intent, in context: Context) async -> HourlyWeatherEntry {
         placeholder(in: context)
     }
-    
+
     func timeline(for configuration: Intent, in context: Context) async -> Timeline<HourlyWeatherEntry> {
         let currentDate = Date()
-        
+
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
@@ -53,13 +53,14 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
             let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
             let hourlyWeather = try await weatherService.getHourlyWeather(coords: coords, units: .metric, count: 6)
-            
+
             let entry: HourlyWeatherEntry
-            if let currentWeather = currentWeather,
-               let dailyWeather = dailyWeather,
-               let hourlyWeather = hourlyWeather {
+            if let currentWeather,
+               let dailyWeather,
+               let hourlyWeather
+            {
                 var hourlyWeatherItems: [HourlyWeatherHourItem] = []
-                
+
                 for item in hourlyWeather.list {
                     hourlyWeatherItems.append(
                         HourlyWeatherHourItem(
@@ -69,7 +70,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
                         )
                     )
                 }
-                
+
                 entry = HourlyWeatherEntry(
                     date: currentDate,
                     dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
@@ -87,7 +88,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
             } else {
                 entry = placeholder(in: context)
             }
-            
+
             return Timeline(entries: [entry], policy: .after(nextUpdateDate))
         } catch {
             let entry = placeholder(in: context)

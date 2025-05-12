@@ -68,7 +68,7 @@ func itemsWithSunEvents(
         }
 
         let insertIndex = result.firstIndex(where: { $0.dt > time }) ?? result.count
-        
+
         if insertIndex == 0 {
             result.insert(sunEventItem, at: insertIndex)
         } else if insertIndex == result.count {
@@ -90,11 +90,11 @@ func itemsWithSunEvents(
         let extendedStart = first - 3600
         let extendedEnd = last + 3600
 
-        if sunrise >= extendedStart && sunrise <= extendedEnd && sunrise >= dt {
+        if sunrise >= extendedStart, sunrise <= extendedEnd, sunrise >= dt {
             insert(type: "sunrise", time: sunrise)
         }
 
-        if sunset >= extendedStart && sunset <= extendedEnd && sunset >= dt {
+        if sunset >= extendedStart, sunset <= extendedEnd, sunset >= dt {
             insert(type: "sunset", time: sunset)
         }
     }

@@ -5,17 +5,17 @@
 //  Created by Daniil on 4.05.25.
 //
 
-import SwiftUI
-import WidgetKit
-import WeatherService
 import Intents
+import SwiftUI
+import WeatherService
+import WidgetKit
 
 struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
     private let weatherService = WeatherAPIService()
-    
-    func placeholder(in context: Context) -> DailyWeatherLargeEntry {
-        let dt = 1745940771
+
+    func placeholder(in _: Context) -> DailyWeatherLargeEntry {
+        let dt = 1_745_940_771
         return DailyWeatherLargeEntry(
             date: Date(),
             dt: dt,
@@ -31,27 +31,33 @@ struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
                 HourlyWeatherHourItem(
                     dt: dt + 1 * 3600,
                     icon: "01d",
-                    temp: 10),
+                    temp: 10
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 2 * 3600,
                     icon: "02d",
-                    temp: 12),
+                    temp: 12
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 3 * 3600,
                     icon: "03d",
-                    temp: 14),
+                    temp: 14
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 4 * 3600,
                     icon: "04d",
-                    temp: 16),
+                    temp: 16
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 5 * 3600,
                     icon: "01d",
-                    temp: 14),
+                    temp: 14
+                ),
                 HourlyWeatherHourItem(
                     dt: dt + 6 * 3600,
                     icon: "02d",
-                    temp: 12),
+                    temp: 12
+                ),
             ],
             dailyItems: [
                 WeatherDailyItem(
@@ -60,64 +66,68 @@ struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 22,
-                    icon: "01d"),
+                    icon: "01d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 2 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 23,
-                    icon: "02d"),
+                    icon: "02d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 3 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 24,
-                    icon: "03d"),
+                    icon: "03d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 4 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 11,
                     maxTemp: 19,
-                    icon: "02d"),
+                    icon: "02d"
+                ),
                 WeatherDailyItem(
                     dt: dt + 5 * 86400,
                     overallMinTemp: 6,
                     overallMaxTemp: 24,
                     minTemp: 6,
                     maxTemp: 16,
-                    icon: "04d"),
+                    icon: "04d"
+                ),
             ],
             isCurrentLocation: true
         )
     }
-    
-    
-    func snapshot(for configuration: Intent, in context: Context) async -> DailyWeatherLargeEntry {
+
+    func snapshot(for _: Intent, in context: Context) async -> DailyWeatherLargeEntry {
         placeholder(in: context)
     }
-    
+
     func timeline(for configuration: Intent, in context: Context) async -> Timeline<DailyWeatherLargeEntry> {
         let currentDate = Date()
-        
+
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
-    
+
         do {
             let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
             let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 6)
             let hourlyWeather = try await weatherService.getHourlyWeather(coords: coords, units: .metric, count: 6)
-            
+
             let entry: DailyWeatherLargeEntry
             if let currentWeather,
                let dailyWeather,
-               let hourlyWeather {
-                
+               let hourlyWeather
+            {
                 var hourlyWeatherItems: [HourlyWeatherHourItem] = []
-                
+
                 for item in hourlyWeather.list {
                     hourlyWeatherItems.append(
                         HourlyWeatherHourItem(
@@ -127,7 +137,7 @@ struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
                         )
                     )
                 }
-                
+
                 var dailyWeatherItems: [WeatherDailyItem] = []
                 let overallMinTemp = dailyWeather.list.min(by: { $0.temp.min < $1.temp.min })?.temp.min.rounded() ?? 0.0
                 let overallMaxTemp = dailyWeather.list.max(by: { $0.temp.max < $1.temp.max })?.temp.max.rounded() ?? 0.0
@@ -138,10 +148,11 @@ struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
                         overallMaxTemp: Int(overallMaxTemp.rounded()),
                         minTemp: Int(item.temp.min.rounded()),
                         maxTemp: Int(item.temp.max.rounded()),
-                        icon: item.weather.first?.icon ?? "")
+                        icon: item.weather.first?.icon ?? ""
+                    )
                     )
                 }
-                
+
                 entry = DailyWeatherLargeEntry(
                     date: Date(),
                     dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
@@ -157,11 +168,11 @@ struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
                     dailyItems: dailyWeatherItems,
                     isCurrentLocation: isCurrentLocation
                 )
-                
+
             } else {
                 entry = placeholder(in: context)
             }
-            
+
             return Timeline(entries: [entry], policy: .after(nextUpdateDate))
         } catch {
             let entry = placeholder(in: context)

@@ -16,7 +16,7 @@ struct AIMessageItem: View {
     let cornerRadiusSecondary = 5.0
     @State private var offset: CGFloat = 0
     @Binding var animationStarted: Bool
-    
+
     var body: some View {
         VStack(alignment: isAnswer ? .leading : .trailing) {
             Text(.init(text))
@@ -28,27 +28,27 @@ struct AIMessageItem: View {
                         topLeading: cornerRadiusPrimary,
                         bottomLeading: isAnswer ? cornerRadiusSecondary : cornerRadiusPrimary,
                         bottomTrailing: isAnswer ? cornerRadiusPrimary : cornerRadiusSecondary,
-                        topTrailing: cornerRadiusPrimary),
-                                           style: .continuous
-                    )
-                    .foregroundStyle(
-                        isAnswer ? LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(hex: "#2A2A4A"),
-                                Color(hex: "#272756")
-                            ]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
+                        topTrailing: cornerRadiusPrimary
+                    ),
+                    style: .continuous)
+                        .foregroundStyle(
+                            isAnswer ? LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color(hex: "#2A2A4A"),
+                                    Color(hex: "#272756"),
+                                ]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                                : LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color(hex: "#3A3A5A"),
+                                        Color(hex: "#2A2A4A"),
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
                         )
-                        : LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(hex: "#3A3A5A"),
-                                Color(hex: "#2A2A4A")
-                            ]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
                 )
                 .offset(x: offset)
                 .onAppear {
@@ -60,12 +60,12 @@ struct AIMessageItem: View {
                         }
                     }
                 }
-            
+
             HStack(spacing: 0) {
-                if (isAnswer) {
+                if isAnswer {
                     Text(String(localized: "ai.message.source"))
                         .foregroundStyle(.white.opacity(0.8))
-                    
+
                     Image(systemName: "sparkles")
                         .foregroundStyle(.white.opacity(0.8))
                 }

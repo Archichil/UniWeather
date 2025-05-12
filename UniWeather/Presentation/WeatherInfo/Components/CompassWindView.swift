@@ -6,19 +6,20 @@
 //
 
 import SwiftUI
+
 struct CompassWindView: View {
     var direction: Double
     var speed: Double?
-    var unit: String = String(localized: "compassWind.unit")
-    
+    var unit: String = .init(localized: "compassWind.unit")
+
     private let cardinalLabels = [
         Constants.Texts.north: 0.0,
         Constants.Texts.west: 90.0,
         Constants.Texts.south: 180.0,
-        Constants.Texts.east: 270.0
+        Constants.Texts.east: 270.0,
     ]
     private let majorTickCount = 60
-    
+
     private enum Constants {
         enum Texts {
             static let north = String(localized: "compassWind.north")
@@ -33,21 +34,21 @@ struct CompassWindView: View {
             let size = min(geo.size.width, geo.size.height)
             ZStack {
                 Canvas { context, _ in
-                    let center = CGPoint(x: size/2, y: size/2)
+                    let center = CGPoint(x: size / 2, y: size / 2)
                     let circle = Path(ellipseIn: CGRect(origin: .zero, size: CGSize(width: size, height: size)))
                     context.stroke(circle, with: .color(.secondary), lineWidth: 1)
 
-                    for tick in 0..<majorTickCount {
+                    for tick in 0 ..< majorTickCount {
                         let angle = Angle(degrees: Double(tick) * 360.0 / Double(majorTickCount))
                         let lineLength: CGFloat = (tick % 5 == 0 ? 12 : 6)
                         let strokeWidth: CGFloat = (tick % 5 == 0 ? 2 : 1)
                         let start = CGPoint(
-                            x: center.x + cos(CGFloat(angle.radians)) * (size/2 - lineLength),
-                            y: center.y + sin(CGFloat(angle.radians)) * (size/2 - lineLength)
+                            x: center.x + cos(CGFloat(angle.radians)) * (size / 2 - lineLength),
+                            y: center.y + sin(CGFloat(angle.radians)) * (size / 2 - lineLength)
                         )
                         let end = CGPoint(
-                            x: center.x + cos(CGFloat(angle.radians)) * (size/2),
-                            y: center.y + sin(CGFloat(angle.radians)) * (size/2)
+                            x: center.x + cos(CGFloat(angle.radians)) * (size / 2),
+                            y: center.y + sin(CGFloat(angle.radians)) * (size / 2)
                         )
                         var tickPath = Path()
                         tickPath.move(to: start)
@@ -60,18 +61,18 @@ struct CompassWindView: View {
                         let h = size * 0.7
                         let stem = w * 0.05
                         let headH = h * 0.1
-                        let origin = CGPoint(x: center.x - w/2, y: center.y + h/2)
-                        path.move(to: CGPoint(x: origin.x + w/2, y: origin.y))
-                        path.addLine(to: CGPoint(x: origin.x + w/2, y: origin.y - (h - headH)))
+                        let origin = CGPoint(x: center.x - w / 2, y: center.y + h / 2)
+                        path.move(to: CGPoint(x: origin.x + w / 2, y: origin.y))
+                        path.addLine(to: CGPoint(x: origin.x + w / 2, y: origin.y - (h - headH)))
                         path.addLine(to: CGPoint(x: origin.x, y: origin.y - (h - headH) + stem))
-                        path.addLine(to: CGPoint(x: origin.x + w/2, y: origin.y - h))
+                        path.addLine(to: CGPoint(x: origin.x + w / 2, y: origin.y - h))
                         path.addLine(to: CGPoint(x: origin.x + w, y: origin.y - (h - headH) + stem))
-                        path.addLine(to: CGPoint(x: origin.x + w/2, y: origin.y - (h - headH)))
+                        path.addLine(to: CGPoint(x: origin.x + w / 2, y: origin.y - (h - headH)))
                     }
                     arrowPath = arrowPath
-                        .applying(CGAffineTransform(translationX: -size/2, y: -size/2))
-                        .applying(CGAffineTransform(rotationAngle: CGFloat((direction) * .pi/180)))
-                        .applying(CGAffineTransform(translationX: size/2, y: size/2))
+                        .applying(CGAffineTransform(translationX: -size / 2, y: -size / 2))
+                        .applying(CGAffineTransform(rotationAngle: CGFloat(direction * .pi / 180)))
+                        .applying(CGAffineTransform(translationX: size / 2, y: size / 2))
                     context.stroke(arrowPath, with: .color(.white), lineWidth: 2)
                 }
                 .frame(width: size, height: size)
@@ -83,12 +84,12 @@ struct CompassWindView: View {
                         .font(.caption)
                         .foregroundColor(.primary)
                         .position(
-                            x: size/2 + cos(adjusted) * (size/2 - 16),
-                            y: size/2 + sin(adjusted) * (size/2 - 16)
+                            x: size / 2 + cos(adjusted) * (size / 2 - 16),
+                            y: size / 2 + sin(adjusted) * (size / 2 - 16)
                         )
                 }
 
-                if let speed = speed {
+                if let speed {
                     VStack(spacing: 1) {
                         Text(String(format: "%.0f", speed))
                             .font(.headline)
