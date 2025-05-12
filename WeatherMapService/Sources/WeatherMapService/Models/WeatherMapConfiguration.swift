@@ -37,21 +37,21 @@ public enum WeatherMapConfiguration {
 
         public var displayName: String {
             switch self {
-            case .convectivePrecipitation: "Convective precipitation"
-            case .precipitationIntensity: "Precipitation intensity"
-            case .accumulatedPrecipitation: "Accumulated precipitation"
-            case .accumulatedPrecipitationRain: "Accumulated precipitation - rain"
-            case .accumulatedPrecipitationSnow: "Accumulated precipitation - snow"
-            case .snowDepth: "Depth of snow"
-            case .windSpeedTenMetersAltitude: "Wind Speed"
-            case .wind: "Wind Direction + Speed"
-            case .atmosphericPressureSeaLevel: "Atmospheric pressure (sea level)"
-            case .airTemperatureTwoMetersAltitude: "Temperature (2m)"
-            case .dewPointTemperature: "Dew point temp"
-            case .soilTemperatureZeroDepth: "Soil temp 0 cm (K)" // Kelvins
-            case .soilTemperatureTenCmDepth: "Soil temp >10 cm (K)"
-            case .relativeHumidity: "Relative humidity"
-            case .clouds: "Cloudiness"
+            case .convectivePrecipitation: String(localized: "weatherMapConfiguration.mapLayer.convectivePrecipitation.displayName")
+            case .precipitationIntensity: String(localized: "weatherMapConfiguration.mapLayer.precipitationIntensity.displayName")
+            case .accumulatedPrecipitation: String(localized: "weatherMapConfiguration.mapLayer.accumulatedPrecipitation.displayName")
+            case .accumulatedPrecipitationRain: String(localized: "weatherMapConfiguration.mapLayer.accumulatedPrecipitationRain.displayName")
+            case .accumulatedPrecipitationSnow: String(localized: "weatherMapConfiguration.mapLayer.accumulatedPrecipitationSnow.displayName")
+            case .snowDepth: String(localized: "weatherMapConfiguration.mapLayer.snowDepth.displayName")
+            case .windSpeedTenMetersAltitude: String(localized: "weatherMapConfiguration.mapLayer.windSpeedTenMetersAltitude.displayName")
+            case .wind: String(localized: "weatherMapConfiguration.mapLayer.wind.displayName")
+            case .atmosphericPressureSeaLevel: String(localized: "weatherMapConfiguration.mapLayer.atmosphericPressureSeaLevel.displayName")
+            case .airTemperatureTwoMetersAltitude: String(localized: "weatherMapConfiguration.mapLayer.airTemperatureTwoMetersAltitude.displayName")
+            case .dewPointTemperature: String(localized: "weatherMapConfiguration.mapLayer.dewPointTemperature.displayName")
+            case .soilTemperatureZeroDepth: String(localized: "weatherMapConfiguration.mapLayer.soilTemperatureZeroDepth.displayName")
+            case .soilTemperatureTenCmDepth: String(localized: "weatherMapConfiguration.mapLayer.soilTemperatureTenCmDepth.displayName")
+            case .relativeHumidity: String(localized: "weatherMapConfiguration.mapLayer.relativeHumidity.displayName")
+            case .clouds: String(localized: "weatherMapConfiguration.mapLayer.clouds.displayName")
             }
         }
 
@@ -78,35 +78,35 @@ public enum WeatherMapConfiguration {
         public var measurementValue: String {
             switch self {
             case .convectivePrecipitation:
-                "Осадки, мм"
+                String(localized: "weatherMapConfiguration.mapLayer.convectivePrecipitation.measurementValue")
             case .precipitationIntensity:
-                "Интенсивность осадков, мм/с"
+                String(localized: "weatherMapConfiguration.mapLayer.precipitationIntensity.measurementValue")
             case .accumulatedPrecipitation:
-                "Осадки (все), мм"
+                String(localized: "weatherMapConfiguration.mapLayer.accumulatedPrecipitation.measurementValue")
             case .accumulatedPrecipitationRain:
-                "Осадки (дождь), мм"
+                String(localized: "weatherMapConfiguration.mapLayer.accumulatedPrecipitationRain.measurementValue")
             case .accumulatedPrecipitationSnow:
-                "Осадки (снег), мм"
+                String(localized: "weatherMapConfiguration.mapLayer.accumulatedPrecipitationSnow.measurementValue")
             case .snowDepth:
-                "Глубина снега, м"
+                String(localized: "weatherMapConfiguration.mapLayer.snowDepth.measurementValue")
             case .windSpeedTenMetersAltitude:
-                "Скорость ветра, м/с"
+                String(localized: "weatherMapConfiguration.mapLayer.windSpeedTenMetersAltitude.measurementValue")
             case .wind:
-                "Скорость ветра, м/с"
+                String(localized: "weatherMapConfiguration.mapLayer.wind.measurementValue")
             case .atmosphericPressureSeaLevel:
-                "Давление, Па"
+                String(localized: "weatherMapConfiguration.mapLayer.atmosphericPressureSeaLevel.measurementValue")
             case .airTemperatureTwoMetersAltitude:
-                "Температура, °C"
+                String(localized: "weatherMapConfiguration.mapLayer.airTemperatureTwoMetersAltitude.measurementValue")
             case .dewPointTemperature:
-                "Температура, °C"
+                String(localized: "weatherMapConfiguration.mapLayer.dewPointTemperature.measurementValue")
             case .soilTemperatureZeroDepth:
-                "Температура, K"
+                String(localized: "weatherMapConfiguration.mapLayer.soilTemperatureZeroDepth.measurementValue")
             case .soilTemperatureTenCmDepth:
-                "Температура, K"
+                String(localized: "weatherMapConfiguration.mapLayer.soilTemperatureTenCmDepth.measurementValue")
             case .relativeHumidity:
-                "Влажность, %"
+                String(localized: "weatherMapConfiguration.mapLayer.relativeHumidity.measurementValue")
             case .clouds:
-                "Облачность, %"
+                String(localized: "weatherMapConfiguration.mapLayer.clouds.measurementValue")
             }
         }
 

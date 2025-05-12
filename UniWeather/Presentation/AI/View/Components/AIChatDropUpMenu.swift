@@ -38,7 +38,8 @@ struct AIChatDropUpMenu: View {
         }
         
         enum Text {
-            static let buttonTitle = "Check other prompts..."
+            static let buttonTitle = String(localized: "prompt.buttonTitle")
+
         }
     }
     
@@ -91,7 +92,7 @@ struct AIChatDropUpMenu: View {
         HStack(spacing: Constants.Layout.promptRowHorizontalSpacing) {
             Image(systemName: prompt.iconName)
                 .frame(maxWidth: Constants.Layout.iconWidth)
-            Text(prompt.rawValue)
+            Text(prompt.title)
                 .lineLimit(Constants.Layout.promptRowTextLimit)
         }
         .foregroundStyle(Constants.Colors.text)

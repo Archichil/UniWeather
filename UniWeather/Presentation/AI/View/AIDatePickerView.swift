@@ -28,14 +28,14 @@ struct AIDatePickerView: View {
         }
         
         enum Text {
-            static let title = "Choose the date"
-            static let continueButton = "Continue"
+            static let title = String(localized: "datepicker.title")
+            static let continueButton = String(localized: "datepicker.continueButton")
         }
         
         enum DateFormat {
             static let format = "dd MMMM"
-            static let today = "Today"
-            static let tomorrow = "Tomorrow"
+            static let today = String(localized: "datepicker.today")
+            static let tomorrow = String(localized: "datepicker.tomorrow")
             static let daysCount = 7
             static let todayIndex = 0
             static let tomorrowIndex = 1

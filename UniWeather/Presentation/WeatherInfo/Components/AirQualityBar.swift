@@ -3,6 +3,17 @@ import SwiftUI
 struct AirQualityBarView: View {
     private let currentAQI: Double
     private let maxAQI: Double = 500
+    
+    private enum Constants {
+        enum Texts {
+            static let veryLow = String(localized: "airQualityBar.veryLow")
+            static let low = String(localized: "airQualityBar.low")
+            static let moderate = String(localized: "airQualityBar.moderate")
+            static let unhealthy = String(localized: "airQualityBar.unhealthy")
+            static let harmful = String(localized: "airQualityBar.harmful")
+            static let hazardous = String(localized: "airQualityBar.hazardous")
+        }
+    }
 
     /// Designated initializer with exact AQI value
     init(currentAQI: Double) {
@@ -82,17 +93,17 @@ struct AirQualityBarView: View {
         
         switch AirQualityBarView.midpoint(for: aqi) {
         case 0..<50:
-            return "Очень низкое"
+            return Constants.Texts.veryLow
         case 50..<100:
-            return "Низкое"
+            return Constants.Texts.low
         case 100..<150:
-            return "Умеренное"
+            return Constants.Texts.moderate
         case 150..<200:
-            return "Нездоровое"
+            return Constants.Texts.unhealthy
         case 200..<300:
-            return "Вредное"
+            return Constants.Texts.harmful
         case 300...:
-            return "Очень вредное"
+            return Constants.Texts.hazardous
         default:
             return ""
         }

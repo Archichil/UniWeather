@@ -35,6 +35,14 @@ struct HolidaysForecastView: View {
             static let iconSize: CGFloat = 24
             static let tempFontSize: CGFloat = 32
         }
+        
+        enum Texts {
+            static let holidaysNotFound = String(localized: "texts.holidaysNotFound")
+            static let holidayForecast = String(localized: "texts.holidayForecast")
+            static let holidayForecastDescription = String(localized: "texts.holidayForecastDescription")
+            static let noMarks = String(localized: "texts.noMarks")
+            static let navigationTitle = String(localized: "texts.navigationTitle")
+        }
     }
     
     init(coordinates: Coordinates) {
@@ -54,7 +62,7 @@ struct HolidaysForecastView: View {
                         }
                         
                         if viewModel.eventsWithWeather.isEmpty {
-                            Text("Ближайших праздников не найдено!")
+                            Text(Constants.Texts.holidaysNotFound)
                                 .foregroundStyle(Constants.Colors.textSecondary)
                                 .padding(.top, 200)
                         }
@@ -66,7 +74,7 @@ struct HolidaysForecastView: View {
             .frame(maxWidth: .infinity)
             .background(Constants.Colors.backgroundGradient.edgesIgnoringSafeArea(.all))
         }
-        .navigationTitle("Holiday Forecast")
+        .navigationTitle(Constants.Texts.navigationTitle)
         .refreshable {
             Task {
                 await viewModel.fetchEventsWithWeather()
@@ -77,11 +85,11 @@ struct HolidaysForecastView: View {
     // MARK: - Subviews
     private var headerView: some View {
         VStack(alignment: .leading, spacing: Constants.Layout.spacing) {
-            Text("Праздничный прогноз")
+            Text(Constants.Texts.holidayForecast)
                 .font(.system(size: 28, weight: .bold))
                 .foregroundStyle(Constants.Colors.textPrimary)
             
-            Text("Прогноз погоды на ближайшие праздники")
+            Text(Constants.Texts.holidayForecastDescription)
                 .font(.system(size: 16))
                 .foregroundStyle(Constants.Colors.textSecondary)
         }
@@ -114,7 +122,7 @@ struct HolidaysForecastView: View {
                                 .font(.system(size: 16))
                                 .foregroundStyle(Constants.Colors.textPrimary.opacity(0.8))
                             
-                            Text(holiday.notes ?? "Нет заметок")
+                            Text(holiday.notes ?? Constants.Texts.noMarks)
                                 .font(.system(size: 14))
                                 .foregroundStyle(Constants.Colors.textPrimary.opacity(0.8))
                                 .lineLimit(1)
@@ -126,7 +134,7 @@ struct HolidaysForecastView: View {
                     
                     VStack(alignment: .trailing, spacing: 6) {
                         VStack(alignment: .trailing, spacing: 1) {
-                            WeatherIcon(weatherCode: holiday.icon)
+                            WeatherIconView(weatherCode: holiday.icon)
                                 .font(.system(size: Constants.Layout.iconSize))
                             
                             Text(holiday.weather.prefix(1).capitalized + holiday.weather.dropFirst())
@@ -146,39 +154,6 @@ struct HolidaysForecastView: View {
             }
             .frame(height: 145)
         }
-    }
-}
-
-// MARK: - WeatherIcon
-struct WeatherIcon: View {
-    static let weatherIconMap: [String: String] = [
-        "sunrise": "sunrise.fill",
-        "sunset": "sunset.fill",
-        "01d": "sun.max.fill",
-        "01n": "moon.stars.fill",
-        "02d": "cloud.sun.fill",
-        "02n": "cloud.moon.fill",
-        "03d": "cloud.fill",
-        "03n": "cloud.fill",
-        "04d": "cloud.fill",
-        "04n": "cloud.fill",
-        "09d": "cloud.drizzle.fill",
-        "09n": "cloud.drizzle.fill",
-        "10d": "cloud.rain.fill",
-        "10n": "cloud.rain.fill",
-        "11d": "cloud.bolt.rain.fill",
-        "11n": "cloud.bolt.rain.fill",
-        "13d": "snowflake",
-        "13n": "snowflake",
-        "50d": "cloud.fog.fill",
-        "50n": "cloud.fog.fill",
-    ]
-
-    let weatherCode: String
-
-    var body: some View {
-        Image(systemName: WeatherIcon.weatherIconMap[weatherCode] ?? "questionmark")
-            .symbolRenderingMode(.multicolor)
     }
 }
 

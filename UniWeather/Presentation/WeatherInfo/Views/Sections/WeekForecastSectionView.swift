@@ -42,8 +42,8 @@ struct WeekForecastSectionView: View {
     
     private enum Constants {
         enum Texts {
-            static let today = "Сегодня"
-            static let sectionName = "14-DAY FORECAST"
+            static let today = String(localized: "weekForecastSection.today")
+            static let sectionName = String(localized: "weekForecastSection.sectionName")
             static let localeIdentifier = "ru_RU"
         }
         enum Icons {

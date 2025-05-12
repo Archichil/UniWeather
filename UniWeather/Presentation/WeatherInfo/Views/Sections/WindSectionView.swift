@@ -13,27 +13,27 @@ struct WindSectionView: View {
     
     private enum Constants {
         enum Texts {
-            static let sectionName = "ВЕТЕР"
-            static let wind = "Ветер"
-            static let gust = "Порывы ветра"
-            static let direction = "Направление" 
-            static let sunrise = "Восход"
-            static let sunset = "Закат"
-            static let speedUnits = "м/с"
+            static let sectionName = String(localized: "windSection.sectionName")
+            static let wind = String(localized: "windSection.wind")
+            static let gust = String(localized: "windSection.gust")
+            static let direction = String(localized: "windSection.direction")
+            static let sunrise = String(localized: "windSection.sunrise")
+            static let sunset = String(localized: "windSection.sunset")
+            static let speedUnits = String(localized: "windSection.speedUnits")
         }
         enum Icons {
             static let sectionIcon = "wind"
         }
         
         enum Compass {
-            static let north = "С"
-            static let northEast = "СВ"
-            static let east = "В"
-            static let southEast = "ЮВ"
-            static let south = "Ю"
-            static let southWest = "ЮЗ"
-            static let west = "З"
-            static let northWest = "СЗ"
+            static let north = String(localized: "windSection.compass.north")
+            static let northEast = String(localized: "windSection.compass.northEast")
+            static let east = String(localized: "windSection.compass.east")
+            static let southEast = String(localized: "windSection.compass.southEast")
+            static let south = String(localized: "windSection.compass.south")
+            static let southWest = String(localized: "windSection.compass.southWest")
+            static let west = String(localized: "windSection.compass.west")
+            static let northWest = String(localized: "windSection.compass.northWest")
             
             static func direction(for degrees: Int) -> String {
                 let directions = [north, northEast, east, southEast, south, southWest, west, northWest]

@@ -55,9 +55,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             manager.startUpdatingLocation()
         case .denied:
-            print("Доступ к геолокации запрещен")
+            print("[DEBUG] Geolocation access is denied")
         case .restricted:
-            print("Доступ к геолокации ограничен")
+            print("[DEBUG] Geolocation access is restricted")
         case .notDetermined:
             manager.requestAlwaysAuthorization()
         @unknown default:
@@ -98,7 +98,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
         sharedDefaults.set(location.coordinate.latitude, forKey: "lastLatitude")
         sharedDefaults.set(location.coordinate.longitude, forKey: "lastLongitude")
-        print("Сохранены координаты: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        print("[DEBUG] Saved coordinates to the UD: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         WidgetCenter.shared.reloadAllTimelines()
     }
     

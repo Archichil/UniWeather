@@ -20,15 +20,28 @@ class AIViewModel: ObservableObject {
     
     let coordinates: Coordinates
     
+    private enum Constants {
+        enum Texts {
+            static let typing = String(localized: "aiViewModel.typing")
+            static let answerFetchingError = String(localized: "aiViewModel.answerFetchingError")
+            static let answerSendingError = String(localized: "aiViewModel.answerSendingError")
+
+        }
+        
+        enum TimeFormats {
+            static let hourMinutes = "HH:mm"
+        }
+    }
+    
     init(coordinates: Coordinates) {
         self.coordinates = coordinates
     }
     
     @MainActor
     func handleItemClick(_ prompt: AvailablePrompts) {
-        messages.append(AIMessage(text: prompt.rawValue, time: formatMessageTime(Date()), isAnswer: false))
+        messages.append(AIMessage(text: prompt.title, time: formatMessageTime(Date()), isAnswer: false))
 
-        let typingIndicator = AIMessage(text: "Typing.", time: formatMessageTime(Date()), isAnswer: true)
+        let typingIndicator = AIMessage(text: "\(Constants.Texts.typing).", time: formatMessageTime(Date()), isAnswer: true)
         messages.append(typingIndicator)
         
         startTypingAnimation()
@@ -43,7 +56,7 @@ class AIViewModel: ObservableObject {
             
             let response = await self.fetchAIResponse(for: prompt)
             
-            if let lastIndex = self.messages.lastIndex(where: { $0.text.starts(with: "Typing") }) {
+            if let lastIndex = self.messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
                 self.messages[lastIndex] = AIMessage(text: response, time: self.formatMessageTime(Date()), isAnswer: true)
             }
             self.isFetching = false
@@ -71,14 +84,14 @@ class AIViewModel: ObservableObject {
             
             let response = try? await AIService.fetchPromptResponse(prompt: prompt)
             
-            return response?.choices.first?.message.content ?? "Произошла ошибка при формировании ответа!"
+            return response?.choices.first?.message.content ?? Constants.Texts.answerFetchingError
         }
-        return "Произошла ошибка при отправке!"
+        return Constants.Texts.answerSendingError
     }
     
     private func formatMessageTime(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
+        formatter.dateFormat = Constants.TimeFormats.hourMinutes
         return formatter.string(from: date)
     }
     
@@ -100,9 +113,9 @@ class AIViewModel: ObservableObject {
                 return
             }
             
-            if let index = self.messages.lastIndex(where: { $0.text.starts(with: "Typing") }) {
+            if let index = self.messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
                 let id = self.messages[index].id;
-                self.messages[index] = AIMessage(id: id, text: "Typing" + dots, time: self.formatMessageTime(Date()), isAnswer: true)
+                self.messages[index] = AIMessage(id: id, text: "\(Constants.Texts.typing)" + dots, time: self.formatMessageTime(Date()), isAnswer: true)
             }
             
             dots = dots.count < 3 ? dots + "." : "."

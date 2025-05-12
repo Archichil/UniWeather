@@ -15,10 +15,10 @@ struct HourlyForecastSectionView: View {
     
     private enum Constants {
         enum Texts {
-            static let sectionName = "HOURLY FORECAST"
-            static let now = "Сейчас"
-            static let sunrise = "Восход"
-            static let sunset = "Закат"
+            static let sectionName = String(localized: "hourlyForecastSection.sectionName")
+            static let now = String(localized: "hourlyForecastSection.now")
+            static let sunrise = String(localized: "hourlyForecastSection.sunrise")
+            static let sunset = String(localized: "hourlyForecastSection.sunset")
             static let localeIdentifier = "ru_RU"
         }
         enum Icons {

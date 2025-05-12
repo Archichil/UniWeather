@@ -25,7 +25,7 @@ struct WeatherMapContainerView: View {
         }
         
         enum Texts {
-            static let ready = "Готово"
+            static let ready = String(localized: "weatherMapContainerView.ready")
         }
     }
 

@@ -49,9 +49,9 @@ struct AIView: View {
         }
         
         enum Text {
-            static let greeting = "Hello,\nhow can I help\nyou today?"
+            static let greeting = String(localized: "aiView.greeting")
             static let chatIcon = "bubble.left.and.text.bubble.right"
-            static let navigationTitle = "AI Assistant"
+            static let navigationTitle = String(localized: "aiView.navigationTitle")
         }
         
         enum Sheets {
@@ -111,7 +111,7 @@ struct AIView: View {
                     ForEach(groupedPrompts[rowIndex], id: \.self) { prompt in
                         AIPromptItem(
                             size: 180,
-                            text: prompt.rawValue,
+                            text: prompt.title,
                             icon: prompt.iconName
                         )
                         .onTapGesture {

@@ -26,19 +26,20 @@ struct LocationItem: View {
     }
     
     private var backgroundGradient: LinearGradient {
-        LinearGradient(gradient: getBackgroundGradient(weatherCode: viewModel.currentWeather?.weather.first?.icon ?? "01d", dt: viewModel.currentWeather?.dt ?? Int(Date.now.timeIntervalSince1970), sunset: viewModel.dailyWeather?.list.first?.sunset ?? 0, sunrise: viewModel.dailyWeather?.list.first?.sunrise ?? 0), startPoint: .top, endPoint: .bottom)
+        LinearGradient(gradient: getBackgroundGradient(weatherCode: viewModel.currentWeather?.weather.first?.icon ?? Constants.Defaults.weatherIcon, dt: viewModel.currentWeather?.dt ?? Int(Date.now.timeIntervalSince1970), sunset: viewModel.dailyWeather?.list.first?.sunset ?? 0, sunrise: viewModel.dailyWeather?.list.first?.sunrise ?? 0), startPoint: .top, endPoint: .bottom)
     }
     
     private enum Constants {
         enum Texts {
-            static let unknown = "Unknown"
-            static let min = "Min"
-            static let max = "Max"
+            static let unknown = String(localized: "locationItem.unknown")
+            static let min = String(localized: "locationItem.min")
+            static let max = String(localized: "locationItem.max")
         }
-        
+
         enum Defaults {
             static let minTemp: Double = -99
             static let maxTemp: Double = 99
+            static let weatherIcon = "01d"
         }
         
         enum Intervals {
@@ -125,7 +126,7 @@ struct LocationItem: View {
                     Text("Минск")
                         .font(.title2)
                     
-                    Text(timeString)
+                    Text("10:49")
                         .font(.subheadline)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

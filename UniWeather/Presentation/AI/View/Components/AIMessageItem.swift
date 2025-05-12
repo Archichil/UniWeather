@@ -22,7 +22,7 @@ struct AIMessageItem: View {
             Text(.init(text))
                 .padding(16)
                 .foregroundStyle(.white)
-                .frame(minWidth: 100, alignment: isAnswer ? .leading : .trailing)
+                .frame(minWidth: 105, alignment: isAnswer ? .leading : .trailing)
                 .background(
                     UnevenRoundedRectangle(cornerRadii: .init(
                         topLeading: cornerRadiusPrimary,
@@ -63,7 +63,7 @@ struct AIMessageItem: View {
             
             HStack(spacing: 0) {
                 if (isAnswer) {
-                    Text("DeepSeek AI")
+                    Text(String(localized: "ai.message.source"))
                         .foregroundStyle(.white.opacity(0.8))
                     
                     Image(systemName: "sparkles")

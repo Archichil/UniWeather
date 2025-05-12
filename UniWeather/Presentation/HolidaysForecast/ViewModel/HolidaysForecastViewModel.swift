@@ -13,64 +13,13 @@ class HolidaysForecastViewModel: ObservableObject {
     private var weather: DailyWeather? = nil
     let coordinates: Coordinates
     
-    @Published var eventsWithWeather: [HolidayWeather] = [
-//        HolidayWeather(
-//            title: "Event title 1 Event title 1 Event title 1 Event title 1",
-//            notes: "Какая-то заметка Какая-то заметка Какая-то заметка",
-//            date: Date.now,
-//            temp: 26,
-//            weather: "Солнечно",
-//            icon: "01d"
-//        ),
-//        HolidayWeather(
-//            title: "Event title 2 Event title 1 Event title 1 Event title 1",
-//            notes: nil,
-//            date: Date.now,
-//            temp: 18,
-//            weather: "Переменная облачность",
-//            icon: "02d"
-//        ),
-//        HolidayWeather(
-//            title: "Event title 3",
-//            notes: nil,
-//            date: Date.now,
-//            temp: 15,
-//            weather: "Облачно",
-//            icon: "03d"
-//        ),
-//        HolidayWeather(
-//            title: "Event title 4",
-//            notes: nil,
-//            date: Date.now,
-//            temp: 22,
-//            weather: "Облачно",
-//            icon: "04d"
-//        ),
-//        HolidayWeather(
-//            title: "Event title 5",
-//            notes: nil,
-//            date: Date.now,
-//            temp: 14,
-//            weather: "Дождь",
-//            icon: "09d"
-//        ),
-//        HolidayWeather(
-//            title: "Event title 6",
-//            notes: nil,
-//            date: Date.now,
-//            temp: -21,
-//            weather: "Снег",
-//            icon: "13d"
-//        ),
-//        HolidayWeather(
-//            title: "Event title 7",
-//            notes: nil,
-//            date: Date.now,
-//            temp: 6,
-//            weather: "Туман",
-//            icon: "50d"
-//        ),
-    ]
+    @Published var eventsWithWeather: [HolidayWeather] = []
+    
+    private enum Constants {
+        enum Texts {
+            static let noData = String(localized: "holidaysForecast.noData")
+        }
+    }
     
     init(coordinates: Coordinates) {
         self.coordinates = coordinates
@@ -104,8 +53,8 @@ class HolidaysForecastViewModel: ObservableObject {
                         notes: event.notes,
                         date: event.date,
                         temp: Int(weatherInfo.temp.day.rounded()),
-                        weather: weatherInfo.weather.first?.description ?? "Нет данных",
-                        icon: weatherInfo.weather.first?.icon ?? "Нет данных"
+                        weather: weatherInfo.weather.first?.description ?? Constants.Texts.noData,
+                        icon: weatherInfo.weather.first?.icon ?? Constants.Texts.noData
                     )
                 )
             }

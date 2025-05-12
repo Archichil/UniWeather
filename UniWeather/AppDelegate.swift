@@ -18,7 +18,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             if let appRefreshTask = task as? BGAppRefreshTask {
                 self.handleAppRefresh(task: appRefreshTask)
             } else {
-                print("Failed to cast task to BGAppRefreshTask. Task type: \(type(of: task))")
+                print("[DEBUG] Failed to cast task to BGAppRefreshTask. Task type: \(type(of: task))")
                 task.setTaskCompleted(success: false)
             }
         }
@@ -42,9 +42,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         do {
             try BGTaskScheduler.shared.submit(request)
-            print("Запланирован background refresh")
+            print("[DEBUG] Planned background refresh.")
         } catch {
-            print("Не удалось запланировать задачу: \(error)")
+            print("[DEBUG] Failed to plan background task: \(error)")
         }
     }
 }

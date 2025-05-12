@@ -36,9 +36,9 @@ final class WeatherInfoViewModel: ObservableObject {
     
     func loadAllWeather() async {
         
-        async let hourly = weatherService.getHourlyWeather(coords: coordinate, units: .metric, count: 25)
-        async let daily = weatherService.getDailyWeather(coords: coordinate, units: .metric, count: 14)
-        async let current = weatherService.getCurrentWeather(coords: coordinate, units: .metric)
+        async let hourly = weatherService.getHourlyWeather(coords: coordinate, units: .metric, count: 25, lang: .ru)
+        async let daily = weatherService.getDailyWeather(coords: coordinate, units: .metric, count: 14, lang: .ru)
+        async let current = weatherService.getCurrentWeather(coords: coordinate, units: .metric, lang: .ru)
         async let pollution = weatherService.getCurrentAirPollution(coords: coordinate)
         do {
             isLoaded = false
@@ -48,7 +48,7 @@ final class WeatherInfoViewModel: ObservableObject {
         } catch {
             isLoaded = false
             self.errorMessage = error.localizedDescription
-            print("Error loading weather data: \(error)")
+            print("[DEBUG] Error loading all weather: \(error)")
         }
     }
     

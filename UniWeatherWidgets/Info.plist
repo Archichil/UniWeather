@@ -7,11 +7,5 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
 	</dict>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-        <string>Для отображения погоды в виджетах</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-        <string>Для показа местной погоды</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-        <string>Для обновления виджета в фоне</string>
 </dict>
 </plist>
