@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.kuhockovolec.UniWeather.refresh</string>
+	</array>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array/>
 	<key>UIBackgroundModes</key>
@@ -9,17 +13,5 @@
 		<string>fetch</string>
 		<string>location</string>
 	</array>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>com.kuhockovolec.UniWeather.refresh</string>
-	</array>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Для отображения погоды в виджетах</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Для показа местной погоды</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Для обновления виджета в фоне</string>
-  <key>NSCalendarsUsageDescription</key>
-  <string>Приложению нужен доступ к календарю для отображения праздников</string>
 </dict>
 </plist>

@@ -375,18 +375,21 @@
 				CODE_SIGN_ENTITLEMENTS = UniWeatherWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
+				DEVELOPMENT_TEAM = 38UL77W743;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeatherWidgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWidgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather.UniWeatherWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather1.UniWeatherWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -403,18 +406,21 @@
 				CODE_SIGN_ENTITLEMENTS = UniWeatherWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
+				DEVELOPMENT_TEAM = 38UL77W743;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeatherWidgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWidgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather.UniWeatherWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather1.UniWeatherWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -553,10 +559,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniWeather/Preview Content\"";
-				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
+				DEVELOPMENT_TEAM = 38UL77W743;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeather/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Приложению нужен доступ к календарю для отображения праздников";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
@@ -570,7 +577,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -587,10 +594,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniWeather/Preview Content\"";
-				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
+				DEVELOPMENT_TEAM = 38UL77W743;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeather/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Приложению нужен доступ к календарю для отображения праздников";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
@@ -604,7 +612,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
