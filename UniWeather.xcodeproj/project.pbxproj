@@ -17,6 +17,9 @@
 		045C44F72DBD89F500BD0451 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F62DBD89F500BD0451 /* APIClient */; };
 		046364232DBD911E0045B5FF /* WeatherMapService in Frameworks */ = {isa = PBXBuildFile; productRef = 046364222DBD911E0045B5FF /* WeatherMapService */; };
 		0463646D2DBD92810045B5FF /* AIService in Frameworks */ = {isa = PBXBuildFile; productRef = 0463646C2DBD92810045B5FF /* AIService */; };
+		048F10D72DD3DEF100F96D60 /* UniWeatherWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 048F10CA2DD3DEEF00F96D60 /* UniWeatherWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0499D5C92DD3E2B1009AA37F /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0499D5C82DD3E2B1009AA37F /* APIClient */; };
+		0499D5CB2DD3E2B5009AA37F /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 0499D5CA2DD3E2B5009AA37F /* WeatherService */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +29,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 044C4D022DB3BB5600FE35A2;
 			remoteInfo = UniWeatherWidgetsExtension;
+		};
+		048F10D52DD3DEF100F96D60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A759F5EA2D8478CC001A38C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 048F10C92DD3DEEF00F96D60;
+			remoteInfo = "UniWeatherWatch Watch App";
 		};
 		A759F6032D8478CE001A38C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -48,6 +58,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		048F10D82DD3DEF100F96D60 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				048F10D72DD3DEF100F96D60 /* UniWeatherWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +80,7 @@
 		04623D2E2DBF9AB5002D7A63 /* UniWeatherWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UniWeatherWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		046364202DBD90980045B5FF /* WeatherMapService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherMapService; sourceTree = "<group>"; };
 		0463646A2DBD91B50045B5FF /* AIService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AIService; sourceTree = "<group>"; };
+		048F10CA2DD3DEEF00F96D60 /* UniWeatherWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UniWeatherWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A759F5F22D8478CC001A38C1 /* UniWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A759F6022D8478CE001A38C1 /* UniWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UniWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -96,6 +118,11 @@
 			path = UniWeatherWidgets;
 			sourceTree = "<group>";
 		};
+		048F10CB2DD3DEEF00F96D60 /* UniWeatherWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "UniWeatherWatch Watch App";
+			sourceTree = "<group>";
+		};
 		A759F5F42D8478CC001A38C1 /* UniWeather */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -120,6 +147,15 @@
 				042025982DBE8A390013A3B7 /* WeatherService in Frameworks */,
 				044C4D082DB3BB5600FE35A2 /* SwiftUI.framework in Frameworks */,
 				044C4D062DB3BB5600FE35A2 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		048F10C72DD3DEEF00F96D60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0499D5C92DD3E2B1009AA37F /* APIClient in Frameworks */,
+				0499D5CB2DD3E2B5009AA37F /* WeatherService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +202,7 @@
 				A759F5F42D8478CC001A38C1 /* UniWeather */,
 				A759F6052D8478CE001A38C1 /* UniWeatherTests */,
 				044C4D092DB3BB5600FE35A2 /* UniWeatherWidgets */,
+				048F10CB2DD3DEEF00F96D60 /* UniWeatherWatch Watch App */,
 				044C4D042DB3BB5600FE35A2 /* Frameworks */,
 				A759F5F32D8478CC001A38C1 /* Products */,
 			);
@@ -177,6 +214,7 @@
 				A759F5F22D8478CC001A38C1 /* UniWeather.app */,
 				A759F6022D8478CE001A38C1 /* UniWeatherTests.xctest */,
 				044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */,
+				048F10CA2DD3DEEF00F96D60 /* UniWeatherWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,6 +245,30 @@
 			productReference = 044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		048F10C92DD3DEEF00F96D60 /* UniWeatherWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 048F10DB2DD3DEF100F96D60 /* Build configuration list for PBXNativeTarget "UniWeatherWatch Watch App" */;
+			buildPhases = (
+				048F10C62DD3DEEF00F96D60 /* Sources */,
+				048F10C72DD3DEEF00F96D60 /* Frameworks */,
+				048F10C82DD3DEEF00F96D60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				048F10CB2DD3DEEF00F96D60 /* UniWeatherWatch Watch App */,
+			);
+			name = "UniWeatherWatch Watch App";
+			packageProductDependencies = (
+				0499D5C82DD3E2B1009AA37F /* APIClient */,
+				0499D5CA2DD3E2B5009AA37F /* WeatherService */,
+			);
+			productName = "UniWeatherWatch Watch App";
+			productReference = 048F10CA2DD3DEEF00F96D60 /* UniWeatherWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		A759F5F12D8478CC001A38C1 /* UniWeather */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A759F6162D8478CE001A38C1 /* Build configuration list for PBXNativeTarget "UniWeather" */;
@@ -215,11 +277,13 @@
 				A759F5EF2D8478CC001A38C1 /* Frameworks */,
 				A759F5F02D8478CC001A38C1 /* Resources */,
 				044C4D1A2DB3BB5700FE35A2 /* Embed Foundation Extensions */,
+				048F10D82DD3DEF100F96D60 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				044C4D182DB3BB5700FE35A2 /* PBXTargetDependency */,
+				048F10D62DD3DEF100F96D60 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A759F5F42D8478CC001A38C1 /* UniWeather */,
@@ -273,6 +337,9 @@
 					044C4D022DB3BB5600FE35A2 = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					048F10C92DD3DEEF00F96D60 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					A759F5F12D8478CC001A38C1 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -301,12 +368,20 @@
 				A759F5F12D8478CC001A38C1 /* UniWeather */,
 				A759F6012D8478CE001A38C1 /* UniWeatherTests */,
 				044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */,
+				048F10C92DD3DEEF00F96D60 /* UniWeatherWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		044C4D012DB3BB5600FE35A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		048F10C82DD3DEEF00F96D60 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -337,6 +412,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		048F10C62DD3DEEF00F96D60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A759F5EE2D8478CC001A38C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -359,6 +441,11 @@
 			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
 			targetProxy = 044C4D172DB3BB5700FE35A2 /* PBXContainerItemProxy */;
 		};
+		048F10D62DD3DEF100F96D60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 048F10C92DD3DEEF00F96D60 /* UniWeatherWatch Watch App */;
+			targetProxy = 048F10D52DD3DEF100F96D60 /* PBXContainerItemProxy */;
+		};
 		A759F6042D8478CE001A38C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A759F5F12D8478CC001A38C1 /* UniWeather */;
@@ -375,7 +462,7 @@
 				CODE_SIGN_ENTITLEMENTS = UniWeatherWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 38UL77W743;
+				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeatherWidgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWidgets;
@@ -406,7 +493,7 @@
 				CODE_SIGN_ENTITLEMENTS = UniWeatherWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 38UL77W743;
+				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeatherWidgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWidgets;
@@ -426,6 +513,68 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		048F10D92DD3DEF100F96D60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "UniWeatherWatch Watch App/UniWeatherWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"UniWeatherWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kuhockovolec.UniWeather1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather1.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Debug;
+		};
+		048F10DA2DD3DEF100F96D60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "UniWeatherWatch Watch App/UniWeatherWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"UniWeatherWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kuhockovolec.UniWeather1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather1.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
 			};
 			name = Release;
 		};
@@ -559,7 +708,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniWeather/Preview Content\"";
-				DEVELOPMENT_TEAM = 38UL77W743;
+				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeather/Info.plist;
@@ -594,7 +743,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniWeather/Preview Content\"";
-				DEVELOPMENT_TEAM = 38UL77W743;
+				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniWeather/Info.plist;
@@ -670,6 +819,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		048F10DB2DD3DEF100F96D60 /* Build configuration list for PBXNativeTarget "UniWeatherWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				048F10D92DD3DEF100F96D60 /* Debug */,
+				048F10DA2DD3DEF100F96D60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A759F5ED2D8478CC001A38C1 /* Build configuration list for PBXProject "UniWeather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -727,6 +885,14 @@
 		0463646C2DBD92810045B5FF /* AIService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AIService;
+		};
+		0499D5C82DD3E2B1009AA37F /* APIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = APIClient;
+		};
+		0499D5CA2DD3E2B5009AA37F /* WeatherService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeatherService;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

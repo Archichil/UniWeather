@@ -95,7 +95,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     private func saveLocationToSharedStorage() {
         guard let location = lastLocation else { return }
-        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
+        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
         sharedDefaults.set(location.coordinate.latitude, forKey: "lastLatitude")
         sharedDefaults.set(location.coordinate.longitude, forKey: "lastLongitude")
         print("[DEBUG] Saved coordinates to the UD: \(location.coordinate.latitude), \(location.coordinate.longitude)")

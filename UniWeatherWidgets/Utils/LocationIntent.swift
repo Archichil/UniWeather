@@ -102,7 +102,7 @@ class GeolocationManager {
     }
 
     func getUserDefaultsLocations(completion: @escaping ([LocationIntent.GeoOption]) -> Void) {
-        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
+        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
 
         guard let data = sharedDefaults.data(forKey: "savedLocations"),
               let savedLocations = try? JSONDecoder().decode([LocationEntity].self, from: data)
@@ -160,7 +160,7 @@ func resolveCoordinates(from configuration: LocationIntent) async -> (coords: Co
 
     if let geo = configuration.geo {
         if geo.isCurrentLocation == true {
-            let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
+            let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
             if let lat = sharedDefaults.value(forKey: "lastLatitude") as? Double,
                let lon = sharedDefaults.value(forKey: "lastLongitude") as? Double
             {
