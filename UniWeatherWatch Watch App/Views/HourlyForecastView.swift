@@ -14,8 +14,9 @@ struct HourlyForecastView: View {
     var body: some View {
         ScrollView{
             VStack(spacing: 16) {
-                if let weather = viewModel.hourlyWeather {
-                    let items = getItems(items: weather)
+                if let hourlyWeather = viewModel.hourlyWeather,
+                   let dailyWeather = viewModel.dailyWeather {
+                    let items = getItems(hourlyWeather: hourlyWeather, dailyWeather: dailyWeather)
                     
                     ForEach(items.indices, id: \.self) { index in
                         let item = items[index]
@@ -27,13 +28,6 @@ struct HourlyForecastView: View {
             .padding(.horizontal, 8)
         }
     }
-}
-
-private struct HourlyForecastItem {
-    let id: UUID = .init()
-    let dt: Int
-    let icon: String
-    let text: String
 }
 
 private struct HourlyForecastItemView: View {
@@ -61,9 +55,9 @@ private struct HourlyForecastItemView: View {
     }
 }
 
-private func getItems(items: HourlyWeather) -> [HourlyForecastItem] {
-    let timezone = items.city.timezone
-    var result = items.list.map { item in
+private func getItems(hourlyWeather: HourlyWeather, dailyWeather: DailyWeather) -> [HourlyForecastItem] {
+    let timezone = hourlyWeather.city.timezone
+    var result = hourlyWeather.list.map { item in
         HourlyForecastItem(
             dt: item.dt + timezone,
             icon: item.weather.first?.icon ?? "",
@@ -71,8 +65,16 @@ private func getItems(items: HourlyWeather) -> [HourlyForecastItem] {
         )
     }
     
-    let sunrise = (items.city.sunrise ?? 0) + timezone
-    let sunset = (items.city.sunset ?? 0) + timezone
+    let sunrise = (hourlyWeather.city.sunrise ?? 0) + timezone
+    let sunset = (hourlyWeather.city.sunset ?? 0) + timezone
+    
+    var nextSunrise = 0
+    var nextSunset = 0
+    
+    if dailyWeather.list.count > 1 {
+        nextSunrise = (dailyWeather.list[1].sunrise) + timezone
+        nextSunset = (dailyWeather.list[1].sunset) + timezone
+    }
     
     func insertSunEvent(time: Int, type: String) {
         guard time > result.first?.dt ?? Int.max,
@@ -89,11 +91,11 @@ private func getItems(items: HourlyWeather) -> [HourlyForecastItem] {
         }
     }
     
-    [sunrise, sunset].sorted().forEach { time in
-        insertSunEvent(time: time, type: time == sunrise ? "sunrise" : "sunset")
+    [sunrise, sunset, nextSunrise, nextSunset].sorted().forEach { time in
+        insertSunEvent(time: time, type: time == sunrise || time == nextSunrise ? "sunrise" : "sunset")
     }
     
-    return Array(result.prefix(12))
+    return result
 }
 
 #Preview {

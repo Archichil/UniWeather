@@ -23,8 +23,8 @@ struct MainTabView: View {
                 HourlyForecastView(viewModel: viewModel)
                     .navigationTitle("Почасовой прогноз")
                 
-                DailyForecastView()
-                    .navigationTitle("Суточный")
+                DailyForecastView(viewModel: viewModel)
+                    .navigationTitle("Суточный прогноз")
             }
             
             

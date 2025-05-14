@@ -7,29 +7,52 @@
 
 import SwiftUI
 
-private struct DividerView: View {
+struct DailyForecastView: View {
+    @ObservedObject var viewModel: WeatherInfoViewModel
+    
     var body: some View {
-        Rectangle()
-            .frame(maxWidth: .infinity, maxHeight: 1.5)
-            .foregroundStyle(.white.opacity(0.4))
+        ScrollView {
+            VStack(spacing: 12) {
+                if let weather = viewModel.dailyWeather {
+                    let timezone = weather.city.timezone
+                    ForEach(weather.list.indices, id:\.self) { index in
+                        let item = weather.list[index]
+                        
+                        DailyForecastItemView(entry: DailyForecastItem(
+                            dt: item.dt + timezone,
+                            icon: item.weather.first?.icon ?? "",
+                            minTemp: Int((item.temp.min).rounded()),
+                            maxTemp: Int((item.temp.max).rounded())
+                        ))
+                        
+                        if (index < weather.list.count - 1) {
+                            Divider()
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 8)
     }
 }
 
 private struct DailyForecastItemView: View {
+    let entry: DailyForecastItem
+    
     var body: some View {
         HStack(spacing: 0) {
-            Text(getShortWeekday(from: Int(Date.now.timeIntervalSince1970)))
+            Text(getShortWeekday(from: entry.dt))
                 .frame(maxWidth: 55, alignment: .leading)
             
-            WeatherIconView(weatherCode: "02d")
+            WeatherIconView(weatherCode: entry.icon)
                 .font(.system(size: 17))
             
             HStack(alignment: .center, spacing: 0) {
-                Text("\(12)º")
+                Text("\(entry.minTemp)º")
                     .foregroundStyle(secondaryColor)
                     .frame(maxWidth: 24, alignment: .leading)
                 
-                Text("\(24)º")
+                Text("\(entry.maxTemp)º")
                     .frame(maxWidth: 30, alignment: .trailing)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
@@ -39,28 +62,11 @@ private struct DailyForecastItemView: View {
     }
 }
 
-struct DailyForecastView: View {
+private struct DividerView: View {
     var body: some View {
-        ScrollView {
-            VStack(spacing: 12) {
-                DailyForecastItemView()
-                Divider()
-                DailyForecastItemView()
-                Divider()
-                DailyForecastItemView()
-                Divider()
-                DailyForecastItemView()
-                Divider()
-                DailyForecastItemView()
-                Divider()
-                DailyForecastItemView()
-                Divider()
-                DailyForecastItemView()
-                Divider()
-                DailyForecastItemView()
-            }
-        }
-        .padding(.horizontal, 8)
+        Rectangle()
+            .frame(maxWidth: .infinity, maxHeight: 1.5)
+            .foregroundStyle(.white.opacity(0.4))
     }
 }
 
