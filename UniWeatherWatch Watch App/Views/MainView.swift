@@ -31,35 +31,41 @@ private struct InfoCircleView: View {
 struct MainView: View {
     var body: some View {
         VStack(spacing: 0) {
-            Text("Минск")
-                .font(.title3)
-                .fontWeight(.medium)
-                .lineLimit(1)
-
-            Text("12º")
-                .font(.largeTitle)
-                .fontWeight(.regular)
-
-            
-            Text("Временами облачно")
-                .font(.caption2)
-                .foregroundStyle(secondaryColor)
-                .fontWeight(.medium)
-            
-            HStack(spacing: 6) {
-                HStack(spacing: 1) {
-                    Image(systemName: "arrow.up")
-                    Text("14º")
-                }
+            VStack(spacing: 0) {
+                Text("Минск")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .lineLimit(1)
                 
-                HStack(spacing: 1) {
-                    Image(systemName: "arrow.down")
-                    Text("7º")
+                Text("12º")
+                    .font(.largeTitle)
+                    .fontWeight(.regular)
+                
+                
+                Text("Временами облачно")
+                    .font(.caption2)
+                    .foregroundStyle(secondaryColor)
+                    .fontWeight(.medium)
+                
+                HStack(spacing: 6) {
+                    HStack(spacing: 1) {
+                        Image(systemName: "arrow.up")
+                            .font(.system(size: 11))
+                            .fontWeight(.bold)
+                        Text("14º")
+                    }
+                    
+                    HStack(spacing: 1) {
+                        Image(systemName: "arrow.down")
+                            .font(.system(size: 11))
+                            .fontWeight(.bold)
+                        Text("7º")
+                    }
                 }
-            }
-            .font(.system(size: 12))
-            .fontWeight(.semibold)
-            .padding(.top, 3)
+                .font(.system(size: 13))
+                .fontWeight(.semibold)
+                .padding(.top, 3)
+            }.frame(maxHeight: .infinity, alignment: .top)
             
             HStack {
                 InfoCircleView(icon: "thermometer.variable", text: "37º")
@@ -69,12 +75,12 @@ struct MainView: View {
                 InfoCircleView(icon: "drop.fill", text: "80%")
             }
             .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.bottom, 20)
+            .frame(maxWidth: .infinity, alignment: .bottom)
             
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .padding(.top, 24)
+        .frame(maxWidth: .infinity, alignment: .top)
         .ignoresSafeArea(edges: .bottom)
     }
 }

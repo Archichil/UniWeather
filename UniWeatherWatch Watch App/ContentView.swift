@@ -13,7 +13,7 @@ struct ContentView: View {
         ZStack(alignment: .topLeading) {
             TabView {
                 MainView()
-                MainView()
+                DailyForecastView()
                 MainView()
             }
             .tabViewStyle(.carousel)
