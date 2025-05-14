@@ -7,13 +7,16 @@
 
 import BackgroundTasks
 import UIKit
+import WatchConnectivity
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     static let shared = AppDelegate()
+    var session: WCSession?
 
     func application(_: UIApplication,
                      didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool
     {
+        setupWatchConnectivity()
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.kuhockovolec.UniWeather.refresh", using: nil) { task in
             if let appRefreshTask = task as? BGAppRefreshTask {
                 self.handleAppRefresh(task: appRefreshTask)
@@ -46,5 +49,44 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         } catch {
             print("[DEBUG] Failed to plan background task: \(error)")
         }
+    }
+    
+    // MARK: - Watch Connectivity
+    private func setupWatchConnectivity() {
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self
+            session?.activate()
+        }
+    }
+    
+    static func sendLocatisonToWatch(_ data: [String: Any]) {
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            do {
+                try session.updateApplicationContext(data)
+            } catch {
+                print("Error \(error)")
+            }
+        }
+    }
+}
+
+// MARK: - WCSessionDelegate
+extension AppDelegate: WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        if let error = error {
+            print("WCSession activation failed: \(error.localizedDescription)")
+            return
+        }
+        print("WCSession activated with state: \(activationState.rawValue)")
+    }
+
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("WCSession became inactive")
+    }
+
+    func sessionDidDeactivate(_ session: WCSession) {
+        session.activate()
     }
 }

@@ -190,6 +190,13 @@ struct LocationSearchView: View {
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
         let encodedItems = try? JSONEncoder().encode(items)
         sharedDefaults.set(encodedItems, forKey: "savedLocations")
+        
+        if let encodedItems {
+            let data: [String: Any] = [
+                "savedLocations": encodedItems ,
+            ]
+            AppDelegate.sendLocatisonToWatch(data)
+        }
     }
 }
 

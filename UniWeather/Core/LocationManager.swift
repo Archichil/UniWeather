@@ -7,6 +7,7 @@
 
 import CoreLocation
 import WidgetKit
+import WatchConnectivity
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     static let shared = LocationManager()
@@ -20,7 +21,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        manager.distanceFilter = 1000
+        manager.distanceFilter = 3000
     }
 
     func requestLocationPermission() {
@@ -95,11 +96,21 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     private func saveLocationToSharedStorage() {
         guard let location = lastLocation else { return }
+        let lat = location.coordinate.latitude
+        let lon = location.coordinate.longitude
+        
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
-        sharedDefaults.set(location.coordinate.latitude, forKey: "lastLatitude")
-        sharedDefaults.set(location.coordinate.longitude, forKey: "lastLongitude")
+        sharedDefaults.set(lat, forKey: "lastLatitude")
+        sharedDefaults.set(lon, forKey: "lastLongitude")
         print("[DEBUG] Saved coordinates to the UD: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         WidgetCenter.shared.reloadAllTimelines()
+        
+        let locationData: [String: Any] = [
+            "lastLatitude": lat,
+            "lastLongitude": lon,
+        ]
+        
+        AppDelegate.sendLocatisonToWatch(locationData)
     }
 
     func requestLocationUpdateInBackground() {
