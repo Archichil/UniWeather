@@ -18,7 +18,7 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             if viewModel.isLoaded {
-                MainView()
+                MainView(viewModel: viewModel)
                 
                 HourlyForecastView()
                     .navigationTitle("Почасовой")

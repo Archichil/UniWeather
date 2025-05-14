@@ -9,6 +9,62 @@ import SwiftUI
 
 let secondaryColor: Color = .white.opacity(0.5)
 
+struct MainView: View {
+    @ObservedObject var viewModel: WeatherInfoViewModel
+    var body: some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 0) {
+                Text("location")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .lineLimit(1)
+                
+                Text("\(Int(viewModel.currentWeather?.main.temp.rounded() ?? -99))º")
+                    .font(.largeTitle)
+                    .fontWeight(.regular)
+                
+                
+                Text("\(viewModel.currentWeather?.weather.first?.description ?? "Неизвестно")")
+                    .font(.caption2)
+                    .foregroundStyle(secondaryColor)
+                    .fontWeight(.medium)
+                
+                HStack(spacing: 6) {
+                    HStack(spacing: 1) {
+                        Image(systemName: "arrow.up")
+                            .font(.system(size: 11))
+                            .fontWeight(.bold)
+                        Text("\(Int((viewModel.dailyWeather?.list.first?.temp.max ?? 99).rounded()))º")
+                    }
+                    
+                    HStack(spacing: 1) {
+                        Image(systemName: "arrow.down")
+                            .font(.system(size: 11))
+                            .fontWeight(.bold)
+                        Text("\(Int((viewModel.dailyWeather?.list.first?.temp.min ?? -99).rounded()))º")
+                    }
+                }
+                .font(.system(size: 13))
+                .fontWeight(.semibold)
+                .padding(.top, 3)
+            }.frame(maxHeight: .infinity, alignment: .top)
+            
+            HStack {
+                InfoCircleView(icon: "thermometer.variable", text: "\(Int(viewModel.currentWeather?.main.feelsLike.rounded() ?? -99))º")
+                Spacer()
+                InfoCircleView(icon: "umbrella.fill", text: "\(Int(viewModel.dailyWeather?.list.first?.rain?.rounded() ?? 0))%")
+                Spacer()
+                InfoCircleView(icon: "drop.fill", text: "\(Int(viewModel.dailyWeather?.list.first?.humidity ?? 0))%")
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        }
+        .ignoresSafeArea(edges: .bottom)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
 private struct InfoCircleView: View {
     let icon: String
     let text: String
@@ -26,63 +82,4 @@ private struct InfoCircleView: View {
         )
         .frame(width: 35, height: 35)
     }
-}
-
-struct MainView: View {
-    var body: some View {
-        VStack(spacing: 0) {
-            VStack(spacing: 0) {
-                Text("Минск")
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-                
-                Text("1")
-                    .font(.largeTitle)
-                    .fontWeight(.regular)
-                
-                
-                Text("Временами облачно")
-                    .font(.caption2)
-                    .foregroundStyle(secondaryColor)
-                    .fontWeight(.medium)
-                
-                HStack(spacing: 6) {
-                    HStack(spacing: 1) {
-                        Image(systemName: "arrow.up")
-                            .font(.system(size: 11))
-                            .fontWeight(.bold)
-                        Text("14º")
-                    }
-                    
-                    HStack(spacing: 1) {
-                        Image(systemName: "arrow.down")
-                            .font(.system(size: 11))
-                            .fontWeight(.bold)
-                        Text("7º")
-                    }
-                }
-                .font(.system(size: 13))
-                .fontWeight(.semibold)
-                .padding(.top, 3)
-            }.frame(maxHeight: .infinity, alignment: .top)
-            
-            HStack {
-                InfoCircleView(icon: "thermometer.variable", text: "37º")
-                Spacer()
-                InfoCircleView(icon: "umbrella.fill", text: "40%")
-                Spacer()
-                InfoCircleView(icon: "drop.fill", text: "80%")
-            }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-        }
-        .ignoresSafeArea(edges: .bottom)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-#Preview {
-    MainView()
 }

@@ -79,7 +79,7 @@ private struct LocationItemView: View {
                             .fontWeight(.medium)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: 100)
+                    .frame(maxWidth: .infinity, maxHeight: 90)
                     .padding(.vertical, 4)
                     .padding(.horizontal, 12)
                     .background(backgroundGradient)
