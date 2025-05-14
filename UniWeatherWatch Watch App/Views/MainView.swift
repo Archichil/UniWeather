@@ -11,6 +11,7 @@ let secondaryColor: Color = .white.opacity(0.5)
 
 struct MainView: View {
     @ObservedObject var viewModel: WeatherInfoViewModel
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {

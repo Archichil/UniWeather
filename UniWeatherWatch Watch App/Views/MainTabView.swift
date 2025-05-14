@@ -20,8 +20,8 @@ struct MainTabView: View {
             if viewModel.isLoaded {
                 MainView(viewModel: viewModel)
                 
-                HourlyForecastView()
-                    .navigationTitle("Почасовой")
+                HourlyForecastView(viewModel: viewModel)
+                    .navigationTitle("Почасовой прогноз")
                 
                 DailyForecastView()
                     .navigationTitle("Суточный")
