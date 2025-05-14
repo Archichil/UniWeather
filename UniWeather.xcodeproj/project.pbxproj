@@ -97,7 +97,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Presentation/LocationSearch/Models/LocationEntity.swift,
+				Presentation/Utils/BackgroundGradient.swift,
 				Presentation/WeatherInfo/Components/WeatherIconView.swift,
+				Presentation/WeatherInfo/ViewModels/WeatherInfoViewModel.swift,
 			);
 			target = 048F10C92DD3DEEF00F96D60 /* UniWeatherWatch Watch App */;
 		};

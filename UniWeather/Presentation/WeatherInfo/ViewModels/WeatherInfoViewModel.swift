@@ -43,7 +43,7 @@ final class WeatherInfoViewModel: ObservableObject {
             isLoaded = false
             defer { isLoaded = true }
             (hourlyWeather, dailyWeather, currentWeather, airPollution) = try await (hourly, daily, current, pollution)
-            try await reverseGeocode()
+           // try await reverseGeocode()
         } catch {
             isLoaded = false
             errorMessage = error.localizedDescription

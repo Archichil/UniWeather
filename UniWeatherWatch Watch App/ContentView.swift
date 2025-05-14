@@ -6,32 +6,47 @@
 //
 
 import SwiftUI
+import WeatherService
 
 struct ContentView: View {
+    @StateObject private var sessionManager = SessionManager.shared
+    @State private var showLocationSelector = false
+    @State private var navigationPath = NavigationPath()
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            TabView {
-                MainView()
-                HourlyForecastView()
-                DailyForecastView()
+        NavigationStack(path: $navigationPath) {
+            Group {
+                if let coords = sessionManager.lastLocation {
+                    MainTabView(viewModel: WeatherInfoViewModel(coordinate: coords))
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button {
+                                    showLocationSelector = true
+                                } label: {
+                                    Image(systemName: "line.3.horizontal")
+                                        .font(.system(size: 20))
+                                        .padding(8)
+                                        .background(
+                                            Circle()
+                                                .fill(.thinMaterial)
+                                        )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                } else {
+                    SelectLocationView()
+                        .navigationBarHidden(true)
+                }
             }
-            .tabViewStyle(.carousel)
-            
-            Image(systemName: "line.3.horizontal")
-                .font(.system(size: 20))
-                .padding(8)
-                .background(
-                    Circle()
-                        .fill(.thinMaterial)
-                )
-                .padding(.top, 12)
-                .padding(.leading, 12)
+            .navigationDestination(isPresented: $showLocationSelector) {
+                SelectLocationView()
+            }
         }
-        .background(.gray)
-        .ignoresSafeArea(.all)
     }
 }
+
+
 
 #Preview {
     ContentView()

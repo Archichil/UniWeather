@@ -37,7 +37,7 @@ struct MainView: View {
                     .fontWeight(.medium)
                     .lineLimit(1)
                 
-                Text("12º")
+                Text("1")
                     .font(.largeTitle)
                     .fontWeight(.regular)
                 
@@ -76,15 +76,13 @@ struct MainView: View {
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 20)
-            .frame(maxWidth: .infinity, alignment: .bottom)
-            
-            
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         }
-        .frame(maxWidth: .infinity, alignment: .top)
         .ignoresSafeArea(edges: .bottom)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 #Preview {
-    ContentView()
+    MainView()
 }
