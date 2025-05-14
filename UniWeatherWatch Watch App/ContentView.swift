@@ -10,13 +10,26 @@ import SwiftUI
 struct ContentView: View {
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello world!")
+        ZStack(alignment: .topLeading) {
+            TabView {
+                MainView()
+                MainView()
+                MainView()
+            }
+            .tabViewStyle(.carousel)
+            
+            Image(systemName: "line.3.horizontal")
+                .font(.system(size: 20))
+                .padding(8)
+                .background(
+                    Circle()
+                        .fill(.thinMaterial)
+                )
+                .padding(.top, 12)
+                .padding(.leading, 12)
         }
-        .padding()
+        .background(.gray)
+        .ignoresSafeArea(.all)
     }
 }
 
