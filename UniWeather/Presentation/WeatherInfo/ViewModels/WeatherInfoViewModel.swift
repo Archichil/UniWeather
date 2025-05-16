@@ -13,7 +13,6 @@ import WeatherService
 @MainActor
 final class WeatherInfoViewModel: ObservableObject {
     private let weatherService = WeatherAPIService()
-    private let geocoder = CLGeocoder()
 
     @Published var currentWeather: CurrentWeather?
     @Published var hourlyWeather: HourlyWeather?
@@ -25,16 +24,18 @@ final class WeatherInfoViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
     let coordinate: Coordinates
+    private let geocoder = CLGeocoder()
 
     // MARK: - Initialization
 
-    init(coordinate: Coordinates) {
+    init(place: String? = "unknown", coordinate: Coordinates) {
         self.coordinate = coordinate
+        self.currentPlace = place
     }
 
     // MARK: - Data loading
 
-    func loadAllWeather() async {
+    func loadAllWeather(loadGeo: Bool = true) async {
         async let hourly = weatherService.getHourlyWeather(coords: coordinate, units: .metric, count: 25, lang: .ru)
         async let daily = weatherService.getDailyWeather(coords: coordinate, units: .metric, count: 14, lang: .ru)
         async let current = weatherService.getCurrentWeather(coords: coordinate, units: .metric, lang: .ru)
@@ -43,7 +44,9 @@ final class WeatherInfoViewModel: ObservableObject {
             isLoaded = false
             defer { isLoaded = true }
             (hourlyWeather, dailyWeather, currentWeather, airPollution) = try await (hourly, daily, current, pollution)
-           // try await reverseGeocode()
+            if loadGeo {
+                try await reverseGeocode(lat: coordinate.lat, lon: coordinate.lon)
+            }
         } catch {
             isLoaded = false
             errorMessage = error.localizedDescription
@@ -53,8 +56,8 @@ final class WeatherInfoViewModel: ObservableObject {
 
     // MARK: - Helpers
 
-    func reverseGeocode() async throws {
-        let location = CLLocation(latitude: coordinate.lat, longitude: coordinate.lon)
+    func reverseGeocode(lat: Double, lon: Double) async throws {
+        let location = CLLocation(latitude: lat, longitude: lon)
         let geocoder = geocoder
 
         let placemarks = try await geocoder.reverseGeocodeLocation(location)
@@ -63,5 +66,18 @@ final class WeatherInfoViewModel: ObservableObject {
         } else if let placemark = placemarks.first?.name {
             currentPlace = placemark
         }
+    }
+    
+    static func reverseGeocode(coord: Coordinates) async throws -> String {
+        let location = CLLocation(latitude: coord.lat, longitude: coord.lon)
+        let geocoder = CLGeocoder()
+
+        let placemarks = try await geocoder.reverseGeocodeLocation(location)
+        if let placemark = placemarks.first?.locality {
+            return placemark
+        } else if let placemark = placemarks.first?.name {
+            return placemark
+        }
+        return ""
     }
 }

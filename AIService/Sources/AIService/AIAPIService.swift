@@ -38,7 +38,7 @@ public class AIAPIService: APIService {
         do {
             return try await apiClient?.sendRequest(spec) as? T
         } catch {
-            print("Failed to send request to AI: \(error.localizedDescription)")
+            print("Failed to send request to AI: \(error)")
             return nil
         }
     }

@@ -15,10 +15,10 @@ struct SelectLocationView: View {
         ScrollView {
             VStack(spacing: 4) {
                 if let location = sessionManager.lastLocation {
-                    LocationItemView(coordinate: Coordinates(lat: location.lat, lon: location.lon), isCurrentLocation: true)
+                    LocationItemView(place: sessionManager.lastPlace, coordinate: Coordinates(lat: location.lat, lon: location.lon), isCurrentLocation: true)
                 }
                 ForEach(sessionManager.savedLocations) { item in
-                    LocationItemView(coordinate: Coordinates(lat: item.latitude, lon: item.longitude), isCurrentLocation: false)
+                    LocationItemView(place: item.cityName ?? "Неизвестно",coordinate: Coordinates(lat: item.latitude, lon: item.longitude), isCurrentLocation: false)
                 }
             }
         }
@@ -32,10 +32,10 @@ private struct LocationItemView: View {
     @StateObject private var viewModel: WeatherInfoViewModel
     @State private var currentTime = Date()
     
-    init(coordinate: Coordinates, isCurrentLocation: Bool) {
+    init(place: String, coordinate: Coordinates, isCurrentLocation: Bool) {
         self.coordinate = coordinate
         self.isCurrentLocation = isCurrentLocation
-        _viewModel = StateObject(wrappedValue: WeatherInfoViewModel(coordinate: coordinate))
+        _viewModel = StateObject(wrappedValue: WeatherInfoViewModel(place: place ,coordinate: coordinate))
     }
     
     private var timeString: String {
@@ -53,7 +53,7 @@ private struct LocationItemView: View {
         VStack {
             if viewModel.isLoaded {
                 NavigationLink {
-                    MainTabView(viewModel: viewModel)
+                    MainTabView(viewModel: viewModel, isCurrentLocation: isCurrentLocation)
                 } label: {
                     VStack(spacing: 0) {
                         HStack {
@@ -94,7 +94,7 @@ private struct LocationItemView: View {
         .onAppear {
             guard !viewModel.isLoaded else { return }
             Task {
-                await viewModel.loadAllWeather()
+                await viewModel.loadAllWeather(loadGeo: false)
             }
         }
         .onReceive(
@@ -106,7 +106,7 @@ private struct LocationItemView: View {
             Timer.publish(every: 3600, on: .main, in: .common).autoconnect()
         ) { _ in
             Task {
-                await viewModel.loadAllWeather()
+                await viewModel.loadAllWeather(loadGeo: false)
             }
         }
         
@@ -115,19 +115,19 @@ private struct LocationItemView: View {
     private var skeletonView: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("Минск")
+                Text("ТЕКСТ ТЕКСТ ТЕКСТ")
                     .fontWeight(.medium)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .font(.caption2)
             
             
-            Text("--º")
+            Text("---")
                 .font(.largeTitle)
                 .fontWeight(.regular)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text("20:24")
+            Text("ТАЙМ НАУ")
                 .font(.caption2)
                 .foregroundStyle(secondaryColor)
                 .fontWeight(.medium)
@@ -136,7 +136,8 @@ private struct LocationItemView: View {
         .frame(maxWidth: .infinity, maxHeight: 100)
         .padding(.vertical, 4)
         .padding(.horizontal, 12)
-        .background(.yellow)
+        .redacted(reason: .placeholder)
+        .background(getBackgroundGradient(weatherCode: "01d", dt: 10000, sunset: 20000, sunrise: 0))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }

@@ -249,47 +249,47 @@ struct WeatherInfoView: View {
         return max(0, min(opacity, 1))
     }
 }
-
-#Preview("Honolulu, Hawaii (GMT-10)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 21.315603, lon: -157.858093)))
-}
-
-#Preview("Anchorage, Alaska (GMT-9)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 61.2181, lon: -149.9003)))
-}
-
-#Preview("Los Angeles, California (GMT-8)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 34.0522, lon: -118.2437)))
-}
-
-#Preview("Denver, Colorado (GMT-7)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 39.7392, lon: -104.9903)))
-}
-
-#Preview("New York, USA (GMT-5)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 40.7128, lon: -74.0060)))
-}
-
-#Preview("London, UK (GMT+0)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 51.5074, lon: -0.1278)))
-}
-
-#Preview("Minsk, Belarus (GMT+3)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 53.893009, lon: 27.567444)))
-}
-
-#Preview("Dubai, UAE (GMT+4)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 25.2048, lon: 55.2708)))
-}
-
-#Preview("Tokyo, Japan (GMT+9)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 35.6762, lon: 139.6503)))
-}
-
-#Preview("Sydney, Australia (GMT+10)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: -33.8688, lon: 151.2093)))
-}
-
-#Preview("Petropavlovsk-Kamchatskiy, Russia (GMT+12)") {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 53.04, lon: 158.65)))
-}
+//
+//#Preview("Honolulu, Hawaii (GMT-10)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 21.315603, lon: -157.858093)))
+//}
+//
+//#Preview("Anchorage, Alaska (GMT-9)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 61.2181, lon: -149.9003)))
+//}
+//
+//#Preview("Los Angeles, California (GMT-8)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 34.0522, lon: -118.2437)))
+//}
+//
+//#Preview("Denver, Colorado (GMT-7)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 39.7392, lon: -104.9903)))
+//}
+//
+//#Preview("New York, USA (GMT-5)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 40.7128, lon: -74.0060)))
+//}
+//
+//#Preview("London, UK (GMT+0)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 51.5074, lon: -0.1278)))
+//}
+//
+//#Preview("Minsk, Belarus (GMT+3)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 53.893009, lon: 27.567444)))
+//}
+//
+//#Preview("Dubai, UAE (GMT+4)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 25.2048, lon: 55.2708)))
+//}
+//
+//#Preview("Tokyo, Japan (GMT+9)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 35.6762, lon: 139.6503)))
+//}
+//
+//#Preview("Sydney, Australia (GMT+10)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: -33.8688, lon: 151.2093)))
+//}
+//
+//#Preview("Petropavlovsk-Kamchatskiy, Russia (GMT+12)") {
+//    WeatherInfoView(viewModel: WeatherInfoViewModel(coordinate: Coordinates(lat: 53.04, lon: 158.65)))
+//}

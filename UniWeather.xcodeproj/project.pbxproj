@@ -98,6 +98,7 @@
 			membershipExceptions = (
 				Presentation/LocationSearch/Models/LocationEntity.swift,
 				Presentation/Utils/BackgroundGradient.swift,
+				Presentation/WeatherInfo/Components/CompassWindView.swift,
 				Presentation/WeatherInfo/Components/WeatherIconView.swift,
 				Presentation/WeatherInfo/ViewModels/WeatherInfoViewModel.swift,
 			);
@@ -532,6 +533,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "UniWeatherWatch Watch App/UniWeatherWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -539,7 +541,9 @@
 				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWatch;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = test;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kuhockovolec.UniWeather1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -563,6 +567,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "UniWeatherWatch Watch App/UniWeatherWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -570,7 +575,9 @@
 				DEVELOPMENT_TEAM = 2QHYZ2N57Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_CFBundleDisplayName = UniWeatherWatch;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = test;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.kuhockovolec.UniWeather1;
 				LD_RUNPATH_SEARCH_PATHS = (

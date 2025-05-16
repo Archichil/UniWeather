@@ -17,20 +17,22 @@ class SessionManager: NSObject, ObservableObject {
     
     @Published var savedLocations: [LocationEntity] = []
     @Published var lastLocation: Coordinates?
+    @Published var lastPlace: String = ""
     
     override init() {
         super.init()
+        loadLastLocation()
+        loadCachedLocations()
         if WCSession.isSupported() {
             session = WCSession.default
             session?.delegate = self
             session?.activate()
         }
-        loadLastLocation()
-        loadCachedLocations()
     }
 }
 
 // MARK: - WCSessionDelegate
+@MainActor
 extension SessionManager: @preconcurrency WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if let error = error {
@@ -40,18 +42,26 @@ extension SessionManager: @preconcurrency WCSessionDelegate {
         print("Сессия активирована (Watch)")
     }
     
+    @MainActor
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        if let lastLat = applicationContext["lastLatitude"] as? Double,
-           let lastLon = applicationContext["lastLongitude"] as? Double {
-            lastLocation = Coordinates(lat: lastLat, lon: lastLon)
-            cacheLastLocation(location: lastLocation!)
-        }
-        
-        if let data = applicationContext["savedLocations"] as? Data,
-            let savedLocations = try? JSONDecoder().decode([LocationEntity].self, from: data)
-        {
-            self.savedLocations = savedLocations
-            cacheLocations(savedLocations)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if let lastLat = applicationContext["lastLatitude"] as? Double,
+               let lastLon = applicationContext["lastLongitude"] as? Double,
+               let lastPlace = applicationContext["lastPlace"] as? String {
+                self.lastLocation = Coordinates(lat: lastLat, lon: lastLon)
+                self.lastPlace = lastPlace
+                self.cacheLastLocation(location: self.lastLocation!, lastPlace: lastPlace)
+                print("last updated")
+            }
+            
+            if let data = applicationContext["savedLocations"] as? Data,
+               let savedLocations = try? JSONDecoder().decode([LocationEntity].self, from: data) {
+                self.savedLocations = savedLocations
+                self.cacheLocations(savedLocations)
+                print("saved updated")
+            }
         }
     }
     
@@ -68,9 +78,10 @@ extension SessionManager: @preconcurrency WCSessionDelegate {
         }
     }
     
-    func cacheLastLocation(location: Coordinates) {
+    func cacheLastLocation(location: Coordinates, lastPlace: String) {
         UserDefaults.standard.set(location.lon, forKey: "lastLon")
         UserDefaults.standard.set(location.lat, forKey: "lastLat")
+        UserDefaults.standard.set(lastPlace, forKey: "lastPlace")
     }
     
     func loadLastLocation() {
@@ -79,9 +90,9 @@ extension SessionManager: @preconcurrency WCSessionDelegate {
         if storage.object(forKey: "lastLat") != nil && storage.object(forKey: "lastLon") != nil {
             let lat = storage.double(forKey: "lastLat")
             let lon = storage.double(forKey: "lastLon")
-
+            let lastPlace = storage.string(forKey: "lastPlace")
             lastLocation = Coordinates(lat: lat, lon: lon)
-            
+            self.lastPlace = lastPlace ?? "Неизвестно"
             return
         }
         

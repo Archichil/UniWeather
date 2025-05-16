@@ -8,6 +8,7 @@
 import CoreLocation
 import WidgetKit
 import WatchConnectivity
+import WeatherService
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     static let shared = LocationManager()
@@ -72,7 +73,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 lastLocation = location
                 locationContinuation?.resume(returning: location)
                 locationContinuation = nil
-                saveLocationToSharedStorage()
+                Task {
+                    await saveLocationToSharedStorage()
+                }
             }
         }
     }
@@ -94,12 +97,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
 
-    private func saveLocationToSharedStorage() {
+    private func saveLocationToSharedStorage() async {
         guard let location = lastLocation else { return }
         let lat = location.coordinate.latitude
         let lon = location.coordinate.longitude
         
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
+        let place = try? await WeatherInfoViewModel.reverseGeocode(coord: Coordinates(lat: lat, lon: lon))
         sharedDefaults.set(lat, forKey: "lastLatitude")
         sharedDefaults.set(lon, forKey: "lastLongitude")
         print("[DEBUG] Saved coordinates to the UD: \(location.coordinate.latitude), \(location.coordinate.longitude)")
@@ -108,9 +112,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         let locationData: [String: Any] = [
             "lastLatitude": lat,
             "lastLongitude": lon,
+            "lastPlace": place ?? "Неизвестно"
         ]
         
-        AppDelegate.sendLocatisonToWatch(locationData)
+        await AppDelegate.sendLocatisonToWatch(locationData)
     }
 
     func requestLocationUpdateInBackground() {

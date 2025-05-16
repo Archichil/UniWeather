@@ -133,7 +133,7 @@ struct LocationSearchView: View {
 
     private func handleLocationSelection(_ location: MKLocalSearchCompletion) async {
         let coordinate = await viewModel.reverseGeocode(location: location)
-        addItem(coordinate: coordinate)
+        await addItem(coordinate: coordinate)
         isSheetPresented = true
         isFocused = false
         viewModel.searchTerm = ""
@@ -173,8 +173,9 @@ struct LocationSearchView: View {
 
     // MARK: - Persistence
 
-    func addItem(coordinate: Coordinates) {
-        let entity = LocationEntity(latitude: coordinate.lat, longitude: coordinate.lon)
+    func addItem(coordinate: Coordinates) async {
+        let name = try? await WeatherInfoViewModel.reverseGeocode(coord: coordinate)
+        let entity = LocationEntity(cityName: name, latitude: coordinate.lat, longitude: coordinate.lon)
         context.insert(entity)
         try? context.save()
         updateUserDefaults()
@@ -189,6 +190,7 @@ struct LocationSearchView: View {
     func updateUserDefaults() {
         let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather")!
         let encodedItems = try? JSONEncoder().encode(items)
+        
         sharedDefaults.set(encodedItems, forKey: "savedLocations")
         
         if let encodedItems {

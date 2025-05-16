@@ -17,7 +17,7 @@ struct ContentView: View {
         NavigationStack(path: $navigationPath) {
             Group {
                 if let coords = sessionManager.lastLocation {
-                    MainTabView(viewModel: WeatherInfoViewModel(coordinate: coords))
+                    MainTabView(viewModel: WeatherInfoViewModel(place: sessionManager.lastPlace, coordinate: coords), isCurrentLocation: true)
                         .toolbar {
                             ToolbarItem(placement: .topBarLeading) {
                                 Button {
@@ -28,7 +28,7 @@ struct ContentView: View {
                                         .padding(8)
                                         .background(
                                             Circle()
-                                                .fill(.thinMaterial)
+                                                .fill(.ultraThinMaterial.opacity(0.4))
                                         )
                                 }
                                 .buttonStyle(.plain)

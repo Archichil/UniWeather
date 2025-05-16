@@ -83,7 +83,7 @@ public enum AIAPISpec: APIClient.APISpec {
         switch self {
         case let .getCompletion(prompt):
             let requestBody: [String: Any] = [
-                "model": AIModels.deepSeekV3.rawValue,
+                "model": AIModels.deepSeekR1.rawValue,
                 "messages": [
                     [
                         "role": "user",

@@ -65,6 +65,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             let session = WCSession.default
             do {
                 try session.updateApplicationContext(data)
+                print("sended")
             } catch {
                 print("Error \(error)")
             }
