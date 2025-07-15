@@ -13,9 +13,24 @@
 /// ## Examples
 /// ```swift
 /// let model = AIModels.deepSeekV3
-/// print(model.rawValue) // Output: "deepseek/deepseek-chat:free"
+/// print(model.modelName) // Output: "deepseek/deepseek-chat:free"
 /// ```
-public enum AIModels: String {
-    case deepSeekV3 = "deepseek/deepseek-chat:free"
-    case deepSeekR1 = "deepseek/deepseek-r1:free"
+public enum AIModels: String, Sendable {
+    case deepSeekV3
+    case deepSeekR1
+    case gemini20FlashExperimental
+    case metaLlama4Maverick
+
+    public var modelName: String {
+        switch self {
+        case .deepSeekV3:
+            "deepseek/deepseek-chat:free"
+        case .deepSeekR1:
+            "deepseek/deepseek-r1:free"
+        case .gemini20FlashExperimental:
+            "google/gemini-2.0-flash-exp:free"
+        case .metaLlama4Maverick:
+            "meta-llama/llama-4-maverick:free"
+        }
+    }
 }

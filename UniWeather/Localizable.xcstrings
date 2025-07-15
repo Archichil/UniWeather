@@ -18,7 +18,8 @@
             "value" : "%1$@: %2$@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@: %lldº" : {
       "localizations" : {
@@ -1417,7 +1418,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.snowDepth.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -75,7 +75,6 @@ struct LocationItem: View {
                         HStack {
                             Text("\(viewModel.currentWeather?.weather.first?.description.capitalized ?? Constants.Texts.unknown)")
                                 .font(.callout)
-                                .frame(maxWidth: .infinity, alignment: .leading)
                             Text("\(Constants.Texts.max): \(Int(viewModel.dailyWeather?.list.first?.temp.max.rounded() ?? Constants.Defaults.maxTemp))º, \(Constants.Texts.min): \(Int(viewModel.dailyWeather?.list.first?.temp.min.rounded() ?? Constants.Defaults.minTemp))º")
                                 .font(.callout)
                                 .fontWeight(.medium)

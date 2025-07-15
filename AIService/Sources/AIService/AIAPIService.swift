@@ -38,12 +38,12 @@ public class AIAPIService: APIService {
         do {
             return try await apiClient?.sendRequest(spec) as? T
         } catch {
-            print("Failed to send request to AI: \(error.localizedDescription)")
+            print("[DEBUG] Failed to send request to AI: \(error)")
             return nil
         }
     }
 
-    public func fetchPromptResponse(prompt: String) async throws -> ChatCompletionResponse? {
-        try await fetchAIResponse(spec: .getCompletion(prompt: prompt))
+    public func fetchPromptResponse(prompt: String, model: AIModels) async throws -> ChatCompletionResponse? {
+        try await fetchAIResponse(spec: .getCompletion(prompt: prompt, model: model))
     }
 }
