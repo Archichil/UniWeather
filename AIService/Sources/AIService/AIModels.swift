@@ -20,17 +20,17 @@ public enum AIModels: String, Sendable {
     case deepSeekR1
     case gemini20FlashExperimental
     case metaLlama4Maverick
-    
+
     public var modelName: String {
         switch self {
         case .deepSeekV3:
-            return "deepseek/deepseek-chat:free"
+            "deepseek/deepseek-chat:free"
         case .deepSeekR1:
-            return "deepseek/deepseek-r1:free"
+            "deepseek/deepseek-r1:free"
         case .gemini20FlashExperimental:
-            return "google/gemini-2.0-flash-exp:free"
+            "google/gemini-2.0-flash-exp:free"
         case .metaLlama4Maverick:
-            return "meta-llama/llama-4-maverick:free"
+            "meta-llama/llama-4-maverick:free"
         }
     }
 }

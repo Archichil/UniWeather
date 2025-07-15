@@ -21,30 +21,30 @@ public enum Language: String, Sendable, CaseIterable {
     /// Returns the native name of the language.
     public var nativeName: String {
         switch self {
-        case .en: return "English"
-        case .ru: return "Русский"
-        case .fr: return "Français"
-        case .de: return "Deutsch"
-        case .es: return "Español"
-        case .it: return "Italiano"
-        case .zh: return "中文"
-        case .ja: return "日本語"
-        case .ko: return "한국어"
+        case .en: "English"
+        case .ru: "Русский"
+        case .fr: "Français"
+        case .de: "Deutsch"
+        case .es: "Español"
+        case .it: "Italiano"
+        case .zh: "中文"
+        case .ja: "日本語"
+        case .ko: "한국어"
         }
     }
 
     /// Returns the string to use in prompts ("на английском", "на русском", и т.д.).
     public var inPrompt: String {
         switch self {
-        case .en: return "английском"
-        case .ru: return "русском"
-        case .fr: return "французском"
-        case .de: return "немецком"
-        case .es: return "испанском"
-        case .it: return "итальянском"
-        case .zh: return "китайском"
-        case .ja: return "японском"
-        case .ko: return "корейском"
+        case .en: "английском"
+        case .ru: "русском"
+        case .fr: "французском"
+        case .de: "немецком"
+        case .es: "испанском"
+        case .it: "итальянском"
+        case .zh: "китайском"
+        case .ja: "японском"
+        case .ko: "корейском"
         }
     }
 }
