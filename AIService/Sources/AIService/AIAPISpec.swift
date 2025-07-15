@@ -31,7 +31,7 @@ public enum AIAPISpec: APIClient.APISpec {
     /// A case for fetching a completion response from the AI service.
     ///
     /// - Parameter prompt: The user's input prompt to send to the AI service.
-    case getCompletion(prompt: String)
+    case getCompletion(prompt: String, model: AIModels)
 
     /// The path for the API endpoint.
     private var path: String {
@@ -68,12 +68,12 @@ public enum AIAPISpec: APIClient.APISpec {
     /// If the file or key is not found, it logs an error and returns `nil`.
     private var apiKey: String? {
         guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
-            print("Config.plist not found.")
+            print("[DEBUG] Config.plist not found.")
             return nil
         }
         let plist = NSDictionary(contentsOfFile: filePath)
         guard let value = plist?.object(forKey: "OPENROUTER_AI_API_KEY") as? String else {
-            print("OPENROUTER_AI_API_KEY not found in Config.plist.")
+            print("[DEBUG] OPENROUTER_AI_API_KEY not found in Config.plist.")
             return nil
         }
         return value
@@ -81,9 +81,9 @@ public enum AIAPISpec: APIClient.APISpec {
 
     public var body: Data? {
         switch self {
-        case let .getCompletion(prompt):
+        case let .getCompletion(prompt, model):
             let requestBody: [String: Any] = [
-                "model": AIModels.deepSeekV3.rawValue,
+                "model": model.modelName,
                 "messages": [
                     [
                         "role": "user",
@@ -94,7 +94,7 @@ public enum AIAPISpec: APIClient.APISpec {
             do {
                 return try JSONSerialization.data(withJSONObject: requestBody, options: [])
             } catch {
-                print("Failed to serialize JSON request body: \(error)")
+                print("[DEBUG] Failed to serialize JSON request body: \(error)")
                 return nil
             }
         }

@@ -8,7 +8,7 @@
 import CoreLocation
 import WidgetKit
 
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+class LocationManager: NSObject, ObservableObject {
     static let shared = LocationManager()
     @Published var lastLocation: CLLocation?
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
@@ -65,6 +65,21 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
 
+    private func saveLocationToSharedStorage() {
+        guard let location = lastLocation else { return }
+        let sharedDefaults = UserDefaults.appSuite
+        sharedDefaults.set(location.coordinate.latitude, forKey: "lastLatitude")
+        sharedDefaults.set(location.coordinate.longitude, forKey: "lastLongitude")
+        print("[DEBUG] Saved coordinates to the UD: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    func requestLocationUpdateInBackground() {
+        manager.requestLocation()
+    }
+}
+
+extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             DispatchQueue.main.async { [unowned self] in
@@ -91,18 +106,5 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             locationContinuation?.resume(returning: CLLocation(latitude: 53.893009, longitude: 27.567444)) // fallback
             locationContinuation = nil
         }
-    }
-
-    private func saveLocationToSharedStorage() {
-        guard let location = lastLocation else { return }
-        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
-        sharedDefaults.set(location.coordinate.latitude, forKey: "lastLatitude")
-        sharedDefaults.set(location.coordinate.longitude, forKey: "lastLongitude")
-        print("[DEBUG] Saved coordinates to the UD: \(location.coordinate.latitude), \(location.coordinate.longitude)")
-        WidgetCenter.shared.reloadAllTimelines()
-    }
-
-    func requestLocationUpdateInBackground() {
-        manager.requestLocation()
     }
 }

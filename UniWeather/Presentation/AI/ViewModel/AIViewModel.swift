@@ -37,23 +37,23 @@ class AIViewModel: ObservableObject {
     }
 
     @MainActor
-    func handleItemClick(_ prompt: AvailablePrompts) {
+    func handleItemClick(_ prompt: AvailablePrompts, model: AIModels = .deepSeekV3) {
         messages.append(AIMessage(text: prompt.title, time: formatMessageTime(Date()), isAnswer: false))
 
         let typingIndicator = AIMessage(text: "\(Constants.Texts.typing).", time: formatMessageTime(Date()), isAnswer: true)
         messages.append(typingIndicator)
 
         startTypingAnimation()
-        sendMessage(prompt)
+        sendMessage(prompt, model: model)
     }
 
     @MainActor
-    private func sendMessage(_ prompt: AvailablePrompts) {
+    private func sendMessage(_ prompt: AvailablePrompts, model: AIModels = .deepSeekV3) {
         Task { [weak self] in
             guard let self else { return }
             isFetching = true
 
-            let response = await fetchAIResponse(for: prompt)
+            let response = await fetchAIResponse(for: prompt, model: model)
 
             if let lastIndex = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
                 messages[lastIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
@@ -62,7 +62,7 @@ class AIViewModel: ObservableObject {
         }
     }
 
-    private func fetchAIResponse(for prompt: AvailablePrompts) async -> String {
+    private func fetchAIResponse(for prompt: AvailablePrompts, model: AIModels = .deepSeekV3) async -> String {
         // TODO: Change coordinates
         let weather = try? await weatherService.getDailyWeather(coords: coordinates, units: .metric, count: selectedDayIndex + 1, lang: .ru)
         if let weather {
@@ -79,7 +79,7 @@ class AIViewModel: ObservableObject {
                 PromptTypes.getActivityRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
             }
 
-            let response = try? await AIService.fetchPromptResponse(prompt: prompt)
+            let response = try? await AIService.fetchPromptResponse(prompt: prompt, model: model)
 
             return response?.choices.first?.message.content ?? Constants.Texts.answerFetchingError
         }

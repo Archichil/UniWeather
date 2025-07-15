@@ -74,6 +74,7 @@
 		A7E768C62DD242CB00C15630 /* Exceptions for "UniWeather" folder in "UniWeatherWidgetsExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Domain/Extensions/UserDeafults+Shared.swift",
 				Presentation/LocationSearch/Models/LocationEntity.swift,
 			);
 			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
@@ -383,7 +384,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -415,7 +416,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для обновления виджета в фоне";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для показа местной погоды";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
