@@ -187,7 +187,7 @@ struct LocationSearchView: View {
     }
 
     func updateUserDefaults() {
-        let sharedDefaults = UserDefaults(suiteName: "group.com.kuhockovolec.UniWeather1")!
+        let sharedDefaults = UserDefaults.appSuite
         let encodedItems = try? JSONEncoder().encode(items)
         sharedDefaults.set(encodedItems, forKey: "savedLocations")
     }

@@ -74,6 +74,7 @@
 		A7E768C62DD242CB00C15630 /* Exceptions for "UniWeather" folder in "UniWeatherWidgetsExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Domain/Extensions/UserDeafults+Shared.swift",
 				Presentation/LocationSearch/Models/LocationEntity.swift,
 			);
 			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
