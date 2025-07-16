@@ -71,7 +71,7 @@ UniWeather is a modern, functional weather app built with Swift, inspired by App
 
 5. **IMPORTANT! Choose your account to sign the app and add the app group!**
 
-6. **Change the app groups constants in the code [`LocationManager.swift`](UniWeather/Core/LocationManager.swift#L98) here, [`LocationIntent.swift`](UniWeatherWidgets/Utils/LocationIntent.swift#L105) here [`LocationSearchView.swift`](UniWeather/Presentation/LocationSearch/Views/LocationSearchView.swift#L190) and here.**
+6. **Change the app group constant in the code [`UserDefaults+Shared.swift`](UniWeather/Domain/Extensions/UserDefaults+Shared.swift#L11) here.** 
 
 7. **Build and run** on your simulator or device. (Simulator constraints some app functionality)
 
