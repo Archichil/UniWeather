@@ -5,13 +5,13 @@
 //  Created by Daniil on 1.05.25.
 //
 
+import APIClient
 import SwiftUI
 import WeatherService
-import APIClient
 
 class HolidaysForecastViewModel: ObservableObject {
     private let weatherService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
-    private var weather: DailyWeather? = nil
+    private var weather: DailyWeather?
     let coordinates: Coordinates
 
     @Published var eventsWithWeather: [HolidayWeather] = []

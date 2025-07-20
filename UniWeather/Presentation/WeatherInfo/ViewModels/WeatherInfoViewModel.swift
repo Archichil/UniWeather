@@ -5,11 +5,11 @@
 //  Created by Artur Kukhatskavolets on 4.05.25.
 //
 
+import APIClient
 import Combine
 import CoreLocation
 import SwiftUI
 import WeatherService
-import APIClient
 
 @MainActor
 final class WeatherInfoViewModel: ObservableObject {

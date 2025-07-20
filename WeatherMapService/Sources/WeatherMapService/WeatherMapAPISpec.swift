@@ -4,7 +4,7 @@ import WeatherService
 
 public enum WeatherMapAPISpec: APIClient.APISpecification {
     public static let baseURL: String = "https://maps.openweathermap.org/maps/2.0/weather"
-    
+
     case getMapTile(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, opacity: Double = 0.8, fillBound: Bool = false, date: Date)
 
     private var apiKey: String? {
@@ -35,7 +35,7 @@ public enum WeatherMapAPISpec: APIClient.APISpecification {
     public var endpoint: String {
         switch self {
         case let .getMapTile(layer, z, x, y, _, _, _):
-            return "/\(layer.rawValue)/\(z)/\(x)/\(y)"
+            "/\(layer.rawValue)/\(z)/\(x)/\(y)"
         }
     }
 

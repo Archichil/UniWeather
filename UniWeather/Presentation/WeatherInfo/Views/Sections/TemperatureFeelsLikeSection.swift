@@ -5,9 +5,9 @@
 //  Created by Artur Kukhatskavolets on 4.05.25.
 //
 
+import APIClient
 import SwiftUI
 import WeatherService
-import APIClient
 
 struct TemperatureFeelsLikeSection: View {
     let currentWeather: CurrentWeather

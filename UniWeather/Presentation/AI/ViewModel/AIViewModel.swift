@@ -6,9 +6,9 @@
 //
 
 import AIService
+import APIClient
 import SwiftUI
 import WeatherService
-import APIClient
 
 class AIViewModel: ObservableObject {
     @Published var messages: [AIMessage] = []
@@ -40,7 +40,7 @@ class AIViewModel: ObservableObject {
     }
 
     @MainActor
-    func handleItemClick(_ prompt: AvailablePrompts, model: AIModels = .deepSeekV3) {
+    func handleItemClick(_ prompt: AvailablePrompts, model _: AIModels = .deepSeekV3) {
         messages.append(AIMessage(text: prompt.title, time: formatMessageTime(Date()), isAnswer: false))
 
         let typingIndicator = AIMessage(text: "\(Constants.Texts.typing).", time: formatMessageTime(Date()), isAnswer: true)
@@ -55,12 +55,12 @@ class AIViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             isFetching = true
-            
+
             var allModelsFailed = true
-            
+
             for model in AIModels.allCases {
                 let (response, isSuccess) = await fetchAIResponse(for: prompt, model: model)
-                
+
                 if isSuccess {
                     if let lastIndex = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
                         messages[lastIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
@@ -75,16 +75,16 @@ class AIViewModel: ObservableObject {
                     let currentModelIndex = AIModels.allCases.firstIndex(of: model) ?? 0
                     if currentModelIndex < AIModels.allCases.count - 1 {
                         try? await Task.sleep(nanoseconds: 1_000_000_000)
-                        
+
                         startTypingAnimation()
                     }
                 }
             }
-            
+
             if allModelsFailed {
                 messages.append(AIMessage(text: "❌ Все модели недоступны. Попробуйте позже.", time: formatMessageTime(Date()), isAnswer: true))
             }
-            
+
             isFetching = false
         }
     }
@@ -99,11 +99,11 @@ class AIViewModel: ObservableObject {
                     lang: .ru
                 )
         )
-        
+
         guard let weather else {
             return (Constants.Texts.answerSendingError, false)
         }
-        
+
         let promptText: String = switch prompt {
         case .whatToWear:
             PromptTypes.getClothesRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
@@ -116,7 +116,7 @@ class AIViewModel: ObservableObject {
         case .enjoyableActivities:
             PromptTypes.getActivityRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
         }
-        
+
         do {
             let response: ChatCompletionResponse = try await AIService.sendRequest(
                 AIAPISpec.getCompletion(prompt: promptText, model: model)
@@ -141,29 +141,29 @@ class AIViewModel: ObservableObject {
 
     private func startTypingAnimation() {
         var dots = "."
-        
+
         typingTimer?.invalidate()
-        
+
         if !messages.contains(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
             messages.append(AIMessage(text: "\(Constants.Texts.typing)" + dots, time: formatMessageTime(Date()), isAnswer: true))
         }
-        
+
         typingTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
             guard let self else {
                 timer.invalidate()
                 return
             }
-            
+
             if !isFetching {
                 timer.invalidate()
                 return
             }
-            
+
             if let index = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
                 let id = messages[index].id
                 messages[index] = AIMessage(id: id, text: "\(Constants.Texts.typing)" + dots, time: formatMessageTime(Date()), isAnswer: true)
             }
-            
+
             dots = dots.count < 3 ? dots + "." : "."
         }
     }

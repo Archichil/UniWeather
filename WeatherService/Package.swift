@@ -12,13 +12,13 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/Archichil/swift-api-client.git", from: "1.0.2")
+        .package(url: "https://github.com/Archichil/swift-api-client.git", from: "1.0.2"),
     ],
     targets: [
         .target(
             name: "WeatherService",
             dependencies: [
-                .product(name: "APIClient", package: "swift-api-client")
+                .product(name: "APIClient", package: "swift-api-client"),
             ]
         ),
     ]

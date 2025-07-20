@@ -5,11 +5,11 @@
 //  Created by Daniil on 4.05.25.
 //
 
+import APIClient
 import Intents
 import SwiftUI
 import WeatherService
 import WidgetKit
-import APIClient
 
 struct DailyWeatherLargeProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent

@@ -1,0 +1,15 @@
+{
+  "originHash" : "1059b043dee5a38327ea0661da57bf38668556f21b48b9da847379b5158cf87f",
+  "pins" : [
+    {
+      "identity" : "swift-api-client",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Archichil/swift-api-client",
+      "state" : {
+        "revision" : "d7510864afeb323550de7aff31a61fae782d5ae3",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}

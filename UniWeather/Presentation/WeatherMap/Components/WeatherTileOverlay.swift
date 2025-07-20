@@ -82,7 +82,7 @@ class WeatherTileOverlay: MKTileOverlay {
                     date: date
                 )
         ),
-              let weatherImage = UIImage(data: data)
+            let weatherImage = UIImage(data: data)
         else {
             throw NetworkError.invalidResponse
         }

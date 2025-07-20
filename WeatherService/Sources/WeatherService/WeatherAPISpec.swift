@@ -3,7 +3,7 @@ import Foundation
 
 public enum WeatherAPISpec: APIClient.APISpecification, Sendable {
     public static let baseURL: String = "https://api.openweathermap.org/data/2.5"
-    
+
     case getCurrentWeather(coords: Coordinates, units: Units?, lang: Language?)
     case getHourlyWeather(coords: Coordinates, units: Units?, cnt: Int?, lang: Language?)
     case getDailyWeather(coords: Coordinates, units: Units?, cnt: Int?, lang: Language?)

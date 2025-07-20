@@ -22,7 +22,7 @@ import Foundation
 /// ```
 public enum AIAPISpec: APIClient.APISpecification {
     public static let baseURL: String = "https://openrouter.ai/api/v1"
-    
+
     /// A case for fetching a completion response from the AI service.
     ///
     /// - Parameter prompt: The user's input prompt to send to the AI service.
@@ -35,8 +35,8 @@ public enum AIAPISpec: APIClient.APISpecification {
     }
 
     public var method: APIClient.HttpMethod { .post }
-    
-    public var queryParameters: [String : String]? { nil }
+
+    public var queryParameters: [String: String]? { nil }
 
     public var headers: [String: String]? {
         switch self {
