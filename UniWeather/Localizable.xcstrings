@@ -93,13 +93,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DeepSeek AI"
+            "value" : "AI-Assistant"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DeepSeek AI"
+            "value" : "ИИ-Ассистент"
           }
         }
       }
@@ -1061,7 +1061,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.accumulatedPrecipitation.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1078,7 +1078,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.accumulatedPrecipitation.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1095,7 +1095,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.accumulatedPrecipitationRain.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1112,7 +1112,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.accumulatedPrecipitationRain.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1129,7 +1129,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.accumulatedPrecipitationSnow.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1146,7 +1146,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.accumulatedPrecipitationSnow.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1163,7 +1163,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.airTemperatureTwoMetersAltitude.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1180,7 +1180,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.airTemperatureTwoMetersAltitude.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1197,7 +1197,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.atmosphericPressureSeaLevel.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1214,7 +1214,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.atmosphericPressureSeaLevel.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1231,7 +1231,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.clouds.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1248,7 +1248,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.clouds.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1265,7 +1265,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.convectivePrecipitation.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1282,7 +1282,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.convectivePrecipitation.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1299,7 +1299,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.dewPointTemperature.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1316,7 +1316,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.dewPointTemperature.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1333,7 +1333,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.precipitationIntensity.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1350,7 +1350,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.precipitationIntensity.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1367,7 +1367,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.relativeHumidity.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1384,7 +1384,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.relativeHumidity.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1401,7 +1401,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.snowDepth.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1435,7 +1435,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.soilTemperatureTenCmDepth.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1452,7 +1452,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.soilTemperatureTenCmDepth.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1469,7 +1469,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.soilTemperatureZeroDepth.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1486,7 +1486,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.soilTemperatureZeroDepth.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1503,7 +1503,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.wind.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1520,7 +1520,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.wind.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1537,7 +1537,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.windSpeedTenMetersAltitude.displayName" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1554,7 +1554,7 @@
       }
     },
     "weatherMapConfiguration.mapLayer.windSpeedTenMetersAltitude.measurementValue" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {

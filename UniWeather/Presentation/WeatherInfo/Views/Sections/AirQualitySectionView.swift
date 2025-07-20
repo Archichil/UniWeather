@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WeatherService
+import APIClient
 
 struct AirQualitySectionView: View {
     let currentAirPollution: AirPollution
@@ -54,7 +55,7 @@ struct AirQualitySectionView: View {
 private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var airData: AirPollution?
-    let apiService = WeatherAPIService()
+    let apiService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
     let coordinates: Coordinates
 
     var body: some View {
@@ -72,8 +73,11 @@ private struct PreviewWrapper: View {
             }
             .padding()
             .task {
-                // FIXME: Concurrency issues, can not be fixed at this moment
-                airData = try? await apiService.getCurrentAirPollution(coords: coordinates)
+                airData = try? await apiService
+                    .sendRequest(
+                        WeatherAPISpec
+                            .getCurrentAirPollution(coords: coordinates)
+                    )
                 isLoaded = true
             }
         }

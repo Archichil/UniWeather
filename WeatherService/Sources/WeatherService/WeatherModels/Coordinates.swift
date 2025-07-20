@@ -1,13 +1,4 @@
-//
-//  Coordinates.swift
-//  UniWeather
-//
-//  Created by Daniil on 15.03.25.
-//
-
-import APIClient
-
-public struct Coordinates: DecodableType, Sendable, Equatable {
+public struct Coordinates: Decodable, Sendable, Equatable {
     public let lon: Double
     public let lat: Double
 

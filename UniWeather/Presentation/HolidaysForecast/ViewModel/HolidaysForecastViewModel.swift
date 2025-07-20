@@ -7,9 +7,10 @@
 
 import SwiftUI
 import WeatherService
+import APIClient
 
 class HolidaysForecastViewModel: ObservableObject {
-    private let weatherService = WeatherAPIService()
+    private let weatherService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
     private var weather: DailyWeather? = nil
     let coordinates: Coordinates
 
@@ -24,12 +25,16 @@ class HolidaysForecastViewModel: ObservableObject {
     init(coordinates: Coordinates) {
         self.coordinates = coordinates
         Task {
-            weather = try? await weatherService.getDailyWeather(
-                coords: coordinates,
-                units: .metric,
-                count: 15,
-                lang: .ru
-            )
+            weather = try? await weatherService
+                .sendRequest(
+                    WeatherAPISpec
+                        .getDailyWeather(
+                            coords: coordinates,
+                            units: .metric,
+                            cnt: 15,
+                            lang: .ru
+                        )
+                )
             await fetchEventsWithWeather()
         }
     }

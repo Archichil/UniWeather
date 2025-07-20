@@ -1,10 +1,3 @@
-//
-//  AIModels.swift
-//  UniWeather
-//
-//  Created by Archichil on 17.03.25.
-//
-
 /// An enumeration representing the available AI models for the API.
 ///
 /// This enum defines the supported AI models that can be used when making requests to the AI API.
@@ -15,7 +8,7 @@
 /// let model = AIModels.deepSeekV3
 /// print(model.modelName) // Output: "deepseek/deepseek-chat:free"
 /// ```
-public enum AIModels: String, Sendable {
+public enum AIModels: String, Sendable, CaseIterable {
     case deepSeekV3
     case deepSeekR1
     case gemini20FlashExperimental

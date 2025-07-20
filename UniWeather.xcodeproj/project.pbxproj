@@ -11,12 +11,11 @@
 		044C4D062DB3BB5600FE35A2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C4D052DB3BB5600FE35A2 /* WidgetKit.framework */; };
 		044C4D082DB3BB5600FE35A2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C4D072DB3BB5600FE35A2 /* SwiftUI.framework */; };
 		044C4D192DB3BB5700FE35A2 /* UniWeatherWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		045C44E72DBD822A00BD0451 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44E62DBD822A00BD0451 /* APIClient */; };
 		045C44EB2DBD876E00BD0451 /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44EA2DBD876E00BD0451 /* WeatherService */; };
 		045C44F42DBD898800BD0451 /* WeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F32DBD898800BD0451 /* WeatherService */; };
-		045C44F72DBD89F500BD0451 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 045C44F62DBD89F500BD0451 /* APIClient */; };
 		046364232DBD911E0045B5FF /* WeatherMapService in Frameworks */ = {isa = PBXBuildFile; productRef = 046364222DBD911E0045B5FF /* WeatherMapService */; };
 		0463646D2DBD92810045B5FF /* AIService in Frameworks */ = {isa = PBXBuildFile; productRef = 0463646C2DBD92810045B5FF /* AIService */; };
+		A75E9C202E2D9AD80062A279 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = A75E9C1F2E2D9AD80062A279 /* APIClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +53,6 @@
 		044C4D032DB3BB5600FE35A2 /* UniWeatherWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = UniWeatherWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		044C4D052DB3BB5600FE35A2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		044C4D072DB3BB5600FE35A2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		045C44E32DBD7E9600BD0451 /* APIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = APIClient; sourceTree = "<group>"; };
 		045C44E82DBD864200BD0451 /* WeatherService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherService; sourceTree = "<group>"; };
 		04623D2E2DBF9AB5002D7A63 /* UniWeatherWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UniWeatherWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		046364202DBD90980045B5FF /* WeatherMapService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WeatherMapService; sourceTree = "<group>"; };
@@ -130,8 +128,7 @@
 			files = (
 				046364232DBD911E0045B5FF /* WeatherMapService in Frameworks */,
 				045C44F42DBD898800BD0451 /* WeatherService in Frameworks */,
-				045C44E72DBD822A00BD0451 /* APIClient in Frameworks */,
-				045C44F72DBD89F500BD0451 /* APIClient in Frameworks */,
+				A75E9C202E2D9AD80062A279 /* APIClient in Frameworks */,
 				0463646D2DBD92810045B5FF /* AIService in Frameworks */,
 				045C44EB2DBD876E00BD0451 /* WeatherService in Frameworks */,
 			);
@@ -163,7 +160,6 @@
 				0463646A2DBD91B50045B5FF /* AIService */,
 				046364202DBD90980045B5FF /* WeatherMapService */,
 				045C44E82DBD864200BD0451 /* WeatherService */,
-				045C44E32DBD7E9600BD0451 /* APIClient */,
 				A759F5F42D8478CC001A38C1 /* UniWeather */,
 				A759F6052D8478CE001A38C1 /* UniWeatherTests */,
 				044C4D092DB3BB5600FE35A2 /* UniWeatherWidgets */,
@@ -227,12 +223,11 @@
 			);
 			name = UniWeather;
 			packageProductDependencies = (
-				045C44E62DBD822A00BD0451 /* APIClient */,
 				045C44EA2DBD876E00BD0451 /* WeatherService */,
 				045C44F32DBD898800BD0451 /* WeatherService */,
-				045C44F62DBD89F500BD0451 /* APIClient */,
 				046364222DBD911E0045B5FF /* WeatherMapService */,
 				0463646C2DBD92810045B5FF /* AIService */,
+				A75E9C1F2E2D9AD80062A279 /* APIClient */,
 			);
 			productName = UniWeather;
 			productReference = A759F5F22D8478CC001A38C1 /* UniWeather.app */;
@@ -293,6 +288,7 @@
 			mainGroup = A759F5E92D8478CC001A38C1;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				A75E9C1E2E2D9AD80062A279 /* XCRemoteSwiftPackageReference "swift-api-client" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A759F5F32D8478CC001A38C1 /* Products */;
@@ -706,14 +702,21 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		A75E9C1E2E2D9AD80062A279 /* XCRemoteSwiftPackageReference "swift-api-client" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Archichil/swift-api-client";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		042025972DBE8A390013A3B7 /* WeatherService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WeatherService;
-		};
-		045C44E62DBD822A00BD0451 /* APIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = APIClient;
 		};
 		045C44EA2DBD876E00BD0451 /* WeatherService */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -723,10 +726,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = WeatherService;
 		};
-		045C44F62DBD89F500BD0451 /* APIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = APIClient;
-		};
 		046364222DBD911E0045B5FF /* WeatherMapService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WeatherMapService;
@@ -734,6 +733,11 @@
 		0463646C2DBD92810045B5FF /* AIService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AIService;
+		};
+		A75E9C1F2E2D9AD80062A279 /* APIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A75E9C1E2E2D9AD80062A279 /* XCRemoteSwiftPackageReference "swift-api-client" */;
+			productName = APIClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

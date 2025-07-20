@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WeatherService
+import APIClient
 
 struct TemperatureFeelsLikeSection: View {
     let currentWeather: CurrentWeather
@@ -48,7 +49,7 @@ struct TemperatureFeelsLikeSection: View {
 private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: CurrentWeather?
-    let apiService = WeatherAPIService()
+    let apiService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
     let coordinates: Coordinates
 
     var body: some View {
@@ -69,8 +70,15 @@ private struct PreviewWrapper: View {
             }
             .padding()
             .task {
-                // FIXME: Concurrency issues, can not be fixed at this moment
-                weatherData = try? await apiService.getCurrentWeather(coords: coordinates, units: .metric)
+                weatherData = try? await apiService
+                    .sendRequest(
+                        WeatherAPISpec
+                            .getCurrentWeather(
+                                coords: coordinates,
+                                units: .metric,
+                                lang: .ru
+                            )
+                    )
                 isLoaded = true
             }
         }

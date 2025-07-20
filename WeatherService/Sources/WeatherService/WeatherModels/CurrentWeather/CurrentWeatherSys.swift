@@ -1,13 +1,4 @@
-//
-//  CurrentWeatherSys.swift
-//  UniWeather
-//
-//  Created by Daniil on 15.03.25.
-//
-
-import APIClient
-
-public struct CurrentWeatherSys: DecodableType, Sendable {
+public struct CurrentWeatherSys: Decodable, Sendable {
     public let type: Int?
     public let id: Int?
     public let message: Double?

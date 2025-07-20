@@ -1,13 +1,4 @@
-//
-//  HourlyWeather.swift
-//  UniWeather
-//
-//  Created by Daniil on 15.03.25.
-//
-
-import APIClient
-
-public struct HourlyWeather: DecodableType, Sendable {
+public struct HourlyWeather: Decodable, Sendable {
     public let cod: String
     public let message: Int
     public let cnt: Int

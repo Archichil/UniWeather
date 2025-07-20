@@ -1,12 +1,3 @@
-//
-//  MapRegion.swift
-//  UniWeather
-//
-//  Created by Artur Kukhatskavolets on 27.03.25.
-//
-
-import WeatherService
-
 public struct MapRegion {
     public var centerLatitude: Double
     public var centerLongitude: Double
