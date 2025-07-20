@@ -5,6 +5,7 @@
 //  Created by Artur Kukhatskavolets on 4.05.25.
 //
 
+import APIClient
 import SwiftUI
 import WeatherService
 
@@ -63,7 +64,7 @@ struct HumiditySection: View {
 private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: CurrentWeather?
-    let apiService = WeatherAPIService()
+    let apiService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
     let coordinates: Coordinates
 
     var body: some View {
@@ -81,8 +82,15 @@ private struct PreviewWrapper: View {
             }
             .padding()
             .task {
-                // FIXME: Concurrency issues, can not be fixed at this moment
-                weatherData = try? await apiService.getCurrentWeather(coords: coordinates, units: .metric)
+                weatherData = try? await apiService
+                    .sendRequest(
+                        WeatherAPISpec
+                            .getCurrentWeather(
+                                coords: coordinates,
+                                units: .metric,
+                                lang: .ru
+                            )
+                    )
                 isLoaded = true
             }
         }

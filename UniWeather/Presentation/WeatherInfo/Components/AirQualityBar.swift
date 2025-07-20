@@ -88,7 +88,7 @@ struct AirQualityBarView: View {
         return (range.lowerBound + range.upperBound) / 2
     }
 
-    public static func getLevelDescription(aqi: Int) -> String {
+    static func getLevelDescription(aqi: Int) -> String {
         switch AirQualityBarView.midpoint(for: aqi) {
         case 0 ..< 50:
             Constants.Texts.veryLow

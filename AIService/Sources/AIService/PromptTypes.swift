@@ -1,10 +1,3 @@
-//
-//  PromptTypes.swift
-//  UniWeather
-//
-//  Created by Archichil on 17.03.25.
-//
-
 import Foundation
 import WeatherService
 

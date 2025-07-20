@@ -12,8 +12,8 @@ private struct DetailWeatherWidgetSection: View {
     let title: String
     let value: Int
     let units: String
-    var icon: String? = nil
-    var zeroPlaceholder: String? = nil
+    var icon: String?
+    var zeroPlaceholder: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {

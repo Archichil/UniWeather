@@ -6,6 +6,7 @@
 //
 
 import AIService
+import APIClient
 import SwiftUI
 import WeatherService
 
@@ -15,8 +16,10 @@ class AIViewModel: ObservableObject {
     @Published var selectedPrompt: AvailablePrompts?
     @Published var isFetching = false
 
-    private let weatherService = WeatherAPIService()
-    private let AIService = AIAPIService()
+    private let weatherService = APIClient(
+        baseURL: URL(string: WeatherAPISpec.baseURL)!
+    )
+    private let AIService = APIClient(baseURL: URL(string: AIAPISpec.baseURL)!)
 
     let coordinates: Coordinates
 
@@ -37,53 +40,95 @@ class AIViewModel: ObservableObject {
     }
 
     @MainActor
-    func handleItemClick(_ prompt: AvailablePrompts, model: AIModels = .deepSeekV3) {
+    func handleItemClick(_ prompt: AvailablePrompts, model _: AIModels = .deepSeekV3) {
         messages.append(AIMessage(text: prompt.title, time: formatMessageTime(Date()), isAnswer: false))
 
         let typingIndicator = AIMessage(text: "\(Constants.Texts.typing).", time: formatMessageTime(Date()), isAnswer: true)
         messages.append(typingIndicator)
 
         startTypingAnimation()
-        sendMessage(prompt, model: model)
+        sendMessage(prompt)
     }
 
     @MainActor
-    private func sendMessage(_ prompt: AvailablePrompts, model: AIModels = .deepSeekV3) {
+    private func sendMessage(_ prompt: AvailablePrompts) {
         Task { [weak self] in
             guard let self else { return }
             isFetching = true
 
-            let response = await fetchAIResponse(for: prompt, model: model)
+            var allModelsFailed = true
 
-            if let lastIndex = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
-                messages[lastIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
+            for model in AIModels.allCases {
+                let (response, isSuccess) = await fetchAIResponse(for: prompt, model: model)
+
+                if isSuccess {
+                    if let lastIndex = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
+                        messages[lastIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
+                    }
+                    allModelsFailed = false
+                    break
+                } else {
+                    if let typingIndex = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
+                        messages[typingIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
+                    }
+
+                    let currentModelIndex = AIModels.allCases.firstIndex(of: model) ?? 0
+                    if currentModelIndex < AIModels.allCases.count - 1 {
+                        try? await Task.sleep(nanoseconds: 1_000_000_000)
+
+                        startTypingAnimation()
+                    }
+                }
             }
+
+            if allModelsFailed {
+                messages.append(AIMessage(text: "❌ Все модели недоступны. Попробуйте позже.", time: formatMessageTime(Date()), isAnswer: true))
+            }
+
             isFetching = false
         }
     }
 
-    private func fetchAIResponse(for prompt: AvailablePrompts, model: AIModels = .deepSeekV3) async -> String {
-        // TODO: Change coordinates
-        let weather = try? await weatherService.getDailyWeather(coords: coordinates, units: .metric, count: selectedDayIndex + 1, lang: .ru)
-        if let weather {
-            let prompt: String = switch prompt {
-            case .whatToWear:
-                PromptTypes.getClothesRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
-            case .transportOption:
-                PromptTypes.getTransportRecommendation(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
-            case .healthTips:
-                PromptTypes.getHealthRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
-            case .exploreNearby:
-                PromptTypes.getPlacesToVisitRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
-            case .enjoyableActivities:
-                PromptTypes.getActivityRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
-            }
+    private func fetchAIResponse(for prompt: AvailablePrompts, model: AIModels) async -> (String, Bool) {
+        let weather: DailyWeather? = try? await weatherService.sendRequest(
+            WeatherAPISpec
+                .getDailyWeather(
+                    coords: coordinates,
+                    units: .metric,
+                    cnt: selectedDayIndex + 1,
+                    lang: .ru
+                )
+        )
 
-            let response = try? await AIService.fetchPromptResponse(prompt: prompt, model: model)
-
-            return response?.choices.first?.message.content ?? Constants.Texts.answerFetchingError
+        guard let weather else {
+            return (Constants.Texts.answerSendingError, false)
         }
-        return Constants.Texts.answerSendingError
+
+        let promptText: String = switch prompt {
+        case .whatToWear:
+            PromptTypes.getClothesRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+        case .transportOption:
+            PromptTypes.getTransportRecommendation(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+        case .healthTips:
+            PromptTypes.getHealthRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+        case .exploreNearby:
+            PromptTypes.getPlacesToVisitRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+        case .enjoyableActivities:
+            PromptTypes.getActivityRecommendations(weather: weather, index: selectedDayIndex, units: .metric, lang: .ru)
+        }
+
+        do {
+            let response: ChatCompletionResponse = try await AIService.sendRequest(
+                AIAPISpec.getCompletion(prompt: promptText, model: model)
+            )
+            if let content = response.choices.first?.message.content, !content.isEmpty {
+                return (content, true)
+            } else {
+                return ("⚠️ Модель \(model.rawValue) вернула пустой ответ, пробую следующую...", false)
+            }
+        } catch {
+            return ("⚠️ Модель \(model.rawValue) не отвечает, переходу к следующей...", false)
+        }
     }
 
     private func formatMessageTime(_ date: Date) -> String {
@@ -98,6 +143,10 @@ class AIViewModel: ObservableObject {
         var dots = "."
 
         typingTimer?.invalidate()
+
+        if !messages.contains(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
+            messages.append(AIMessage(text: "\(Constants.Texts.typing)" + dots, time: formatMessageTime(Date()), isAnswer: true))
+        }
 
         typingTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
             guard let self else {

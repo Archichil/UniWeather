@@ -5,6 +5,7 @@
 //  Created by Daniil on 21.04.25.
 //
 
+import APIClient
 import Intents
 import SwiftUI
 import WeatherService
@@ -12,7 +13,7 @@ import WidgetKit
 
 struct CurrentWeatherProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
-    private let weatherService = WeatherAPIService()
+    private let weatherService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
 
     func placeholder(in _: Context) -> CurrentWeatherEntry {
         let dt = 1_745_940_771
@@ -43,8 +44,18 @@ struct CurrentWeatherProvider: AppIntentTimelineProvider {
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
 
         do {
-            let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
-            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
+            let currentWeather: CurrentWeather? = try await weatherService.sendRequest(
+                WeatherAPISpec.getCurrentWeather(coords: coords, units: .metric, lang: .ru)
+            )
+            let dailyWeather: DailyWeather? = try await weatherService.sendRequest(
+                WeatherAPISpec
+                    .getDailyWeather(
+                        coords: coords,
+                        units: .metric,
+                        cnt: 1,
+                        lang: .ru
+                    )
+            )
 
             let entry: CurrentWeatherEntry = if let currentWeather,
                                                 let dailyWeather

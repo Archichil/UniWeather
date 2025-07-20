@@ -1,31 +1,16 @@
-//
-//  WeatherAPISpec.swift
-//  UniWeather
-//
-//  Created by Daniil on 15.03.25.
-//
-
 import APIClient
 import Foundation
 
-public enum WeatherAPISpec: APIClient.APISpec {
+public enum WeatherAPISpec: APIClient.APISpecification, Sendable {
+    public static let baseURL: String = "https://api.openweathermap.org/data/2.5"
+
     case getCurrentWeather(coords: Coordinates, units: Units?, lang: Language?)
     case getHourlyWeather(coords: Coordinates, units: Units?, cnt: Int?, lang: Language?)
     case getDailyWeather(coords: Coordinates, units: Units?, cnt: Int?, lang: Language?)
     case getCurrentAirPollution(coords: Coordinates)
     case getAirPollutionForecast(coords: Coordinates)
 
-    private var path: String {
-        switch self {
-        case .getCurrentWeather: "/weather"
-        case .getHourlyWeather: "/forecast/hourly"
-        case .getDailyWeather: "/forecast/daily"
-        case .getCurrentAirPollution: "/air_pollution"
-        case .getAirPollutionForecast: "/air_pollution/forecast"
-        }
-    }
-
-    private var queryParameters: [String: String] {
+    public var queryParameters: [String: String]? {
         var params = commonParams()
 
         var units: Units? = nil
@@ -80,22 +65,16 @@ public enum WeatherAPISpec: APIClient.APISpec {
     }
 
     public var endpoint: String {
-        let queryString = queryParameters.map { "\($0.key)=\($0.value)" }.joined(separator: "&")
-        return path + (queryString.isEmpty ? "" : "?\(queryString)")
+        switch self {
+        case .getCurrentWeather: "/weather"
+        case .getHourlyWeather: "/forecast/hourly"
+        case .getDailyWeather: "/forecast/daily"
+        case .getCurrentAirPollution: "/air_pollution"
+        case .getAirPollutionForecast: "/air_pollution/forecast"
+        }
     }
 
     public var method: APIClient.HttpMethod { .get }
-
-    public var returnType: DecodableType.Type {
-        switch self {
-        case .getCurrentWeather: CurrentWeather.self
-        case .getHourlyWeather: HourlyWeather.self
-        case .getDailyWeather: DailyWeather.self
-        case .getCurrentAirPollution,
-             .getAirPollutionForecast:
-            AirPollution.self
-        }
-    }
 
     public var headers: [String: String]? {
         switch self {

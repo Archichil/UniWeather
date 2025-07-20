@@ -1,13 +1,4 @@
-//
-//  City.swift
-//  UniWeather
-//
-//  Created by Daniil on 16.03.25.
-//
-
-import APIClient
-
-public struct City: DecodableType, Sendable {
+public struct City: Decodable, Sendable {
     public let id: Int
     public let name: String
     public let coord: Coordinates

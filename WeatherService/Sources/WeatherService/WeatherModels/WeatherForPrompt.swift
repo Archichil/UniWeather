@@ -1,12 +1,3 @@
-//
-//  WeatherForPrompt.swift
-//  UniWeather
-//
-//  Created by Daniil on 24.03.25.
-//
-
-import APIClient
-
 public struct WeatherForPrompt {
     public let temperature: Double
     public let feelsLike: Double

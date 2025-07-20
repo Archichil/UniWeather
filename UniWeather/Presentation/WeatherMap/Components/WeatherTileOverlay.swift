@@ -14,12 +14,14 @@ class WeatherTileOverlay: MKTileOverlay {
     private var intensity: CGFloat = 0.5
     private var overlayColor: UIColor = .black
 
-    let weatherMapService: WeatherMapAPIService
+    let weatherMapService: APIClient
     let layer: WeatherMapConfiguration.MapLayer
     var date: Date
 
     init(
-        weatherService: WeatherMapAPIService = WeatherMapAPIService(),
+        weatherService: APIClient = APIClient(
+            baseURL: URL(string: WeatherMapAPISpec.baseURL)!
+        ),
         layer: WeatherMapConfiguration.MapLayer,
         date: Date
     ) {
@@ -70,8 +72,17 @@ class WeatherTileOverlay: MKTileOverlay {
             throw NetworkError.requestFailed(statusCode: 400)
         }
 
-        guard let data = try await weatherMapService.getTileData(layer: layer, z: path.z, x: path.x, y: path.y, date: date),
-              let weatherImage = UIImage(data: data)
+        guard let data: Data = try await weatherMapService.sendRequest(
+            WeatherMapAPISpec
+                .getMapTile(
+                    layer: layer,
+                    z: path.z,
+                    x: path.x,
+                    y: path.y,
+                    date: date
+                )
+        ),
+            let weatherImage = UIImage(data: data)
         else {
             throw NetworkError.invalidResponse
         }

@@ -1,13 +1,4 @@
-//
-//  DailyWeather.swift
-//  UniWeather
-//
-//  Created by Daniil on 16.03.25.
-//
-
-import APIClient
-
-public struct DailyWeather: DecodableType, Sendable {
+public struct DailyWeather: Decodable, Sendable {
     public let city: City
     public let cod: String
     public let message: Double

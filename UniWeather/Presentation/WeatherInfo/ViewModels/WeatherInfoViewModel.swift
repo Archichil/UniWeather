@@ -5,6 +5,7 @@
 //  Created by Artur Kukhatskavolets on 4.05.25.
 //
 
+import APIClient
 import Combine
 import CoreLocation
 import SwiftUI
@@ -12,7 +13,9 @@ import WeatherService
 
 @MainActor
 final class WeatherInfoViewModel: ObservableObject {
-    private let weatherService = WeatherAPIService()
+    private let weatherService = APIClient(
+        baseURL: URL(string: WeatherAPISpec.baseURL)!
+    )
     private let geocoder = CLGeocoder()
 
     @Published var currentWeather: CurrentWeather?
@@ -35,10 +38,36 @@ final class WeatherInfoViewModel: ObservableObject {
     // MARK: - Data loading
 
     func loadAllWeather() async {
-        async let hourly = weatherService.getHourlyWeather(coords: coordinate, units: .metric, count: 25, lang: .ru)
-        async let daily = weatherService.getDailyWeather(coords: coordinate, units: .metric, count: 14, lang: .ru)
-        async let current = weatherService.getCurrentWeather(coords: coordinate, units: .metric, lang: .ru)
-        async let pollution = weatherService.getCurrentAirPollution(coords: coordinate)
+        async let hourly: HourlyWeather = weatherService.sendRequest(
+            WeatherAPISpec
+                .getHourlyWeather(
+                    coords: coordinate,
+                    units: .metric,
+                    cnt: 25,
+                    lang: .ru
+                )
+        )
+        async let daily: DailyWeather = weatherService.sendRequest(
+            WeatherAPISpec
+                .getDailyWeather(
+                    coords: coordinate,
+                    units: .metric,
+                    cnt: 14,
+                    lang: .ru
+                )
+        )
+        async let current: CurrentWeather = weatherService.sendRequest(
+            WeatherAPISpec
+                .getCurrentWeather(
+                    coords: coordinate,
+                    units: .metric,
+                    lang: .ru
+                )
+        )
+        async let pollution: AirPollution = weatherService.sendRequest(
+            WeatherAPISpec
+                .getCurrentAirPollution(coords: coordinate)
+        )
         do {
             isLoaded = false
             defer { isLoaded = true }

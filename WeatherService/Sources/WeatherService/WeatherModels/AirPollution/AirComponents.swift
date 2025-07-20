@@ -1,13 +1,4 @@
-//
-//  AirComponents.swift
-//  UniWeather
-//
-//  Created by Daniil on 16.03.25.
-//
-
-import APIClient
-
-public struct AirComponents: DecodableType, Sendable {
+public struct AirComponents: Decodable, Sendable {
     public let co: Double?
     public let no: Double?
     public let no2: Double?
