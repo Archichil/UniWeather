@@ -1,13 +1,4 @@
-//
-//  Temperature.swift
-//  UniWeather
-//
-//  Created by Daniil on 16.03.25.
-//
-
-import APIClient
-
-public struct Temperature: DecodableType, Sendable {
+public struct Temperature: Decodable, Sendable {
     public let day: Double
     public let min: Double
     public let max: Double

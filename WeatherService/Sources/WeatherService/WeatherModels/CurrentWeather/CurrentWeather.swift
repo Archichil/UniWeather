@@ -1,14 +1,5 @@
-//
-//  CurrentWeather.swift
-//  UniWeather
-//
-//  Created by Daniil on 15.03.25.
-//
-
-import APIClient
-
 // https://openweathermap.org/current
-public struct CurrentWeather: DecodableType, Sendable {
+public struct CurrentWeather: Decodable, Sendable {
     public let coord: Coordinates
     public let weather: [Weather]
     public let base: String
