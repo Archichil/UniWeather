@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WeatherService
+import APIClient
 
 struct HourlyForecastSectionView: View {
     let hourlyWeather: HourlyWeather
@@ -108,7 +109,7 @@ struct HourlyForecastSectionView: View {
 private struct PreviewWrapper: View {
     @State var isLoaded = false
     @State var weatherData: HourlyWeather?
-    let apiService = WeatherAPIService()
+    let apiService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
     let coordinates: Coordinates
 
     var body: some View {
@@ -119,8 +120,16 @@ private struct PreviewWrapper: View {
         }
         .padding()
         .task {
-            // FIXME: Concurrency issues, can not be fixed at this moment
-            weatherData = try? await apiService.getHourlyWeather(coords: coordinates, units: .metric, count: 25)
+            weatherData = try? await apiService
+                .sendRequest(
+                    WeatherAPISpec
+                        .getHourlyWeather(
+                            coords: coordinates,
+                            units: .metric,
+                            cnt: 25,
+                            lang: .ru
+                        )
+                )
             isLoaded = true
         }
     }

@@ -9,10 +9,11 @@ import Intents
 import SwiftUI
 import WeatherService
 import WidgetKit
+import APIClient
 
 struct HourlyWeatherProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
-    private let weatherService = WeatherAPIService()
+    private let weatherService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
 
     func placeholder(in _: Context) -> HourlyWeatherEntry {
         let dt = 1_745_940_771
@@ -50,9 +51,27 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
         do {
-            let currentWeather = try await weatherService.getCurrentWeather(coords: coords, units: .metric, lang: Language.ru)
-            let dailyWeather = try await weatherService.getDailyWeather(coords: coords, units: .metric, count: 1)
-            let hourlyWeather = try await weatherService.getHourlyWeather(coords: coords, units: .metric, count: 6)
+            let currentWeather: CurrentWeather? = try await weatherService.sendRequest(
+                WeatherAPISpec.getCurrentWeather(coords: coords, units: .metric, lang: .ru)
+            )
+            let dailyWeather: DailyWeather? = try await weatherService.sendRequest(
+                WeatherAPISpec
+                    .getDailyWeather(
+                        coords: coords,
+                        units: .metric,
+                        cnt: 1,
+                        lang: .ru
+                    )
+            )
+            let hourlyWeather: HourlyWeather? = try await weatherService.sendRequest(
+                WeatherAPISpec
+                    .getHourlyWeather(
+                        coords: coords,
+                        units: .metric,
+                        cnt: 6,
+                        lang: .ru
+                    )
+            )
 
             let entry: HourlyWeatherEntry
             if let currentWeather,
