@@ -103,7 +103,7 @@ struct AIChatView: View {
             )
 
             VStack(alignment: .leading) {
-                Text(previousMessageText)
+                Text(firstMessageText)
                     .foregroundStyle(Constants.Colors.text)
                     .lineLimit(Constants.Layout.textLineLimit)
                     .fontWeight(.medium)
@@ -165,7 +165,7 @@ struct AIChatView: View {
 
     // MARK: - Helper Properties
 
-    private var previousMessageText: String {
+    private var firstMessageText: String {
         viewModel.messages.first?.text ?? Constants.Text.noPreviousMessage
     }
 
