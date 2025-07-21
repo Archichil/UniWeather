@@ -1,10 +1,3 @@
-//
-//  AIAPISpec.swift
-//  UniWeather
-//
-//  Created by Archichil on 17.03.25.
-//
-
 import APIClient
 import Foundation
 
@@ -27,30 +20,23 @@ import Foundation
 ///     }
 /// }
 /// ```
-public enum AIAPISpec: APIClient.APISpec {
+public enum AIAPISpec: APIClient.APISpecification {
+    public static let baseURL: String = "https://openrouter.ai/api/v1"
+    
     /// A case for fetching a completion response from the AI service.
     ///
     /// - Parameter prompt: The user's input prompt to send to the AI service.
     case getCompletion(prompt: String, model: AIModels)
 
-    /// The path for the API endpoint.
-    private var path: String {
+    public var endpoint: String {
         switch self {
         case .getCompletion: "/chat/completions"
         }
     }
 
-    public var endpoint: String {
-        path
-    }
-
     public var method: APIClient.HttpMethod { .post }
-
-    public var returnType: DecodableType.Type {
-        switch self {
-        case .getCompletion: ChatCompletionResponse.self
-        }
-    }
+    
+    public var queryParameters: [String : String]? { nil }
 
     public var headers: [String: String]? {
         switch self {
