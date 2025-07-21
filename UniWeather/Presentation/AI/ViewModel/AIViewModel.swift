@@ -82,9 +82,7 @@ class AIViewModel: ObservableObject {
             }
             
             if allModelsFailed {
-                if allModelsFailed {
-                    messages.append(AIMessage(text: "❌ Все модели недоступны. Попробуйте позже.", time: formatMessageTime(Date()), isAnswer: true))
-                }
+                messages.append(AIMessage(text: "❌ Все модели недоступны. Попробуйте позже.", time: formatMessageTime(Date()), isAnswer: true))
             }
             
             isFetching = false
