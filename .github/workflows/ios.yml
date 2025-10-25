@@ -33,7 +33,7 @@ jobs:
             -project UniWeather.xcodeproj \
             -scheme UniWeather \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=26.0' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=26.0.1' \
             test || exit 1
 
       - name: Check for changes
