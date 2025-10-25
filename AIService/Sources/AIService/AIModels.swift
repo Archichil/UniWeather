@@ -17,9 +17,9 @@ public enum AIModels: String, Sendable, CaseIterable {
     public var modelName: String {
         switch self {
         case .deepSeekV3:
-            "deepseek/deepseek-chat-v3.1:free"
+            "deepseek/deepseek-chat-v3-0324:free"
         case .deepSeekR1:
-            "deepseek/deepseek-r1-0528:free"
+            "deepseek/deepseek-r1-0528-qwen3-8b:free"
         case .gemini20FlashExperimental:
             "google/gemini-2.0-flash-exp:free"
         case .metaLlama4Maverick:

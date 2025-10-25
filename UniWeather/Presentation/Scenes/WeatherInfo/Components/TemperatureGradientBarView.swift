@@ -42,6 +42,7 @@ struct TemperatureGradientBarView: View {
     }
 
     private var widthFraction: CGFloat {
+        // FIXME: - Empty bar when dayMin equals dayMax
         max(0, endFraction - startFraction)
     }
 
@@ -101,7 +102,7 @@ struct TemperatureGradientBarView: View {
             TemperatureGradientBarView(
                 overallMin: -55,
                 overallMax: 0,
-                dayMin: -55,
+                dayMin: -45,
                 dayMax: -45
             )
             TemperatureGradientBarView(
@@ -133,7 +134,7 @@ struct TemperatureGradientBarView: View {
             TemperatureGradientBarView(
                 overallMin: 0,
                 overallMax: 50,
-                dayMin: 0,
+                dayMin: 9.2,
                 dayMax: 10
             )
             TemperatureGradientBarView(

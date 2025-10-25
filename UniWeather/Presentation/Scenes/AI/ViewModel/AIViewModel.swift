@@ -71,6 +71,9 @@ class AIViewModel: ObservableObject {
                     if let typingIndex = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
                         messages[typingIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
                     }
+                    
+                    // avoiding 429 error
+                    try? await Task.sleep(nanoseconds: 2_000_000_000)
 
                     let currentModelIndex = AIModels.allCases.firstIndex(of: model) ?? 0
                     if currentModelIndex < AIModels.allCases.count - 1 {
@@ -121,12 +124,14 @@ class AIViewModel: ObservableObject {
             let response: ChatCompletionResponse = try await AIService.sendRequest(
                 AIAPISpec.getCompletion(prompt: promptText, model: model)
             )
+            print(response)
             if let content = response.choices.first?.message.content, !content.isEmpty {
                 return (content, true)
             } else {
                 return ("⚠️ Модель \(model.rawValue) вернула пустой ответ, пробую следующую...", false)
             }
         } catch {
+            print(error)
             return ("⚠️ Модель \(model.rawValue) не отвечает, переходу к следующей...", false)
         }
     }
