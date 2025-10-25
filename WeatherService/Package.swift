@@ -19,7 +19,8 @@ let package = Package(
             name: "WeatherService",
             dependencies: [
                 .product(name: "APIClient", package: "swift-api-client"),
-            ]
+            ],
+            path: "Source"
         ),
     ]
 )

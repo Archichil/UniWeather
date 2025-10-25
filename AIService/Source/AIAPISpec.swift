@@ -20,14 +20,16 @@ import Foundation
 ///     }
 /// }
 /// ```
-public enum AIAPISpec: APIClient.APISpecification {
-    public static let baseURL: String = "https://openrouter.ai/api/v1"
-
+public enum AIAPISpec {
     /// A case for fetching a completion response from the AI service.
     ///
     /// - Parameter prompt: The user's input prompt to send to the AI service.
     case getCompletion(prompt: String, model: AIModels)
+}
 
+extension AIAPISpec: APIClient.APISpecification {
+    public static let baseURL: String = "https://openrouter.ai/api/v1"
+    
     public var endpoint: String {
         switch self {
         case .getCompletion: "/chat/completions"
@@ -46,23 +48,6 @@ public enum AIAPISpec: APIClient.APISpecification {
                 "Authorization": "Bearer \(apiKey ?? "")",
             ]
         }
-    }
-
-    /// The API key required for authentication.
-    ///
-    /// This property retrieves the API key from the `Config.plist` file.
-    /// If the file or key is not found, it logs an error and returns `nil`.
-    private var apiKey: String? {
-        guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
-            print("[DEBUG] Config.plist not found.")
-            return nil
-        }
-        let plist = NSDictionary(contentsOfFile: filePath)
-        guard let value = plist?.object(forKey: "OPENROUTER_AI_API_KEY") as? String else {
-            print("[DEBUG] OPENROUTER_AI_API_KEY not found in Config.plist.")
-            return nil
-        }
-        return value
     }
 
     public var body: Data? {
@@ -84,5 +69,22 @@ public enum AIAPISpec: APIClient.APISpecification {
                 return nil
             }
         }
+    }
+    
+    /// The API key required for authentication.
+    ///
+    /// This property retrieves the API key from the `Config.plist` file.
+    /// If the file or key is not found, it logs an error and returns `nil`.
+    private var apiKey: String? {
+        guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
+            print("[DEBUG] Config.plist not found.")
+            return nil
+        }
+        let plist = NSDictionary(contentsOfFile: filePath)
+        guard let value = plist?.object(forKey: "OPENROUTER_AI_API_KEY") as? String else {
+            print("[DEBUG] OPENROUTER_AI_API_KEY not found in Config.plist.")
+            return nil
+        }
+        return value
     }
 }

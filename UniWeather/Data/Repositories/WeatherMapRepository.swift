@@ -9,12 +9,12 @@ final class WeatherMapRepository: WeatherMapRepositoryProtocol {
         self.apiClient = apiClient
     }
     
-    func getMapTile(layer: WeatherMapService.WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, date: Date) async throws -> Data {
+    func getMapTile(layer: WeatherMapConfiguration.MapLayer, z: Int, x: Int, y: Int, date: Date) async throws -> Data {
         try await apiClient
             .sendRequest(
                 WeatherMapAPISpec
                     .getMapTile(
-                        layer: layer,
+                        layer: layer.rawValue,
                         z: z,
                         x: x,
                         y: y,
