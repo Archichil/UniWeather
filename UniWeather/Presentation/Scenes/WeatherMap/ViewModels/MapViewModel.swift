@@ -13,9 +13,9 @@ class MapViewModel: ObservableObject {
 
     private enum Constants {
         enum Time {
-            static let timeStep: TimeInterval = 3 * 3600 // 3 hours in seconds
-            static let maxTimeRange: TimeInterval = 24 * 3600 // 24 hours in seconds
-            static let uiHideDelay: TimeInterval = 3.0 // seconds
+            static let timeStep: TimeInterval = 3 * 3600
+            static let maxTimeRange: TimeInterval = 24 * 3600
+            static let uiHideDelay: TimeInterval = 3.0
         }
 
         enum Cache {

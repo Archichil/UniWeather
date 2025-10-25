@@ -13,9 +13,7 @@ import WeatherService
 
 @MainActor
 final class WeatherInfoViewModel: ObservableObject {
-    private let weatherService = APIClient(
-        baseURL: URL(string: WeatherAPISpec.baseURL)!
-    )
+    private let weatherRepository: WeatherRepositoryProtocol
     private let geocoder = CLGeocoder()
 
     @Published var currentWeather: CurrentWeather?
@@ -31,43 +29,35 @@ final class WeatherInfoViewModel: ObservableObject {
 
     // MARK: - Initialization
 
-    init(coordinate: Coordinates) {
+    init(coordinate: Coordinates, weatherRepository: WeatherRepositoryProtocol = WeatherRepository()) {
+        self.weatherRepository = weatherRepository
         self.coordinate = coordinate
     }
 
     // MARK: - Data loading
 
     func loadAllWeather() async {
-        async let hourly: HourlyWeather = weatherService.sendRequest(
-            WeatherAPISpec
+        async let hourly: HourlyWeather = weatherRepository
                 .getHourlyWeather(
                     coords: coordinate,
                     units: .metric,
                     cnt: 25,
                     lang: .ru
                 )
-        )
-        async let daily: DailyWeather = weatherService.sendRequest(
-            WeatherAPISpec
+        async let daily: DailyWeather = weatherRepository
                 .getDailyWeather(
                     coords: coordinate,
                     units: .metric,
                     cnt: 14,
                     lang: .ru
                 )
-        )
-        async let current: CurrentWeather = weatherService.sendRequest(
-            WeatherAPISpec
+        async let current: CurrentWeather = weatherRepository
                 .getCurrentWeather(
                     coords: coordinate,
                     units: .metric,
                     lang: .ru
                 )
-        )
-        async let pollution: AirPollution = weatherService.sendRequest(
-            WeatherAPISpec
-                .getCurrentAirPollution(coords: coordinate)
-        )
+        async let pollution: AirPollution = weatherRepository.getCurrentAirPollution(coords: coordinate)
         do {
             isLoaded = false
             defer { isLoaded = true }

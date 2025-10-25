@@ -16,10 +16,8 @@ class AIViewModel: ObservableObject {
     @Published var selectedPrompt: AvailablePrompts?
     @Published var isFetching = false
 
-    private let weatherService = APIClient(
-        baseURL: URL(string: WeatherAPISpec.baseURL)!
-    )
-    private let AIService = APIClient(baseURL: URL(string: AIAPISpec.baseURL)!)
+    private let weatherRepository: WeatherRepositoryProtocol
+    private let aiRepository: AIRepositoryProtocol
 
     let coordinates: Coordinates
 
@@ -35,8 +33,14 @@ class AIViewModel: ObservableObject {
         }
     }
 
-    init(coordinates: Coordinates) {
+    init(
+        coordinates: Coordinates,
+        weatherRepository: WeatherRepositoryProtocol = WeatherRepository(),
+        aiRepository: AIRepositoryProtocol = AIRepository()
+    ) {
         self.coordinates = coordinates
+        self.weatherRepository = weatherRepository
+        self.aiRepository = aiRepository
     }
 
     @MainActor
@@ -72,7 +76,7 @@ class AIViewModel: ObservableObject {
                         messages[typingIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
                     }
                     
-                    // avoiding 429 error
+                    // trying to avoid 429 error
                     try? await Task.sleep(nanoseconds: 2_000_000_000)
 
                     let currentModelIndex = AIModels.allCases.firstIndex(of: model) ?? 0
@@ -93,14 +97,11 @@ class AIViewModel: ObservableObject {
     }
 
     private func fetchAIResponse(for prompt: AvailablePrompts, model: AIModels) async -> (String, Bool) {
-        let weather: DailyWeather? = try? await weatherService.sendRequest(
-            WeatherAPISpec
-                .getDailyWeather(
-                    coords: coordinates,
-                    units: .metric,
-                    cnt: selectedDayIndex + 1,
-                    lang: .ru
-                )
+        let weather: DailyWeather? = try? await weatherRepository.getDailyWeather(
+            coords: coordinates,
+            units: .metric,
+            cnt: selectedDayIndex + 1,
+            lang: .ru
         )
 
         guard let weather else {
@@ -121,10 +122,10 @@ class AIViewModel: ObservableObject {
         }
 
         do {
-            let response: ChatCompletionResponse = try await AIService.sendRequest(
-                AIAPISpec.getCompletion(prompt: promptText, model: model)
+            let response: ChatCompletionResponse = try await aiRepository.getCompletion(
+                prompt: promptText,
+                model: model
             )
-            print(response)
             if let content = response.choices.first?.message.content, !content.isEmpty {
                 return (content, true)
             } else {

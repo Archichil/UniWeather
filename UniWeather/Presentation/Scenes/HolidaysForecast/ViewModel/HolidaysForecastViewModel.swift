@@ -1,16 +1,9 @@
-//
-//  HolidaysForecastViewModel.swift
-//  UniWeather
-//
-//  Created by Daniil on 1.05.25.
-//
-
 import APIClient
 import SwiftUI
 import WeatherService
 
 class HolidaysForecastViewModel: ObservableObject {
-    private let weatherService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
+    private let weahterRepository: WeatherRepositoryProtocol
     private var weather: DailyWeather?
     let coordinates: Coordinates
 
@@ -22,18 +15,16 @@ class HolidaysForecastViewModel: ObservableObject {
         }
     }
 
-    init(coordinates: Coordinates) {
+    init(coordinates: Coordinates, weatherRepository: WeatherRepositoryProtocol = WeatherRepository()) {
+        self.weahterRepository = weatherRepository
         self.coordinates = coordinates
         Task {
-            weather = try? await weatherService
-                .sendRequest(
-                    WeatherAPISpec
-                        .getDailyWeather(
-                            coords: coordinates,
-                            units: .metric,
-                            cnt: 15,
-                            lang: .ru
-                        )
+            weather = try? await weatherRepository
+                .getDailyWeather(
+                    coords: coordinates,
+                    units: .metric,
+                    cnt: 15,
+                    lang: .ru
                 )
             await fetchEventsWithWeather()
         }

@@ -1,10 +1,3 @@
-//
-//  WeatherTileOverlay.swift
-//  UniWeather
-//
-//  Created by Artur Kukhatskavolets on 27.03.25.
-//
-
 import APIClient
 import MapKit
 import WeatherMapService
@@ -14,18 +7,16 @@ class WeatherTileOverlay: MKTileOverlay {
     private var intensity: CGFloat = 0.5
     private var overlayColor: UIColor = .black
 
-    let weatherMapService: APIClient
+    private let weatherMapRepository: WeatherMapRepositoryProtocol
     let layer: WeatherMapConfiguration.MapLayer
     var date: Date
 
     init(
-        weatherService: APIClient = APIClient(
-            baseURL: URL(string: WeatherMapAPISpec.baseURL)!
-        ),
+        weatherMapRepository: WeatherMapRepositoryProtocol = WeatherMapRepository(),
         layer: WeatherMapConfiguration.MapLayer,
         date: Date
     ) {
-        weatherMapService = weatherService
+        self.weatherMapRepository = weatherMapRepository
         self.layer = layer
         self.date = date
         super.init(urlTemplate: nil)
@@ -71,19 +62,15 @@ class WeatherTileOverlay: MKTileOverlay {
         guard path.x >= 0, path.x <= maxTileIndex, path.y >= 0, path.y <= maxTileIndex else {
             throw NetworkError.requestFailed(statusCode: 400)
         }
-
-        guard let data: Data = try await weatherMapService.sendRequest(
-            WeatherMapAPISpec
-                .getMapTile(
-                    layer: layer,
-                    z: path.z,
-                    x: path.x,
-                    y: path.y,
-                    date: date
-                )
-        ),
-            let weatherImage = UIImage(data: data)
-        else {
+        
+        let data: Data = try await weatherMapRepository.getMapTile(
+            layer: layer,
+            z: path.z,
+            x: path.x,
+            y: path.y,
+            date: date
+        )
+        guard let weatherImage = UIImage(data: data) else {
             throw NetworkError.invalidResponse
         }
 
