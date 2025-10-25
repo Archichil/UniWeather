@@ -15,7 +15,7 @@ public enum WeatherMapAPISpec {
 
 extension WeatherMapAPISpec: APIClient.APISpecification {
     public static let baseURL: String = "https://maps.openweathermap.org/maps/2.0/weather"
-    
+
     public var queryParameters: [String: String]? {
         switch self {
         case let .getMapTile(_, _, _, _, opacity, fillBound, date):
@@ -45,7 +45,7 @@ extension WeatherMapAPISpec: APIClient.APISpecification {
     public var headers: [String: String]? { nil }
 
     public var body: Data? { nil }
-    
+
     private var apiKey: String? {
         guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
             print("Config.plist not found.")

@@ -11,7 +11,7 @@ public enum WeatherAPISpec: Sendable {
 
 extension WeatherAPISpec: APIClient.APISpecification {
     public static let baseURL: String = "https://api.openweathermap.org/data/2.5"
-    
+
     public var queryParameters: [String: String]? {
         var params = commonParams()
 
@@ -37,7 +37,7 @@ extension WeatherAPISpec: APIClient.APISpecification {
 
         return params
     }
-    
+
     public var endpoint: String {
         switch self {
         case .getCurrentWeather: "/weather"
@@ -75,7 +75,7 @@ extension WeatherAPISpec: APIClient.APISpecification {
         }
         return value
     }
-    
+
     private func commonParams() -> [String: String] {
         switch self {
         case let .getCurrentWeather(coords, _, _),

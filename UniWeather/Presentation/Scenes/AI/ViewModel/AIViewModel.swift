@@ -75,7 +75,7 @@ class AIViewModel: ObservableObject {
                     if let typingIndex = messages.lastIndex(where: { $0.text.starts(with: "\(Constants.Texts.typing)") }) {
                         messages[typingIndex] = AIMessage(text: response, time: formatMessageTime(Date()), isAnswer: true)
                     }
-                    
+
                     // trying to avoid 429 error
                     try? await Task.sleep(nanoseconds: 2_000_000_000)
 

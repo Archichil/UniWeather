@@ -16,7 +16,7 @@ class HolidaysForecastViewModel: ObservableObject {
     }
 
     init(coordinates: Coordinates, weatherRepository: WeatherRepositoryProtocol = WeatherRepository()) {
-        self.weahterRepository = weatherRepository
+        weahterRepository = weatherRepository
         self.coordinates = coordinates
         Task {
             weather = try? await weatherRepository

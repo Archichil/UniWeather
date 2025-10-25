@@ -38,25 +38,25 @@ final class WeatherInfoViewModel: ObservableObject {
 
     func loadAllWeather() async {
         async let hourly: HourlyWeather = weatherRepository
-                .getHourlyWeather(
-                    coords: coordinate,
-                    units: .metric,
-                    cnt: 25,
-                    lang: .ru
-                )
+            .getHourlyWeather(
+                coords: coordinate,
+                units: .metric,
+                cnt: 25,
+                lang: .ru
+            )
         async let daily: DailyWeather = weatherRepository
-                .getDailyWeather(
-                    coords: coordinate,
-                    units: .metric,
-                    cnt: 14,
-                    lang: .ru
-                )
+            .getDailyWeather(
+                coords: coordinate,
+                units: .metric,
+                cnt: 14,
+                lang: .ru
+            )
         async let current: CurrentWeather = weatherRepository
-                .getCurrentWeather(
-                    coords: coordinate,
-                    units: .metric,
-                    lang: .ru
-                )
+            .getCurrentWeather(
+                coords: coordinate,
+                units: .metric,
+                lang: .ru
+            )
         async let pollution: AirPollution = weatherRepository.getCurrentAirPollution(coords: coordinate)
         do {
             isLoaded = false

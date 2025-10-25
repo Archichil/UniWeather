@@ -62,7 +62,7 @@ class WeatherTileOverlay: MKTileOverlay {
         guard path.x >= 0, path.x <= maxTileIndex, path.y >= 0, path.y <= maxTileIndex else {
             throw NetworkError.requestFailed(statusCode: 400)
         }
-        
+
         let data: Data = try await weatherMapRepository.getMapTile(
             layer: layer,
             z: path.z,

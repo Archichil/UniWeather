@@ -29,7 +29,7 @@ public enum AIAPISpec {
 
 extension AIAPISpec: APIClient.APISpecification {
     public static let baseURL: String = "https://openrouter.ai/api/v1"
-    
+
     public var endpoint: String {
         switch self {
         case .getCompletion: "/chat/completions"
@@ -70,7 +70,7 @@ extension AIAPISpec: APIClient.APISpecification {
             }
         }
     }
-    
+
     /// The API key required for authentication.
     ///
     /// This property retrieves the API key from the `Config.plist` file.

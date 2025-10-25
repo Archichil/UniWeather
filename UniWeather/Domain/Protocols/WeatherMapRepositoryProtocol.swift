@@ -1,5 +1,5 @@
-import WeatherMapService
 import Foundation
+import WeatherMapService
 
 protocol WeatherMapRepositoryProtocol {
     func getMapTile(
