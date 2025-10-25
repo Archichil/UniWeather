@@ -38,14 +38,14 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		044C4D1A2DB3BB5700FE35A2 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 				044C4D192DB3BB5700FE35A2 /* UniWeatherWidgetsExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -69,20 +69,21 @@
 			);
 			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
 		};
+		A73EE8C02EAC473900AA78B7 /* Exceptions for "Resources" folder in "UniWeather" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				Localizable.xcstrings,
+			);
+			target = A759F5F12D8478CC001A38C1 /* UniWeather */;
+		};
 		A7E768C62DD242CB00C15630 /* Exceptions for "UniWeather" folder in "UniWeatherWidgetsExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Domain/Extensions/UserDeafults+Shared.swift",
-				Presentation/LocationSearch/Models/LocationEntity.swift,
+				"Core/Extensions/UserDeafults+Shared.swift",
+				Domain/Models/LocationEntity.swift,
 			);
 			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
-		};
-		A7F6EF012D9073B6003627D9 /* Exceptions for "UniWeather" folder in "UniWeather" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = A759F5F12D8478CC001A38C1 /* UniWeather */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -95,10 +96,17 @@
 			path = UniWeatherWidgets;
 			sourceTree = "<group>";
 		};
+		A73EE8BF2EAC472F00AA78B7 /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A73EE8C02EAC473900AA78B7 /* Exceptions for "Resources" folder in "UniWeather" target */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A759F5F42D8478CC001A38C1 /* UniWeather */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A7F6EF012D9073B6003627D9 /* Exceptions for "UniWeather" folder in "UniWeather" target */,
 				A7E768C62DD242CB00C15630 /* Exceptions for "UniWeather" folder in "UniWeatherWidgetsExtension" target */,
 			);
 			path = UniWeather;
@@ -156,6 +164,7 @@
 		A759F5E92D8478CC001A38C1 = {
 			isa = PBXGroup;
 			children = (
+				A73EE8BF2EAC472F00AA78B7 /* Resources */,
 				04623D2E2DBF9AB5002D7A63 /* UniWeatherWidgetsExtension.entitlements */,
 				0463646A2DBD91B50045B5FF /* AIService */,
 				046364202DBD90980045B5FF /* WeatherMapService */,
@@ -387,7 +396,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather.UniWeatherWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeathe.UniWeatherWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -419,7 +428,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeather.UniWeatherWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuhockovolec.UniWeathe.UniWeatherWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -554,14 +563,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = UniWeather/UniWeather.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Resources/UniWeather.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Resources/UniWeather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniWeather/Preview Content\"";
 				DEVELOPMENT_TEAM = 38UL77W743;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = UniWeather/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Приложению нужен доступ к календарю для отображения праздников";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
@@ -591,14 +601,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = UniWeather/UniWeather.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Resources/UniWeather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniWeather/Preview Content\"";
 				DEVELOPMENT_TEAM = 38UL77W743;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = UniWeather/Info.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Приложению нужен доступ к календарю для отображения праздников";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения погоды в виджетах";
