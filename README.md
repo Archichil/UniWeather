@@ -28,10 +28,10 @@ UniWeather is a modern, functional weather app built with Swift, inspired by App
     <td align="center" width="25%"><b>Location Searcher</b></td>
   </tr>
   <tr>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/9f504b94-55f9-4cf7-ab6d-125b5493c940" alt="main_screen_feature" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/d668c0a6-0235-40b6-85db-abf9c6ecb1aa" alt="map_feature" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/af1efb6a-982f-4d63-b678-52a906fa171a" alt="ai_feature" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/30de5ca9-b514-4737-88b2-b019187a081f" alt="saved_locations_feature" width="100%" /></td>
+    <td width="25%"><video src="https://github.com/user-attachments/assets/c43f3cbf-a8de-4f7f-8b5e-b430983240ed" controls="controls" style="max-width: 100%;"></video></td>
+    <td width="25%"><video src="https://github.com/user-attachments/assets/5d90bbcb-b9a2-4264-af00-2f474942563a" controls="controls" style="max-width: 100%;"></video></td>
+    <td width="25%"><video src="https://github.com/user-attachments/assets/e83460e9-a976-451c-94c6-b30e39cf8bfe" controls="controls" style="max-width: 100%;"></video></td>
+    <td width="25%"><video src="https://github.com/user-attachments/assets/b876aeef-8165-4a93-b040-e9fcf4b23f73" controls="controls" style="max-width: 100%;"></video></td>
   </tr>
 </table>
 
@@ -44,9 +44,9 @@ UniWeather is a modern, functional weather app built with Swift, inspired by App
     <td align="center" width="33%"><b>Widgets</b></td>
   </tr>
   <tr>
-    <td width="33%"><img src="https://github.com/user-attachments/assets/e7cda937-9378-44a6-8e62-c405dfb798b8" alt="holiday_forecast_feature" width="100%" /></td>
-    <td width="33%"><img src="https://github.com/user-attachments/assets/640ba0ba-137c-45e5-ad0f-ae52a4dd71f6" alt="widgets_feature_1" width="100%" /></td>
-    <td width="33%"><img src="https://github.com/user-attachments/assets/c02a9484-28c8-4d3c-87ef-0070dc99689e" alt="widgets_feature_2" width="100%" /></td>
+    <td width="33%"><img src="https://github.com/user-attachments/assets/db19ed43-bf36-44b2-a5e3-a9f9ceaf9ec3" alt="holiday_forecast_feature" width="100%" /></td>
+    <td width="33%"><img src="https://github.com/user-attachments/assets/c6e5c5c7-7389-479c-b1b4-8b97d6374524" alt="widgets_feature_1" width="100%" /></td>
+    <td width="33%"><img src="https://github.com/user-attachments/assets/660e747a-2cfa-4b40-87dc-47b213bdfcdd" alt="widgets_feature_2" width="100%" /></td>
   </tr>
 </table>
 
@@ -77,7 +77,7 @@ UniWeather is a modern, functional weather app built with Swift, inspired by App
 
 ## Requirements
 
-- iOS 17.0+
+- iOS 17.0+ (Widgets + Intents on iOS 18+)
 - Xcode 16+
 - Swift 5.10
 
