@@ -11,16 +11,16 @@ import WidgetKit
 
 struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
-    
+
     private let weatherRepository: WeatherRepositoryProtocol
-    
+
     init(weatherRepository: WeatherRepositoryProtocol = WeatherRepository()) {
         self.weatherRepository = weatherRepository
     }
 
     func placeholder(in _: Context) -> DailyWeatherSmallEntry {
         let now = Date()
-        
+
         return DailyWeatherSmallEntry(
             date: now,
             dt: Int(now.timeIntervalSince1970),
@@ -36,7 +36,7 @@ struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
         )
     }
 
-    func snapshot(for _: Intent, in context: Context) async -> DailyWeatherSmallEntry {
+    func snapshot(for _: Intent, in _: Context) async -> DailyWeatherSmallEntry {
         let dt = 1_745_940_771
         return DailyWeatherSmallEntry(
             date: Date(),
@@ -71,14 +71,14 @@ struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
                 units: .metric,
                 lang: .ru
             )
-            
+
             async let dailyWeatherTask = weatherRepository.getDailyWeather(
                 coords: coords,
                 units: .metric,
                 cnt: 5,
                 lang: .ru
             )
-            
+
             let currentWeather = try await currentWeatherTask
             let dailyWeather = try await dailyWeatherTask
 

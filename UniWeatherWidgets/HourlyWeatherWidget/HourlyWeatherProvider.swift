@@ -11,16 +11,16 @@ import WidgetKit
 
 struct HourlyWeatherProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
-    
+
     private let weatherRepository: WeatherRepositoryProtocol
-    
+
     init(weatherRepository: WeatherRepositoryProtocol = WeatherRepository()) {
         self.weatherRepository = weatherRepository
     }
 
     func placeholder(in _: Context) -> HourlyWeatherEntry {
         let now = Date()
-        
+
         return HourlyWeatherEntry(
             date: now,
             dt: Int(now.timeIntervalSince1970),
@@ -37,7 +37,7 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
         )
     }
 
-    func snapshot(for _: Intent, in context: Context) async -> HourlyWeatherEntry {
+    func snapshot(for _: Intent, in _: Context) async -> HourlyWeatherEntry {
         let dt = 1_745_940_771
         return HourlyWeatherEntry(
             date: Date(),
@@ -68,28 +68,28 @@ struct HourlyWeatherProvider: AppIntentTimelineProvider {
         let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate) ?? currentDate.addingTimeInterval(15 * 60)
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
-        
+
         do {
             async let currentWeatherTask = weatherRepository.getCurrentWeather(
                 coords: coords,
                 units: .metric,
                 lang: .ru
             )
-            
+
             async let dailyWeatherTask = weatherRepository.getDailyWeather(
                 coords: coords,
                 units: .metric,
                 cnt: 1,
                 lang: .ru
             )
-            
+
             async let hourlyWeatherTask = weatherRepository.getHourlyWeather(
                 coords: coords,
                 units: .metric,
                 cnt: 6,
                 lang: .ru
             )
-            
+
             let currentWeather = try await currentWeatherTask
             let dailyWeather = try await dailyWeatherTask
             let hourlyWeather = try await hourlyWeatherTask
