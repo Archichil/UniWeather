@@ -81,7 +81,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Core/Extensions/UserDeafults+Shared.swift",
+				Data/Repositories/WeatherRepository.swift,
 				Domain/Models/LocationEntity.swift,
+				Domain/Protocols/WeatherRepositoryProtocol.swift,
 			);
 			target = 044C4D022DB3BB5600FE35A2 /* UniWeatherWidgetsExtension */;
 		};

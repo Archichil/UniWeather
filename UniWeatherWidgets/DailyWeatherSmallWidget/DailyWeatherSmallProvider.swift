@@ -5,17 +5,38 @@
 //  Created by Daniil on 30.04.25.
 //
 
-import APIClient
 import Intents
 import SwiftUI
-import WeatherService
 import WidgetKit
 
 struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
     typealias Intent = LocationIntent
-    private let weatherService = APIClient(baseURL: URL(string: WeatherAPISpec.baseURL)!)
+    
+    private let weatherRepository: WeatherRepositoryProtocol
+    
+    init(weatherRepository: WeatherRepositoryProtocol = WeatherRepository()) {
+        self.weatherRepository = weatherRepository
+    }
 
     func placeholder(in _: Context) -> DailyWeatherSmallEntry {
+        let now = Date()
+        
+        return DailyWeatherSmallEntry(
+            date: now,
+            dt: Int(now.timeIntervalSince1970),
+            sunrise: 0,
+            sunset: 0,
+            temp: 0,
+            icon: "",
+            location: "Нет данных",
+            minTemp: 0,
+            maxTemp: 0,
+            items: [],
+            isCurrentLocation: false
+        )
+    }
+
+    func snapshot(for _: Intent, in context: Context) async -> DailyWeatherSmallEntry {
         let dt = 1_745_940_771
         return DailyWeatherSmallEntry(
             date: Date(),
@@ -37,65 +58,56 @@ struct DailyWeatherSmallProvider: AppIntentTimelineProvider {
         )
     }
 
-    func snapshot(for _: Intent, in context: Context) async -> DailyWeatherSmallEntry {
-        placeholder(in: context)
-    }
-
     func timeline(for configuration: Intent, in context: Context) async -> Timeline<DailyWeatherSmallEntry> {
         let currentDate = Date()
 
-        let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
+        let nextUpdateDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate) ?? currentDate.addingTimeInterval(15 * 60)
 
         let (coords, isCurrentLocation, location) = await resolveCoordinates(from: configuration)
 
         do {
-            let currentWeather: CurrentWeather? = try await weatherService.sendRequest(
-                WeatherAPISpec.getCurrentWeather(coords: coords, units: .metric, lang: .ru)
+            async let currentWeatherTask = weatherRepository.getCurrentWeather(
+                coords: coords,
+                units: .metric,
+                lang: .ru
             )
-            let dailyWeather: DailyWeather? = try await weatherService.sendRequest(
-                WeatherAPISpec
-                    .getDailyWeather(
-                        coords: coords,
-                        units: .metric,
-                        cnt: 5,
-                        lang: .ru
-                    )
+            
+            async let dailyWeatherTask = weatherRepository.getDailyWeather(
+                coords: coords,
+                units: .metric,
+                cnt: 5,
+                lang: .ru
             )
+            
+            let currentWeather = try await currentWeatherTask
+            let dailyWeather = try await dailyWeatherTask
 
-            let entry: DailyWeatherSmallEntry
-            if let currentWeather,
-               let dailyWeather
-            {
-                var dailyWeatherItems: [DailyWeatherItem] = []
+            var dailyWeatherItems: [DailyWeatherItem] = []
 
-                for item in dailyWeather.list.dropFirst() {
-                    dailyWeatherItems.append(
-                        DailyWeatherItem(
-                            dt: item.dt + dailyWeather.city.timezone,
-                            icon: item.weather.first?.icon ?? "",
-                            minTemp: Int(item.temp.min.rounded()),
-                            maxTemp: Int(item.temp.max.rounded())
-                        )
+            for item in dailyWeather.list.dropFirst() {
+                dailyWeatherItems.append(
+                    DailyWeatherItem(
+                        dt: item.dt + dailyWeather.city.timezone,
+                        icon: item.weather.first?.icon ?? "",
+                        minTemp: Int(item.temp.min.rounded()),
+                        maxTemp: Int(item.temp.max.rounded())
                     )
-                }
-
-                entry = DailyWeatherSmallEntry(
-                    date: currentDate,
-                    dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
-                    sunrise: (dailyWeather.list.first?.sunrise ?? 0) + dailyWeather.city.timezone,
-                    sunset: (dailyWeather.list.first?.sunset ?? 0) + dailyWeather.city.timezone,
-                    temp: Int(currentWeather.main.temp.rounded()),
-                    icon: currentWeather.weather.first?.icon ?? "",
-                    location: location,
-                    minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
-                    maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
-                    items: dailyWeatherItems,
-                    isCurrentLocation: isCurrentLocation
                 )
-                print(Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone)
-            } else {
-                entry = placeholder(in: context)
             }
+
+            let entry = DailyWeatherSmallEntry(
+                date: currentDate,
+                dt: Int(Date().timeIntervalSince1970) + dailyWeather.city.timezone,
+                sunrise: (dailyWeather.list.first?.sunrise ?? 0) + dailyWeather.city.timezone,
+                sunset: (dailyWeather.list.first?.sunset ?? 0) + dailyWeather.city.timezone,
+                temp: Int(currentWeather.main.temp.rounded()),
+                icon: currentWeather.weather.first?.icon ?? "",
+                location: location,
+                minTemp: Int((dailyWeather.list.first?.temp.min ?? 0).rounded()),
+                maxTemp: Int((dailyWeather.list.first?.temp.max ?? 0).rounded()),
+                items: dailyWeatherItems,
+                isCurrentLocation: isCurrentLocation
+            )
 
             return Timeline(entries: [entry], policy: .after(nextUpdateDate))
         } catch {

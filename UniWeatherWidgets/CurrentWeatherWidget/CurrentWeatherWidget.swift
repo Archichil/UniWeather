@@ -10,7 +10,7 @@ import SwiftUI
 import WidgetKit
 
 struct CurrentWeatherWidget: Widget {
-    let kind: String = "CurrentWeatherWigdet"
+    let kind: String = "CurrentWeatherWidget"
 
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
