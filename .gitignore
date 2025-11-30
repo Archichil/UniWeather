@@ -4,7 +4,6 @@
 
 ### CONFIGS ###
 Config.plist
-UniWeatherWidgets/Config.plist
 
 ### macOS ###
 *.DS_Store
