@@ -9,21 +9,21 @@
 /// print(model.modelName) // Output: "deepseek/deepseek-chat:free"
 /// ```
 public enum AIModels: String, Sendable, CaseIterable {
-    case deepSeekV3
+    case xiaomiMimoV2
     case deepSeekR1
     case gemini20FlashExperimental
-    case metaLlama4Maverick
+    case qwen3Coder
 
     public var modelName: String {
         switch self {
-        case .deepSeekV3:
-            "deepseek/deepseek-chat-v3-0324:free"
+        case .xiaomiMimoV2:
+            "xiaomi/mimo-v2-flash:free"
         case .deepSeekR1:
-            "deepseek/deepseek-r1-0528-qwen3-8b:free"
+            "deepseek/deepseek-r1-0528:free"
         case .gemini20FlashExperimental:
             "google/gemini-2.0-flash-exp:free"
-        case .metaLlama4Maverick:
-            "meta-llama/llama-4-maverick:free"
+        case .qwen3Coder:
+            "qwen/qwen3-coder:free"
         }
     }
 }
