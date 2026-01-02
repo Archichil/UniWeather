@@ -9,7 +9,7 @@ import SwiftUI
 import WeatherService
 
 struct HolidaysForecastView: View {
-    @StateObject private var viewModel: HolidaysForecastViewModel
+    @State private var viewModel: HolidaysForecastViewModel
 
     // MARK: - Constants
 
@@ -47,7 +47,7 @@ struct HolidaysForecastView: View {
     }
 
     init(coordinates: Coordinates) {
-        _viewModel = StateObject(wrappedValue: HolidaysForecastViewModel(coordinates: coordinates))
+        _viewModel = State(initialValue: HolidaysForecastViewModel(coordinates: coordinates))
     }
 
     // MARK: - Main View

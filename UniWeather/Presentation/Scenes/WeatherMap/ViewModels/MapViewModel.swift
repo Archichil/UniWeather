@@ -8,7 +8,8 @@
 import Foundation
 import WeatherMapService
 
-class MapViewModel: ObservableObject {
+@Observable
+class MapViewModel {
     // MARK: - Constants
 
     private enum Constants {
@@ -34,9 +35,9 @@ class MapViewModel: ObservableObject {
 
     // MARK: - Published Properties
 
-    @Published var region = MapRegion()
-    @Published var errorMessage: String?
-    @Published var selectedLayer: WeatherMapConfiguration.MapLayer = .accumulatedPrecipitation {
+    var region = MapRegion()
+    var errorMessage: String?
+    var selectedLayer: WeatherMapConfiguration.MapLayer = .accumulatedPrecipitation {
         didSet {
             if oldValue != selectedLayer {
                 currentTileOverlay = createTileOverlay()
@@ -44,16 +45,16 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    @Published private(set) var isBackwardDisabled: Bool = true
-    @Published private(set) var isForwardDisabled: Bool = false
-    @Published private(set) var date: Date = .now.roundedToNearestHour() {
+    private(set) var isBackwardDisabled: Bool = true
+    private(set) var isForwardDisabled: Bool = false
+    private(set) var date: Date = .now.roundedToNearestHour() {
         didSet {
             currentTileOverlay = createTileOverlay()
             updateButtonsState()
         }
     }
 
-    @Published var currentTileOverlay: WeatherTileOverlay? {
+    var currentTileOverlay: WeatherTileOverlay? {
         didSet {
             if let oldValue, oldValue.layer != selectedLayer {
                 oldValue.clearCache()
@@ -61,7 +62,7 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    @Published var isUIVisible: Bool = true
+    var isUIVisible: Bool = true
 
     // MARK: - Private Properties
 

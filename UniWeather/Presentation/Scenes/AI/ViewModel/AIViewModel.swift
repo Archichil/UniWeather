@@ -1,20 +1,14 @@
-//
-//  AIViewModel.swift
-//  UniWeather
-//
-//  Created by Daniil on 26.03.25.
-//
-
 import AIService
 import APIClient
 import SwiftUI
 import WeatherService
 
-class AIViewModel: ObservableObject {
-    @Published var messages: [AIMessage] = []
-    @Published var selectedDayIndex = 0
-    @Published var selectedPrompt: AvailablePrompts?
-    @Published var isFetching = false
+@Observable
+class AIViewModel {
+    var messages: [AIMessage] = []
+    var selectedDayIndex = 0
+    var selectedPrompt: AvailablePrompts?
+    var isFetching = false
 
     private let weatherRepository: WeatherRepositoryProtocol
     private let aiRepository: AIRepositoryProtocol
@@ -44,7 +38,10 @@ class AIViewModel: ObservableObject {
     }
 
     @MainActor
-    func handleItemClick(_ prompt: AvailablePrompts, model _: AIModels = .deepSeekV3) {
+    func handleItemClick(
+        _ prompt: AvailablePrompts,
+        model _: AIModels = AIModels
+            .xiaomiMimoV2) {
         messages.append(AIMessage(text: prompt.title, time: formatMessageTime(Date()), isAnswer: false))
 
         let typingIndicator = AIMessage(text: "\(Constants.Texts.typing).", time: formatMessageTime(Date()), isAnswer: true)

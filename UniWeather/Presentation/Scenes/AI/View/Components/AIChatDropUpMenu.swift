@@ -45,7 +45,7 @@ struct AIChatDropUpMenu: View {
 
     // MARK: - Properties
 
-    @ObservedObject var viewModel: AIViewModel
+    var viewModel: AIViewModel
     @Binding var showDropdown: Bool
     var onItemClick: () -> Void
 

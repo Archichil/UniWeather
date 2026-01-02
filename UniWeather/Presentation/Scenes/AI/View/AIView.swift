@@ -63,7 +63,7 @@ struct AIView: View {
 
     // MARK: - Properties
 
-    @StateObject var viewModel: AIViewModel
+    @State var viewModel: AIViewModel
     @State private var showDaySheet = false
     @State private var showAnswerSheet = false
 

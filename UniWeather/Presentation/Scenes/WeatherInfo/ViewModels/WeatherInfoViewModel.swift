@@ -12,19 +12,19 @@ import SwiftUI
 import WeatherService
 
 @MainActor
-final class WeatherInfoViewModel: ObservableObject {
+@Observable
+final class WeatherInfoViewModel {
     private let weatherRepository: WeatherRepositoryProtocol
     private let geocoder = CLGeocoder()
 
-    @Published var currentWeather: CurrentWeather?
-    @Published var hourlyWeather: HourlyWeather?
-    @Published var dailyWeather: DailyWeather?
-    @Published var airPollution: AirPollution?
-    @Published var currentPlace: String?
-    @Published var isLoaded = false
-    @Published var errorMessage: String?
+    var currentWeather: CurrentWeather?
+    var hourlyWeather: HourlyWeather?
+    var dailyWeather: DailyWeather?
+    var airPollution: AirPollution?
+    var currentPlace: String?
+    var isLoaded = false
+    var errorMessage: String?
 
-    private var cancellables = Set<AnyCancellable>()
     let coordinate: Coordinates
 
     // MARK: - Initialization

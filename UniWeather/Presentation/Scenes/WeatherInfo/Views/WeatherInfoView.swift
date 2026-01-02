@@ -9,7 +9,7 @@ import SwiftUI
 import WeatherService
 
 struct WeatherInfoView: View {
-    @ObservedObject var viewModel: WeatherInfoViewModel
+    var viewModel: WeatherInfoViewModel
     @State var offset: CGFloat = 0
     var isNavigationBarHidden = false
 

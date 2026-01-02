@@ -47,7 +47,7 @@ struct AIDatePickerView: View {
 
     @Binding var showDaySheet: Bool
     @Binding var showAnswerSheet: Bool
-    @ObservedObject var viewModel: AIViewModel
+    @Bindable var viewModel: AIViewModel
     @Environment(\.dismiss) var dismiss
 
     private var dates: [Date] {

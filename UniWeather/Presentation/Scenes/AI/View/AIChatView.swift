@@ -52,7 +52,7 @@ struct AIChatView: View {
 
     // MARK: - Properties
 
-    @ObservedObject var viewModel: AIViewModel
+    var viewModel: AIViewModel
     @State private var showDropdown = false
     @State private var scrollProxy: ScrollViewProxy?
     @State private var animatedMessages: [UUID: Bool] = [:]

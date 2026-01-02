@@ -10,7 +10,7 @@ import WeatherMapService
 
 struct WeatherMapContainerView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel = MapViewModel()
+    @State private var viewModel = MapViewModel()
 
     private enum Constants {
         enum Layout {

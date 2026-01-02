@@ -38,7 +38,7 @@ struct WeatherMapRenderer: UIViewRepresentable {
 
     // MARK: - Properties
 
-    @ObservedObject var viewModel: MapViewModel
+    var viewModel: MapViewModel
 
     // MARK: - UIViewRepresentable
 

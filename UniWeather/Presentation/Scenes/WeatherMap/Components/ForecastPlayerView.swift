@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ForecastPlayerView: View {
     private let impactGenerator = UIImpactFeedbackGenerator(style: .soft)
-    @ObservedObject var viewModel: MapViewModel
+    var viewModel: MapViewModel
 
     // TODO: Add localization
     private static let dateFormatter: DateFormatter = {

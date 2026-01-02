@@ -2,12 +2,13 @@ import APIClient
 import SwiftUI
 import WeatherService
 
-class HolidaysForecastViewModel: ObservableObject {
-    private let weahterRepository: WeatherRepositoryProtocol
+@Observable
+class HolidaysForecastViewModel {
+    private let weatherRepository: WeatherRepositoryProtocol
     private var weather: DailyWeather?
     let coordinates: Coordinates
 
-    @Published var eventsWithWeather: [HolidayWeather] = []
+    var eventsWithWeather: [HolidayWeather] = []
 
     private enum Constants {
         enum Texts {
@@ -16,7 +17,7 @@ class HolidaysForecastViewModel: ObservableObject {
     }
 
     init(coordinates: Coordinates, weatherRepository: WeatherRepositoryProtocol = WeatherRepository()) {
-        weahterRepository = weatherRepository
+        self.weatherRepository = weatherRepository
         self.coordinates = coordinates
         Task {
             weather = try? await weatherRepository

@@ -10,12 +10,12 @@ import WeatherService
 
 struct LocationItem: View {
     let coordinate: Coordinates
-    @StateObject private var viewModel: WeatherInfoViewModel
+    @State private var viewModel: WeatherInfoViewModel
     @State private var currentTime = Date()
 
     init(coordinate: Coordinates) {
         self.coordinate = coordinate
-        _viewModel = StateObject(wrappedValue: WeatherInfoViewModel(coordinate: coordinate))
+        _viewModel = State(initialValue: WeatherInfoViewModel(coordinate: coordinate))
     }
 
     private var timeString: String {
