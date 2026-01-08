@@ -41,7 +41,8 @@ class AIViewModel {
     func handleItemClick(
         _ prompt: AvailablePrompts,
         model _: AIModels = AIModels
-            .xiaomiMimoV2) {
+            .xiaomiMimoV2
+    ) {
         messages.append(AIMessage(text: prompt.title, time: formatMessageTime(Date()), isAnswer: false))
 
         let typingIndicator = AIMessage(text: "\(Constants.Texts.typing).", time: formatMessageTime(Date()), isAnswer: true)
